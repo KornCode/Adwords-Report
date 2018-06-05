@@ -28,3 +28,8 @@ Route::get('auth/login/facebook/home', 'SocialLoginController@facebookSuccess');
 Route::get('auth/login/github', 'SocialLoginController@githubAuthRedirect');
 // github call back after login success.
 Route::get('auth/login/github/home', 'SocialLoginController@githubSuccess');
+
+// for redirect to google auth.
+Route::get('auth/login/google', 'SocialLoginController@googleAuthRedirect');
+// google call back after login success.
+Route::get('auth/login/google/home', 'SocialLoginController@googleSuccess');

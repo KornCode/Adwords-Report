@@ -27,6 +27,11 @@ class SocialLoginController extends Controller
 	public function facebookAuthRedirect() {
  	 	return Socialize::with('facebook')->redirect();
  	}
+
+ 	private function checkExistUserByEmail($email) {
+ 		$user = \App\User::where('email','=',$email)->first();
+ 		return $user;
+ 	}
  
  	public function facebookSuccess() {
  
@@ -39,28 +44,27 @@ class SocialLoginController extends Controller
 	    	$password = substr($user->token,0,10);
 	    	$facebook_id = $user->id;
  
-	    	if($email == null){ // case permission is not email public.
+	    	if($email == null) { // case permission is not email public.
 	    		$user = $this->checkExistUserByFacebookId($facebook_id); 
 	    		if($user == null){
 	    			$email = $facebook_id;
 	    		}
 	    	}
-	    	else
-	    	{
+	    	else {
 	    		$user = $this->checkExistUserByEmail($email); 
-	    		if($user != null){
+	    		if($user != null) {
 		    		if($user->facebook_id == ""){ // update account when not have facebook id.
 		    			$user->facebook_id = $facebook_id;
 		    			$user->save();
 		    		}
 	    		}
 	    	}
- 
-		    if($user != null){ // Auth exist account.
+
+		    if($user != null) { // Auth exist account.
 		    	Auth::login($user);
 		    	return redirect('home/');
 		    }
-		    else{ // new Account.
+		    else { // new Account.
 		    	$user = $this->registerFacebookUser($email, $name, $password, $facebook_id);
 		    	Auth::login($user);
 		    	return redirect('home/');
@@ -69,17 +73,12 @@ class SocialLoginController extends Controller
 		return redirect('/');
  	}
  
- 	private function checkExistUserByEmail($email){
- 		$user = \App\User::where('email','=',$email)->first();
- 		return $user;
- 	}
- 
- 	private function checkExistUserByFacebookId($facebook_id){
+ 	private function checkExistUserByFacebookId($facebook_id) {
  		$user = \App\User::where('facebook_id','=',$facebook_id)->first();
  		return $user;
  	}
 
-	private function registerFacebookUser($email,$name,$password,$facebook_id){
+	private function registerFacebookUser($email, $name, $password, $facebook_id) {
  		$user = new \App\User;
  
 		$user->email = $email;
@@ -127,7 +126,7 @@ class SocialLoginController extends Controller
 	    		}
 	    	}
  
-		    if($user != null){ // Auth exist account.
+		    if($user != null) { // Auth exist account.
 		    	Auth::login($user);
 		    	return redirect('home/');
 		    }
@@ -140,12 +139,12 @@ class SocialLoginController extends Controller
 		return redirect('/');
  	}
  
- 	private function checkExistUserByGithubId($github_id){
+ 	private function checkExistUserByGithubId($github_id) {
  		$user = \App\User::where('github_id','=',$github_id)->first();
  		return $user;
  	}
 
-	private function registerGithubUser($email,$name,$password,$github_id){
+	private function registerGithubUser($email, $name, $password, $github_id) {
  		$user = new \App\User;
  
 		$user->email = $email;
@@ -157,5 +156,68 @@ class SocialLoginController extends Controller
 		return $user;
  	}
 
- 	
+ 	/*
+ 	 * Google+ Social Login Controller
+ 	 */	
+ 	public function googleAuthRedirect() {
+ 	 	return Socialize::with('google')->redirect();
+ 	}
+ 
+ 	public function googleSuccess() {
+ 
+ 	  	$provider = Socialize::with('google');
+ 	  	if (Input::has('code')){
+	    	$user = $provider->stateless()->user();
+	    	//dd($user);
+	    	$email = $user->email;
+	    	$name  = $user->name;
+	    	$password = substr($user->token,0,10);
+	    	$google_id = $user->id;
+ 
+	    	if($email == null){ // case permission is not email public.
+	    		$user = $this->checkExistUserByGoogleId($google_id); 
+	    		if($user == null){
+	    			$email = $google_id;
+	    		}
+	    	}
+	    	else
+	    	{
+	    		$user = $this->checkExistUserByEmail($email); 
+	    		if($user != null){
+		    		if($user->google_id == ""){ // update account when not have facebook id.
+		    			$user->google_id = $google_id;
+		    			$user->save();
+		    		}
+	    		}
+	    	}
+ 
+		    if($user != null) { // Auth exist account.
+		    	Auth::login($user);
+		    	return redirect('home/');
+		    }
+		    else{ // new Account.
+		    	$user = $this->registerGoogleUser($email, $name, $password, $google_id);
+		    	Auth::login($user);
+		    	return redirect('home/');
+		    }
+		}
+		return redirect('/');
+ 	}
+ 
+ 	private function checkExistUserByGoogleId($google_id) {
+ 		$user = \App\User::where('google_id','=', $google_id)->first();
+ 		return $user;
+ 	}
+
+	private function registerGoogleUser($email, $name, $password, $google_id) {
+ 		$user = new \App\User;
+ 
+		$user->email = $email;
+		$user->name = $name;
+		$user->password = Hash::make($password); // fill password with hash token
+		$user->google_id = $google_id;
+		$user->save();
+ 
+		return $user;
+ 	}
 }

@@ -68,6 +68,10 @@
                         <div style="margin-left: 30px; margin-top: 20px; display:inline-block">
                             <a href="{{ url('auth/login/github') }}"><img src="social_icon/github_icon.png" alt="github login icon" width="65px"> </a>
                         </div> 
+
+                        <div style="margin-left: 30px; margin-top: 20px; display:inline-block">
+                            <a href="{{ url('auth/login/google') }}"><img src="social_icon/google_icon.png" alt="google login icon" width="50px"> </a>
+                        </div> 
                                        
                     </form>
                 </div>
