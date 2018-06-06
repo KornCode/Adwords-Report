@@ -33,3 +33,9 @@ Route::get('auth/login/github/home', 'SocialLoginController@githubSuccess');
 Route::get('auth/login/google', 'SocialLoginController@googleAuthRedirect');
 // google call back after login success.
 Route::get('auth/login/google/home', 'SocialLoginController@googleSuccess');
+
+
+// Password reset link request routes...
+// Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+// Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+// Route::post('password/reset', 'Auth\PasswordController@reset');
