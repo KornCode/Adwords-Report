@@ -6,21 +6,44 @@ use Socialize;
 use Auth;
 use Redirect;
 use Hash;
-
+/////////
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use App\User;
+use App\UserMeta;
 
 class SocialLoginController extends Controller
 {
-    public function __construct()
-	{
+    public function __construct() {
 	}
  
 	public function index()
 	{
 		return view('home');
 	}
- 
+
+	private function registerUser($email, $first_name, $last_name, $password, $token) {
+ 		$user = new User;
+		$user->email = $email;
+		$user->first_name = $first_name;
+		$user->last_name = $last_name;
+		$user->password = Hash::make($password); // fill password with hash token
+		$user->remember_token = $token;
+		$user->save();
+
+		return $user;
+ 	}
+
+ 	private function registerUserMeta($uid, $key, $value) {
+ 		$new_user_meta = new UserMeta;
+		$new_user_meta->user_id = $uid;
+		$new_user_meta->meta_key = $key;
+		$new_user_meta->meta_value = $value;
+		$new_user_meta->save();
+
+		return $new_user_meta;
+ 	}
+
  	/*
  	 * Facebook Social Login Controller
  	 */
@@ -28,68 +51,57 @@ class SocialLoginController extends Controller
  	 	return Socialize::with('facebook')->redirect();
  	}
 
- 	private function checkExistUserByEmail($email) {
- 		$user = \App\User::where('email','=',$email)->first();
- 		return $user;
- 	}
- 
  	public function facebookSuccess() {
- 
- 	  	$provider = Socialize::with('facebook');
- 	  	if (Input::has('code')){
-	    	$user = $provider->stateless()->user();
-	    	//dd($user);
-	    	$email = $user->email;
-	    	$name  = $user->name;
-	    	$password = substr($user->token,0,10);
-	    	$facebook_id = $user->id;
- 
-	    	if($email == null) { // case permission is not email public.
-	    		$user = $this->checkExistUserByFacebookId($facebook_id); 
-	    		if($user == null){
-	    			$email = $facebook_id;
-	    		}
-	    	}
-	    	else {
-	    		$user = $this->checkExistUserByEmail($email); 
-	    		if($user != null) {
-		    		if($user->facebook_id == ""){ // update account when not have facebook id.
-		    			$user->facebook_id = $facebook_id;
-		    			$user->save();
-		    		}
-	    		}
-	    	}
+ 		$provider = Socialize::with('facebook');
+ 		if (Input::has('code')) {
+ 			
+ 			$user = $provider->stateless()->user();
+ 			//dd($user);
+ 			$name = explode(" ", $user->name);
+ 			$first_name = $name[0];
+ 			$last_name = $name[1];
+ 			$email = $user->email;
+ 			$token = Hash::make($user->token);
+ 			$password = substr($token, 0, 10);
+ 			$facebook_id = $user->id;
 
-		    if($user != null) { // Auth exist account.
-		    	Auth::login($user);
+ 			// Check whether email exsist in users table or not
+	 		if (User::where('email', '=', $email)->exists()) {
+
+	 			$local_user = User::where('email', '=', $email)->first();
+
+	 			// Check if user email has meta facebook id in meta table or not
+	 			if (UserMeta::where('user_id', '=', $local_user->id)->where('meta_value', '=', $facebook_id)->exists()) {
+	 				// Login
+	 				Auth::login($local_user);
+			    	return redirect('home/');
+	 			}
+	 			// Add user meta to new meta table
+	 			else {
+		    		$this->registerUserMeta($local_user->id, 'facebook', $facebook_id);
+		    		Auth::login($local_user);
+			    	return redirect('home/');
+	 			}
+	 		}
+	 		else {
+	 			// Register and record in users table
+	 			$new_user = $this->registerUser($email, $first_name, $last_name, $password, $token);
+
+		    	// Add user meta to meta table
+		    	$this->registerUserMeta($new_user->id, 'facebook', $facebook_id);
+
+		    	Auth::login($new_user);
 		    	return redirect('home/');
-		    }
-		    else { // new Account.
-		    	$user = $this->registerFacebookUser($email, $name, $password, $facebook_id);
-		    	Auth::login($user);
-		    	return redirect('home/');
-		    }
-		}
-		return redirect('/');
- 	}
- 
- 	private function checkExistUserByFacebookId($facebook_id) {
- 		$user = \App\User::where('facebook_id','=',$facebook_id)->first();
- 		return $user;
+	 		}
+ 		} 
+ 		else {
+ 			return redirect('/did_not_receive_user_data_from_facebook');
+ 		}
+
+ 		return redirect('/');
  	}
 
-	private function registerFacebookUser($email, $name, $password, $facebook_id) {
- 		$user = new \App\User;
- 
-		$user->email = $email;
-		$user->name = $name;
-		$user->password = Hash::make($password); // fill password with hash token
-		$user->facebook_id = $facebook_id;
-		$user->save();
- 
-		return $user;
- 	}
- 
+ 	
  
  	/*
  	 * Github Social Login Controller
@@ -101,59 +113,52 @@ class SocialLoginController extends Controller
  	public function githubSuccess() {
  
  	  	$provider = Socialize::with('github');
- 	  	if (Input::has('code')){
-	    	$user = $provider->stateless()->user();
-	    	//dd($user);
-	    	$email = $user->email;
-	    	$name  = $user->name;
-	    	$password = substr($user->token,0,10);
-	    	$github_id = $user->id;
- 
-	    	if($email == null){ // case permission is not email public.
-	    		$user = $this->checkExistUserByGithubId($github_id); 
-	    		if($user == null){
-	    			$email = $github_id;
-	    		}
-	    	}
-	    	else
-	    	{
-	    		$user = $this->checkExistUserByEmail($email); 
-	    		if($user != null){
-		    		if($user->github_id == ""){ // update account when not have facebook id.
-		    			$user->github_id = $github_id;
-		    			$user->save();
-		    		}
-	    		}
-	    	}
- 
-		    if($user != null) { // Auth exist account.
-		    	Auth::login($user);
-		    	return redirect('home/');
-		    }
-		    else{ // new Account.
-		    	$user = $this->registerGithubUser($email, $name, $password, $github_id);
-		    	Auth::login($user);
-		    	return redirect('home/');
-		    }
-		}
-		return redirect('/');
- 	}
- 
- 	private function checkExistUserByGithubId($github_id) {
- 		$user = \App\User::where('github_id','=',$github_id)->first();
- 		return $user;
- 	}
+ 		if (Input::has('code')) {
+ 			
+ 			$user = $provider->stateless()->user();
+ 			//dd($user);
+ 			$name = explode(" ", $user->name);
+ 			$first_name = $name[0];
+ 			$last_name = $name[1];
+ 			$email = $user->email;
+ 			$token = Hash::make($user->token);
+ 			$password = substr($token, 0, 10);
+ 			$github_id = $user->id;
 
-	private function registerGithubUser($email, $name, $password, $github_id) {
- 		$user = new \App\User;
- 
-		$user->email = $email;
-		$user->name = $name;
-		$user->password = Hash::make($password); // fill password with hash token
-		$user->github_id = $github_id;
-		$user->save();
- 
-		return $user;
+ 			// Check whether email exsist in users table or not
+	 		if (User::where('email', '=', $email)->exists()) {
+
+	 			$local_user = User::where('email', '=', $email)->first();
+
+	 			// Check if user email has meta facebook id in meta table or not
+	 			if (UserMeta::where('user_id', '=', $local_user->id)->where('meta_value', '=', $github_id)->exists()) {
+	 				// Login
+	 				Auth::login($local_user);
+			    	return redirect('home/');
+	 			}
+	 			// Add user meta to new meta table
+	 			else {
+		    		$this->registerUserMeta($local_user->id, 'github', $github_id);
+		    		Auth::login($local_user);
+			    	return redirect('home/');
+	 			}
+	 		}
+	 		else {
+	 			// Register and record in users table
+	 			$new_user = $this->registerUser($email, $first_name, $last_name, $password, $token);
+
+		    	// Add user meta to meta table
+		    	$this->registerUserMeta($new_user->id, 'github', $github_id);
+
+		    	Auth::login($new_user);
+		    	return redirect('home/');
+	 		}
+ 		} 
+ 		else {
+ 			return redirect('/did_not_receive_user_data_from_github');
+ 		}
+
+ 		return redirect('/');
  	}
 
  	/*
@@ -166,58 +171,51 @@ class SocialLoginController extends Controller
  	public function googleSuccess() {
  
  	  	$provider = Socialize::with('google');
- 	  	if (Input::has('code')){
-	    	$user = $provider->stateless()->user();
-	    	//dd($user);
-	    	$email = $user->email;
-	    	$name  = $user->name;
-	    	$password = substr($user->token,0,10);
-	    	$google_id = $user->id;
- 
-	    	if($email == null){ // case permission is not email public.
-	    		$user = $this->checkExistUserByGoogleId($google_id); 
-	    		if($user == null){
-	    			$email = $google_id;
-	    		}
-	    	}
-	    	else
-	    	{
-	    		$user = $this->checkExistUserByEmail($email); 
-	    		if($user != null){
-		    		if($user->google_id == ""){ // update account when not have facebook id.
-		    			$user->google_id = $google_id;
-		    			$user->save();
-		    		}
-	    		}
-	    	}
- 
-		    if($user != null) { // Auth exist account.
-		    	Auth::login($user);
-		    	return redirect('home/');
-		    }
-		    else{ // new Account.
-		    	$user = $this->registerGoogleUser($email, $name, $password, $google_id);
-		    	Auth::login($user);
-		    	return redirect('home/');
-		    }
-		}
-		return redirect('/');
- 	}
- 
- 	private function checkExistUserByGoogleId($google_id) {
- 		$user = \App\User::where('google_id','=', $google_id)->first();
- 		return $user;
- 	}
+ 		if (Input::has('code')) {
+ 			
+ 			$user = $provider->stateless()->user();
+ 			//dd($user);
+ 			$name = explode(" ", $user->name);
+ 			$first_name = $name[0];
+ 			$last_name = $name[1];
+ 			$email = $user->email;
+ 			$token = Hash::make($user->token);
+ 			$password = substr($token, 0, 10);
+ 			$google_id = $user->id;
 
-	private function registerGoogleUser($email, $name, $password, $google_id) {
- 		$user = new \App\User;
- 
-		$user->email = $email;
-		$user->name = $name;
-		$user->password = Hash::make($password); // fill password with hash token
-		$user->google_id = $google_id;
-		$user->save();
- 
-		return $user;
+ 			// Check whether email exsist in users table or not
+	 		if (User::where('email', '=', $email)->exists()) {
+
+	 			$local_user = User::where('email', '=', $email)->first();
+
+	 			// Check if user email has meta facebook id in meta table or not
+	 			if (UserMeta::where('user_id', '=', $local_user->id)->where('meta_value', '=', $google_id)->exists()) {
+	 				// Login
+	 				Auth::login($local_user);
+			    	return redirect('home/');
+	 			}
+	 			// Add user meta to new meta table
+	 			else {
+		    		$this->registerUserMeta($local_user->id, 'google', $google_id);
+		    		Auth::login($local_user);
+			    	return redirect('home/');
+	 			}
+	 		}
+	 		else {
+	 			// Register and record in users table
+	 			$new_user = $this->registerUser($email, $first_name, $last_name, $password, $token);
+
+		    	// Add user meta to meta table
+		    	$this->registerUserMeta($new_user->id, 'google', $google_id);
+
+		    	Auth::login($new_user);
+		    	return redirect('home/');
+	 		}
+ 		} 
+ 		else {
+ 			return redirect('/did_not_receive_user_data_from_google');
+ 		}
+
+ 		return redirect('/');
  	}
 }
