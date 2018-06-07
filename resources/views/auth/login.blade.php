@@ -43,7 +43,7 @@
                             <div class="col-md-6 offset-md-4">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember_me" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
+                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
                                     </label>
                                 </div>
                             </div>
@@ -62,17 +62,16 @@
                         </div>
 
                         <div style="margin-left: 236px; margin-top: 20px; display:inline-block">
-                            <a href="{{ url('auth/login/facebook') }}"><img src="social_icon/facebook_icon.png" alt="facebook login icon" width="50px"> </a>
+                            <a href="{{ url('auth/login/facebook') }}"><img src="{{ asset('social_icon/facebook_icon.png') }}" alt="facebook login icon" width="50px"> </a>
                         </div>
 
                         <div style="margin-left: 30px; margin-top: 20px; display:inline-block">
-                            <a href="{{ url('auth/login/github') }}"><img src="social_icon/github_icon.png" alt="github login icon" width="65px"> </a>
-                        </div> 
+                            <a href="{{ url('auth/login/github') }}"><img src="{{ asset('social_icon/github_icon.png') }}" alt="github login icon" width="65px"> </a>
+                        </div>
 
                         <div style="margin-left: 30px; margin-top: 20px; display:inline-block">
-                            <a href="{{ url('auth/login/google') }}"><img src="social_icon/google_icon.png" alt="google login icon" width="50px"> </a>
+                            <a href="{{ url('auth/login/google') }}"><img src="{{ asset('social_icon/google_icon.png') }}" alt="google login icon" width="50px"> </a>
                         </div> 
-                                       
                     </form>
                 </div>
             </div>

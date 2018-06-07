@@ -34,8 +34,15 @@ Route::get('auth/login/google', 'SocialLoginController@googleAuthRedirect');
 // google call back after login success.
 Route::get('auth/login/google/home', 'SocialLoginController@googleSuccess');
 
+Route::prefix('users')->group(function() {
+	Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+	Route::post('/login', 'Auth\LoginController@login');
+	Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+	Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-// Password reset link request routes...
-// Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-// Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-// Route::post('password/reset', 'Auth\PasswordController@reset');
+	Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+	Route::get('/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+	Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
+	Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+});
+
