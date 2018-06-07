@@ -162,6 +162,8 @@ return [
 
         Laravel\Socialite\SocialiteServiceProvider::class,
 
+        Edujugon\GoogleAds\Providers\GoogleAdsServiceProvider::class,
+
     ],
 
     /*
@@ -211,7 +213,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Socialize' => Laravel\Socialite\Facades\Socialite::class
+        'Socialize' => Laravel\Socialite\Facades\Socialite::class,
+
+        'GoogleAds' => Edujugon\GoogleAds\Facades\GoogleAds::class,
 
     ],
 
