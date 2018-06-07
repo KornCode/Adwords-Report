@@ -43,4 +43,11 @@ class ResetPasswordController extends Controller
     public function broker() {
         return Password::broker('users');
     }
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
 }
