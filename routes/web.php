@@ -33,6 +33,7 @@ Route::get('auth/login/github/home', 'SocialLoginController@githubSuccess');
 Route::get('auth/login/google', 'SocialLoginController@googleAuthRedirect');
 // google call back after login success.
 Route::get('auth/login/google/home', 'SocialLoginController@googleSuccess');
+<<<<<<< HEAD
 
 Route::prefix('users')->group(function() {
 	Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -46,3 +47,5 @@ Route::prefix('users')->group(function() {
 	Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 });
 
+=======
+>>>>>>> parent of b34e50d... commit temp
