@@ -163,7 +163,6 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
 
         Edujugon\GoogleAds\Providers\GoogleAdsServiceProvider::class,
-
     ],
 
     /*
@@ -216,7 +215,6 @@ return [
         'Socialize' => Laravel\Socialite\Facades\Socialite::class,
 
         'GoogleAds' => Edujugon\GoogleAds\Facades\GoogleAds::class,
-
     ],
 
 ];
