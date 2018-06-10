@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
+<!--  -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -23,6 +24,9 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+
+            <!-- <button class="w3-button w3-white w3-xlarge" onclick="w3_open()">&#9776;</button> -->
+
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}

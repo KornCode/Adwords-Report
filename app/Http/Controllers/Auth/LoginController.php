@@ -39,22 +39,24 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function webLoginPost(Request $request)
-    {
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+    // public function webLoginPost(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
 
-        $remember_me = $request->has('remember_me') ? true : false; // if(isset($request->remember_me))
+    //     $remember_me = $request->has('remember') ? true : false; // if(isset($request->remember_me))
 
-        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember_me)) {
-            $user = auth()->user();
-            dd($user);
-        }
-        else {
-            return back()->with('error','your username and password are wrong.');
-        }
-    }
+    //     dd("test");
+
+    //     if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember_me)) {
+    //         $user = auth()->user();
+    //         dd($user);
+    //     }
+    //     else {
+    //         return back()->with('error','your username and password are wrong.');
+    //     }
+    // }
 }
 

@@ -12,12 +12,12 @@ return [
         'refreshToken' => "REFRESH-TOKEN"
     ],
     'test' => [
-        'developerToken' => "YOUR-DEV-TOKEN",
-        'clientCustomerId' => "CLIENT-CUSTOMER-ID",
-        'userAgent' => "YOUR-NAME",
-        'clientId' => "CLIENT-ID",
-        'clientSecret' => "CLIENT-SECRET",
-        'refreshToken' => "REFRESH-TOKEN"
+        'developerToken' => env('DEVELOPER_TOKEN'),
+        'clientCustomerId' => env('CLIENT_CUSTOMER_ID'),
+        'userAgent' => "EXB",
+        'clientId' => env('CLIENT_ID'),
+        'clientSecret' => env('CLIENT_SECRET'),
+        'refreshToken' => env('REFRESH_TOKEN')
     ],
     'oAuth2' => [
         'authorizationUri' => 'https://accounts.google.com/o/oauth2/v2/auth',

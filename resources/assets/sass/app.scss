@@ -1,6 +1,8 @@
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url('https://www.w3schools.com/w3css/4/w3.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
 
 // Variables
 @import "variables";
@@ -12,3 +14,55 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+.ads-container {
+	margin-left: 20%;
+	margin-right: 4%;
+}
+
+.chart-wrapper {
+	display: grid;
+}
+
+.chart-column {
+	color: #bbb;
+	border-radius: 5px;
+	padding: 20px;
+	font-size: 150%;
+	height: 350px;
+}
+
+.ads-wrapper {
+	display: grid;
+	margin-top: 25px;
+	grid-template-columns: 49% 49%;
+	grid-gap: 20px;
+}
+
+.column {
+	color: #fff;
+	border-radius: 5px;
+	padding: 20px;
+	font-size: 150%;
+	height: 320px;
+}
+
+// .row:after {
+//     content: "";
+//     display: table;
+//     clear: both;
+// }
+
+// @media screen and (max-width: 600px) {
+//     .column {
+//         width: 100%;
+//     }
+// }
+
+// .column {
+// 	box-sizing: border-box;
+//     float: left;
+//     width: 50%;
+//     height: 300px;
+//     padding: 10px;
+// }
