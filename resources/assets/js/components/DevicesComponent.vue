@@ -1,5 +1,5 @@
 <template>
-	<div class="column" style="background-color:#aaa;">
+	<div class="ads-column">
         {{ name }}
     </div>
 </template>

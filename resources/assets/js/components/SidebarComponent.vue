@@ -1,19 +1,17 @@
 <template>
-    <ol>
-        <li v-for="todo in todos">
-            {{ todo.text }}
-        </li>
-    </ol>
+    <div>
+        {{ message }}
+    </div>
 </template>
 
 <script>
-
     var data = {
-        todos: [
-          { text: 'Learn JavaScript' },
-          { text: 'Learn Vue' },
-          { text: 'Build something awesome' }
-        ]
+        // todos: [
+        //   { text: 'Learn JavaScript' },
+        //   { text: 'Learn Vue' },
+        //   { text: 'Build something awesome' }
+        // ]
+        message: 'Hello Vue!'
     }
 
     export default {

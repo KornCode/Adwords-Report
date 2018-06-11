@@ -3,6 +3,8 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 @import url('https://www.w3schools.com/w3css/4/w3.css');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
+@import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 
 // Variables
 @import "variables";
@@ -25,11 +27,13 @@
 }
 
 .chart-column {
-	color: #bbb;
-	border-radius: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	color: #000;
+	background-color: #fff;
+	border-radius: 1px;
 	padding: 20px;
 	font-size: 150%;
-	height: 350px;
+	height: 420px;
 }
 
 .ads-wrapper {
@@ -39,30 +43,18 @@
 	grid-gap: 20px;
 }
 
-.column {
-	color: #fff;
-	border-radius: 5px;
+.ads-column {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	color: #000;
+	background-color: #fff;
+	border-radius: 1px;
 	padding: 20px;
 	font-size: 150%;
 	height: 320px;
 }
 
-// .row:after {
-//     content: "";
-//     display: table;
-//     clear: both;
-// }
+.ads-content {
+	margin-top: 80px;
+}
 
-// @media screen and (max-width: 600px) {
-//     .column {
-//         width: 100%;
-//     }
-// }
 
-// .column {
-// 	box-sizing: border-box;
-//     float: left;
-//     width: 50%;
-//     height: 300px;
-//     padding: 10px;
-// }

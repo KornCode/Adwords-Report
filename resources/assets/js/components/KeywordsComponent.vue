@@ -1,8 +1,11 @@
 <template>
-	<div class="column" style="background-color:#aaa;">
-		<div>
-			{{ name }}
-		</div>
+	<div class="ads-column">
+        <div class="card-action">
+            {{ name }}
+        </div>
+        <div style="margin-top: 20px;">
+            <hr>
+        </div>
 	</div>
 </template>
 

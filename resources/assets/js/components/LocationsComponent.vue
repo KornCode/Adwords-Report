@@ -1,5 +1,7 @@
 <template>
-	<div class="column" style="background-color:#aaa;">{{ name }}</div>
+	<div class="ads-column">
+        {{ name }}
+    </div>
 </template>
 
 <script>
