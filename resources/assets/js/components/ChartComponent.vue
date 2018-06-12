@@ -1,9 +1,6 @@
 <template>
-    <div class="chart-column">
-        
-        <div class="ads-content">
-            <line-chart :data="chartData" curve="false" download="chart" refresh="60" legend="false" height="300px"></line-chart>
-        </div>
+    <div>
+        <line-chart :data="chartData" curve="false" download="chart" refresh="60" legend="false"></line-chart>
     </div>
 </template>
 

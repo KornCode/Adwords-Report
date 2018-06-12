@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);@import url(https://www.w3schools.com/w3css/4/w3.css);@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);@import url(https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js);@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css);/*!
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);@import url(https://www.w3schools.com/w3css/4/w3.css);@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);@import url(https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js);@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css);@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);@import url(http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css);/*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
@@ -10409,53 +10409,5 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
-}
-
-.navbar-laravel {
-  background-color: #fff;
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.ads-container {
-  margin-left: 20%;
-  margin-right: 4%;
-}
-
-.chart-wrapper {
-  display: grid;
-}
-
-.chart-column {
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #000;
-  background-color: #fff;
-  border-radius: 1px;
-  padding: 20px;
-  font-size: 150%;
-  height: 420px;
-}
-
-.ads-wrapper {
-  display: grid;
-  margin-top: 25px;
-  grid-template-columns: 49% 49%;
-  grid-gap: 20px;
-}
-
-.ads-column {
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  color: #000;
-  background-color: #fff;
-  border-radius: 1px;
-  padding: 20px;
-  font-size: 150%;
-  height: 320px;
-}
-
-.ads-content {
-  margin-top: 80px;
 }
 

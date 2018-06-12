@@ -19,7 +19,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home/ads', 'AdWordsController@retrieveAdsData')->name('ads');
+// Route::get('/home/ads', 'AdWordsController@retrieveAdsData')->name('ads');
+
+Route::get('ads_dashboard', function () {
+    return view('ads_dashboard');
+});
+
+Route::get('test', 'TestController@index');
 
 // for redirect to facebook auth.
 Route::get('auth/login/facebook', 'SocialLoginController@facebookAuthRedirect');
