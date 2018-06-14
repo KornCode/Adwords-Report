@@ -48,6 +48,7 @@ Route::prefix('auth/login/')->group(function() {
 	Route::get('google', 'SocialLoginController@googleAuthRedirect');
 	// google call back after login success.
 	Route::get('google/home', 'SocialLoginController@googleSuccess');
+
 });
 
 Route::prefix('users')->group(function() {
