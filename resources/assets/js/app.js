@@ -10,16 +10,18 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import Chartkick from 'chartkick'
-import VueChartkick from 'vue-chartkick'
-import Chart from 'chart.js'
+// import VueChartkick from 'vue-chartkick'
+// import Chart from 'chart.js'
 // import PrettyCheckbox from 'pretty-checkbox-vue';
 import BootstrapVue from 'bootstrap-vue'
-// import VueCharts from 'vue-chartjs'
+import VueCharts from 'vue-chartjs'
+import { Line, Bar } from 'vue-chartjs'
 
-Vue.use(VueChartkick, { Chartkick })
-// Vue.use(PrettyCheckbox);
+// Vue.use(VueChartkick, { Chartkick })
+// Vue.use(Chart);
 Vue.use(BootstrapVue);
-// Vue.use(VueCharts, { Line });
+Vue.use(VueCharts, { Line });
+Vue.use(VueCharts, { Bar });
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

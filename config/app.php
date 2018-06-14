@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Verblick'),
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +165,8 @@ return [
         Edujugon\GoogleAds\Providers\GoogleAdsServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
+
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 

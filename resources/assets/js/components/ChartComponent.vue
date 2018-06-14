@@ -1,10 +1,77 @@
-<template>
-    <div>
-        <line-chart :data="chartData" curve="false" download="chart" refresh="60" legend="false"></line-chart>
-    </div>
-</template>
+
 
 <script>
+    import { Line, Bar } from 'vue-chartjs'
+
+    export default {
+        
+        extends: Bar,
+        mounted () {
+        // Overwriting base render method with actual data.
+        this.renderChart({
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            datasets: [
+                {
+                    label: 'GitHub Commits',
+                    backgroundColor: '#f87979',
+                    data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+                },
+                {
+                    label: 'GitLab Commits',
+                    backgroundColor: '#00FFFF',
+                    data: [32, 80, 24, 62, 5, 44, 12, 46, 78, 30, 66, 54]
+                }
+            ]}, {responsive: true, maintainAspectRatio: false})
+        }
+    }
+</script>
+
+
+<!-- <template>
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default">Chart</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Line</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Bar</a></li>
+                </ul>
+            </div>
+
+            <button type="button" class="btn btn-info" style="width: 100px;">Click</button>
+            <button type="button" class="btn btn-danger" style="width: 100px;">Impression</button>
+            <button type="button" class="btn btn-warning" style="width: 100px;">Avg. CPC</button>
+            <button type="button" class="btn btn-success" style="width: 100px;">Cost</button>
+
+            <div class="btn-group" style="float: right;">
+                <button type="button" class="btn btn-default">Time</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">7 Days</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">2 Weeks</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">1 Month</a></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="box-body">
+            <line-chart :data="chartData" curve="false" download="chart" refresh="60" legend="false"></line-chart>
+        </div>
+    </div>
+</template> -->
+
+<!-- <script>
 
     var data = {
         chartData: ''
@@ -40,4 +107,4 @@
             console.log('Component mounted.')
         }
     }
-</script>
+</script> -->

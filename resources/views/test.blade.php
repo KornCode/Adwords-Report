@@ -18,18 +18,32 @@
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">Line</a></li>
+                            <li class="divider"></li>
                             <li><a href="#">Bar</a></li>
                             {{-- <li class="divider"></li> --}}
                         </ul>
                     </div>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                    </div> {{-- end dropdown button --}}
 
                     <button type="button" class="btn btn-info" style="width: 100px;">Click</button>
                     <button type="button" class="btn btn-danger" style="width: 100px;">Impression</button>
                     <button type="button" class="btn btn-warning" style="width: 100px;">Avg. CPC</button>
                     <button type="button" class="btn btn-success" style="width: 100px;">Cost</button>
+
+                    {{-- Dropdown Button --}}
+                    <div class="btn-group" style="float: right;">
+                        <button type="button" class="btn btn-default">Time</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">7 Days</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">2 Weeks</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">1 Month</a></li>
+                        </ul>
+                    </div>
 
                 </div>
                 <div class="box-body">
@@ -39,68 +53,6 @@
         </div><!-- /.col -->
 
     </div><!-- /.row -->
-
-    {{-- <div class="row">
-        <div class="col-md-3">
-            <div class="info-box bg-blue">
-                <span class="info-box-icon"><i class="fa fa-hand-o-up"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Clicks</span>
-                    <span class="info-box-number">41,410</span>
-                    <!-- The progress section is optional -->
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 70%"></div>
-                    </div>
-                    <span class="progress-description">70% Increase in 30 Days</span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div>
-
-        <div class="col-md-3">
-            <div class="info-box bg-red">
-                <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Impression</span>
-                    <span class="info-box-number">41,410</span>
-                    <!-- The progress section is optional -->
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 70%"></div>
-                    </div>
-                    <span class="progress-description">70% Increase in 30 Days</span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div>
-
-        <div class="col-md-3">
-            <div class="info-box bg-yellow">
-                <span class="info-box-icon"><i class="fa fa-bar-chart"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Avg. Cost-Per-Click</span>
-                    <span class="info-box-number">41,410</span>
-                    <!-- The progress section is optional -->
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 70%"></div>
-                    </div>
-                    <span class="progress-description">70% Increase in 30 Days</span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div>
-
-        <div class="col-md-3">
-            <div class="info-box bg-green">
-                <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Costs</span>
-                    <span class="info-box-number">41,410</span>
-                    <!-- The progress section is optional -->
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 70%"></div>
-                    </div>
-                    <span class="progress-description">70% Increase in 30 Days</span>
-                </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-        </div>
-    </div> --}}
 
     <div class="row">
         <div class="col-md-3">
