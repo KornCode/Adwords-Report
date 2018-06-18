@@ -35,10 +35,7 @@ Vue.use(VueAxios, axios)
  */
 
 Vue.component('chart-component', require('./components/ChartComponent.vue'));
-Vue.component('click-component', require('./components/ClickComponent.vue'));
-Vue.component('impression-component', require('./components/ImpressionComponent.vue'));
-Vue.component('avg-cpc-component', require('./components/AvgCPCComponent.vue'));
-Vue.component('cost-component', require('./components/CostComponent.vue'));
+Vue.component('summary-component', require('./components/SummaryComponent.vue'));
 Vue.component('test-chart', require('./components/OverviewChartComponent.vue'));
 
 const app = new Vue({
