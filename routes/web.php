@@ -55,6 +55,8 @@ Route::prefix('auth/login/')->group(function() {
 
 Route::prefix('users')->group(function() {
 
+	Route::get('/', 'UserController@index')->name('user.dashboard');
+
 	Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 	Route::post('/login', 'Auth\LoginController@login');
 	// Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');

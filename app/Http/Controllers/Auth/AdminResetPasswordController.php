@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Password;
 use Auth;
 //
-class ResetPasswordController extends Controller
+class AdminResetPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/users';
+    protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.
@@ -37,10 +37,14 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest:admin');
     }
 
-    protected function broker() {
-        return Password::broker('users');
+    protected function guard() {
+        return Auth::guard('admin');
+    }
+
+    protected function broker() { // to identify type of user
+        return Password::broker('admins');
     }
 }
