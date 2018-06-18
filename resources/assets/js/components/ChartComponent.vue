@@ -1,6 +1,80 @@
-
+<template>
+    <div id="app">
+        <button @click="fillData()">Randomize</button>
+        <test-chart :chart-data="datacollection" />
+    </div>
+</template>
 
 <script>
+
+    let data = {
+        datacollection: null
+    }
+
+    export default {
+        data: () => {
+            return data;
+        },
+        methods: {
+            fillData () {
+                this.datacollection = {
+                labels: [this.getRandomInt(), this.getRandomInt()],
+                datasets: [
+                {
+                    label: 'Data One',
+                    backgroundColor: '#f87979',
+                    data: [this.getRandomInt(), this.getRandomInt()]
+                }, {
+                    label: 'Data One',
+                    backgroundColor: '#f87979',
+                    data: [this.getRandomInt(), this.getRandomInt()]
+                }
+              ]
+            }
+          },
+          getRandomInt () {
+            return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+          }
+        },
+        mounted() {
+            let self = this;
+            axios
+                .post('http://localhost:8000/test')
+                .then(response => {
+                    let temp = {
+                        clicks: [],
+                        impressions: [],
+                        avgcpc: [],
+                        cost: []
+                    }
+                    let temp_return = [];
+                    _.each(response.data, function(value, key) {
+                        let day = String(value.day);
+                        temp_return.push(parseInt(value.clicks));
+                        // temp_return[day+" 00:00:00 -0800"] = parseInt(value.clicks);
+                        // temp.impressions.push({value.day: value.impressions/1000000});
+                        // temp.avgcpc.push({value.day: value.avgCPC});
+                        // temp.cost.push({value.day: value.cost/1000000});
+                    });
+                    self.datacollection = {
+                        datasets: [
+                        {
+                            label: 'Clicks',
+                            backgroundColor: '#f87979',
+                            data: temp_return
+                        }]
+                    } 
+                    console.log(self.datacollection);
+                });
+            }
+    }
+
+    // console.log(info)
+</script>
+
+
+
+<!-- <script>
     import { Line, Bar } from 'vue-chartjs'
 
     export default {
@@ -24,8 +98,7 @@
             ]}, {responsive: true, maintainAspectRatio: false})
         }
     }
-</script>
-
+</script> -->
 
 <!-- <template>
 
@@ -108,3 +181,4 @@
         }
     }
 </script> -->
+

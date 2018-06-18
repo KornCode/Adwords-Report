@@ -8,20 +8,25 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window._ = require('lodash');
 
-import Chartkick from 'chartkick'
+// import Chartkick from 'chartkick'
 // import VueChartkick from 'vue-chartkick'
 // import Chart from 'chart.js'
 // import PrettyCheckbox from 'pretty-checkbox-vue';
 import BootstrapVue from 'bootstrap-vue'
 import VueCharts from 'vue-chartjs'
 import { Line, Bar } from 'vue-chartjs'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 // Vue.use(VueChartkick, { Chartkick })
 // Vue.use(Chart);
 Vue.use(BootstrapVue);
-Vue.use(VueCharts, { Line });
-Vue.use(VueCharts, { Bar });
+// Vue.use(VueCharts, { Line });
+// Vue.use(VueCharts, { Bar });
+
+Vue.use(VueAxios, axios)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -34,6 +39,7 @@ Vue.component('click-component', require('./components/ClickComponent.vue'));
 Vue.component('impression-component', require('./components/ImpressionComponent.vue'));
 Vue.component('avg-cpc-component', require('./components/AvgCPCComponent.vue'));
 Vue.component('cost-component', require('./components/CostComponent.vue'));
+Vue.component('test-chart', require('./components/OverviewChartComponent.vue'));
 
 const app = new Vue({
     el: '#app',

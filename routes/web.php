@@ -25,9 +25,11 @@ Route::get('ads_dashboard', function () {
     return view('ads_dashboard');
 });
 
-Route::group(['middleware' => ['role:user|admin','permission:view_ads']], function () {
+Route::group(['middleware' => ['role:user|admin','permission:view ads dashboard']], function () {
 
-	Route::get('test', 'TestController@index')->name('ads.dashboard');
+	Route::get('/test', 'TestController@index')->name('ads.dashboard');
+	Route::post('/test', 'TestController@showAdwords')->name('ads.dashboard.post');
+	Route::get('/debug', 'TestController@showAdwords')->name('ads.dashboard.post');
 });
 
 
@@ -54,7 +56,7 @@ Route::prefix('auth/login/')->group(function() {
 Route::prefix('users')->group(function() {
 
 	Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
-	Route::post('/login', 'Auth\LoginController@authenticatedUser')->name('auth.login');
+	Route::post('/login', 'Auth\LoginController@login');
 	// Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 	Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -64,73 +66,76 @@ Route::prefix('users')->group(function() {
 	Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 });
 
-Route::prefix('admin')->group(function() {
 
-	Route::namespace('Admin')->group(function() {
+/*
+|--------------------------------------------------------------------------
+| Admin Mananagement
+|--------------------------------------------------------------------------
+*/
+route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
 
-		Route::group(['middleware' => ['role:admin','permission:view_ads|admin_access']], function () {
+	Route::group(['middleware' => ['role:admin','permission:view member dashboard|view ads dashboard']], function () {
 
-		    Route::get('/', 'AdminController@showDashboard')->name('admin.dashboard');
+	    Route::get('/', 'AdminController@showDashboard')->name('admin.dashboard');
 
-			/*
-			|--------------------------------------------------------------------------
-			| Members Mananagement
-			|--------------------------------------------------------------------------
-			*/
-			Route::prefix('members')->group(function() {
-				// Show Members
-				Route::get('/', 'MemberController@showMembers')->name('admin.members.index');
+		/*
+		|--------------------------------------------------------------------------
+		| Members Mananagement
+		|--------------------------------------------------------------------------
+		*/
+		Route::prefix('members')->group(function() {
+			// Show Members
+			Route::get('/', 'MemberController@showMembers')->name('admin.members.index');
 
-				// Create Member
-				Route::get('/create', 'MemberController@showCreateMember')->name('admin.members.create');
-				Route::post('/create', 'MemberController@postCreateMember')->name('admin.members.create.post');
+			// Create Member
+			Route::get('/create', 'MemberController@showCreateMember')->name('admin.members.create');
+			Route::post('/create', 'MemberController@postCreateMember')->name('admin.members.create.post');
 
-				// Edit Members
-				Route::get('/edit/{user_id}', 'MemberController@showEditMember')->name('admin.members.edit');
-				Route::post('/edit', 'MemberController@postEditMember')->name('admin.members.edit.post');
-			});
+			// Edit Members
+			Route::get('/edit/{user_id}', 'MemberController@showEditMember')->name('admin.members.edit');
+			Route::post('/edit', 'MemberController@postEditMember')->name('admin.members.edit.post');
+		});
 
-			/*
-			|--------------------------------------------------------------------------
-			| Roles Management
-			|--------------------------------------------------------------------------
-			*/
-			Route::prefix('roles')->group(function() {
-				// Show Roles
-				Route::get('/', 'RoleController@showRoles')->name('admin.roles.index');
+		/*
+		|--------------------------------------------------------------------------
+		| Roles Management
+		|--------------------------------------------------------------------------
+		*/
+		Route::prefix('roles')->group(function() {
+			// Show Roles
+			Route::get('/', 'RoleController@showRoles')->name('admin.roles.index');
 
-				// Create Role
-				Route::get('/create', 'RoleController@showCreateRole')->name('admin.roles.create');
-				Route::post('/create', 'RoleController@postCreateRole')->name('admin.roles.create.post');
+			// Create Role
+			Route::get('/create', 'RoleController@showCreateRole')->name('admin.roles.create');
+			Route::post('/create', 'RoleController@postCreateRole')->name('admin.roles.create.post');
 
-				// Edit Role
-				Route::get('/edit/{role_id}', 'RoleController@showEditRole')->name('admin.roles.edit');
-				Route::post('/edit', 'RoleController@postEditRole')->name('admin.roles.edit.post');
+			// Edit Role
+			Route::get('/edit/{role_id}', 'RoleController@showEditRole')->name('admin.roles.edit');
+			Route::post('/edit', 'RoleController@postEditRole')->name('admin.roles.edit.post');
 
-				// Delete Role
-				Route::post('/delete', 'RoleController@postDeleteRole')->name('admin.roles.delete.post');
-			});
+			// Delete Role
+			Route::post('/delete', 'RoleController@postDeleteRole')->name('admin.roles.delete.post');
+		});
 
-			/*
-			|--------------------------------------------------------------------------
-			| Permissions Management
-			|--------------------------------------------------------------------------
-			*/
-			Route::prefix('permissions')->group(function() {
-				// Show Permissions
-				Route::get('/', 'PermissionController@showPermissions')->name('admin.permissions.index');
+		/*
+		|--------------------------------------------------------------------------
+		| Permissions Management
+		|--------------------------------------------------------------------------
+		*/
+		Route::prefix('permissions')->group(function() {
+			// Show Permissions
+			Route::get('/', 'PermissionController@showPermissions')->name('admin.permissions.index');
 
-				// Create Permissions
-				Route::get('/create', 'PermissionController@showCreatePermission')->name('admin.permissions.create');
-				Route::post('/create', 'PermissionController@postCreatePermission')->name('admin.permissions.create.post');
+			// Create Permissions
+			Route::get('/create', 'PermissionController@showCreatePermission')->name('admin.permissions.create');
+			Route::post('/create', 'PermissionController@postCreatePermission')->name('admin.permissions.create.post');
 
-				// Edit Permissions
-				Route::get('/edit/{role_id}', 'PermissionController@showEditPermission')->name('admin.permissions.edit');
-				Route::post('/edit', 'PermissionController@postEditPermission')->name('admin.permissions.edit.post');
+			// Edit Permissions
+			Route::get('/edit/{role_id}', 'PermissionController@showEditPermission')->name('admin.permissions.edit');
+			Route::post('/edit', 'PermissionController@postEditPermission')->name('admin.permissions.edit.post');
 
-				// Delete Permissions
-				Route::post('/delete', 'PermissionController@postDeletePermission')->name('admin.permissions.delete.post');
-			});
+			// Delete Permissions
+			Route::post('/delete', 'PermissionController@postDeletePermission')->name('admin.permissions.delete.post');
 		});
 	});
 });

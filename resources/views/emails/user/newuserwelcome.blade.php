@@ -7,8 +7,8 @@ Please change your password after logged in.<br>
 **Email:**  {{ $loginEmail }}<br>
 **Password:**  {{ $loginPassword }}<br>
 
-@component('mail::button', ['url' => 'localhost:8000/test'])
-View my Dashboard
+@component('mail::button', ['url' => 'localhost:8000/users/login'])
+Go to Login
 @endcomponent
 
 Thanks,<br>

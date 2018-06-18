@@ -144,9 +144,18 @@
                             <div class="pull-left">
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
+                            
+                            {{-- Laravel 5.4+ uses post method for logout so instead of simple url 
+                                 (get) request you should post a form to logout --}}
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">Sign out</a>
                             </div>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+
                         </li>
                     </ul>
                 </li>
