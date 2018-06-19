@@ -46,7 +46,7 @@ class SocialLoginController extends Controller
 		$new_user_meta->save();
 
 		return $new_user_meta;
- 	}
+	 }
 
  	/*
  	 * Facebook Social Login Controller
@@ -78,13 +78,25 @@ class SocialLoginController extends Controller
 	 			if (UserMeta::where('user_id', '=', $local_user->id)->where('meta_value', '=', $facebook_id)->exists()) {
 	 				// Login
 	 				Auth::login($local_user);
-			    	return redirect('home/');
+					if ($local_user->hasRole('admin')) {
+						return redirect()->route('admin.dashboard') ;
+					} elseif ($local_user->hasRole('user')) {
+						return redirect()->route('ads.dashboard') ;
+					} else {
+						return redirect()->route('index');
+					}
 	 			}
 	 			// Add user meta to new meta table
 	 			else {
 		    		$this->registerUserMeta($local_user->id, 'facebook', $facebook_id);
-		    		Auth::login($local_user);
-			    	return redirect('home/');
+					Auth::login($local_user);
+					if ($local_user->hasRole('admin')) {
+						return redirect()->route('admin.dashboard') ;
+					} elseif ($local_user->hasRole('user')) {
+						return redirect()->route('ads.dashboard') ;
+					} else {
+						return redirect()->route('index');
+					}
 	 			}
 	 		}
 	 		else {
@@ -95,7 +107,7 @@ class SocialLoginController extends Controller
 		    	$this->registerUserMeta($new_user->id, 'facebook', $facebook_id);
 
 		    	Auth::login($new_user);
-		    	return redirect('home/');
+		    	return redirect()->route('user.dashboard');
 	 		}
  		} 
  		else {
@@ -138,13 +150,25 @@ class SocialLoginController extends Controller
 	 			if (UserMeta::where('user_id', '=', $local_user->id)->where('meta_value', '=', $github_id)->exists()) {
 	 				// Login
 	 				Auth::login($local_user);
-			    	return redirect('home/');
+					if ($local_user->hasRole('admin')) {
+						return redirect()->route('admin.dashboard') ;
+					} elseif ($local_user->hasRole('user')) {
+						return redirect()->route('ads.dashboard') ;
+					} else {
+						return redirect()->route('index');
+					}
 	 			}
 	 			// Add user meta to new meta table
 	 			else {
 		    		$this->registerUserMeta($local_user->id, 'github', $github_id);
-		    		Auth::login($local_user);
-			    	return redirect('home/');
+					Auth::login($local_user);
+			    	if ($local_user->hasRole('admin')) {
+						return redirect()->route('admin.dashboard') ;
+					} elseif ($local_user->hasRole('user')) {
+						return redirect()->route('ads.dashboard') ;
+					} else {
+						return redirect()->route('index');
+					}
 	 			}
 	 		}
 	 		else {
@@ -155,7 +179,7 @@ class SocialLoginController extends Controller
 		    	$this->registerUserMeta($new_user->id, 'github', $github_id);
 
 		    	Auth::login($new_user);
-		    	return redirect('home/');
+		    	return redirect()->route('user.dashboard');
 	 		}
  		} 
  		else {
@@ -196,13 +220,25 @@ class SocialLoginController extends Controller
 	 			if (UserMeta::where('user_id', '=', $local_user->id)->where('meta_value', '=', $google_id)->exists()) {
 	 				// Login
 	 				Auth::login($local_user);
-			    	return redirect('home/');
+					if ($local_user->hasRole('admin')) {
+						return redirect()->route('admin.dashboard') ;
+					} elseif ($local_user->hasRole('user')) {
+						return redirect()->route('ads.dashboard') ;
+					} else {
+						return redirect()->route('index');
+					}
 	 			}
 	 			// Add user meta to new meta table
 	 			else {
 		    		$this->registerUserMeta($local_user->id, 'google', $google_id);
 		    		Auth::login($local_user);
-			    	return redirect('home/');
+			    	if ($local_user->hasRole('admin')) {
+						return redirect()->route('admin.dashboard') ;
+					} elseif ($local_user->hasRole('user')) {
+						return redirect()->route('ads.dashboard') ;
+					} else {
+						return redirect()->route('index');
+					}
 	 			}
 	 		}
 	 		else {
@@ -213,7 +249,7 @@ class SocialLoginController extends Controller
 		    	$this->registerUserMeta($new_user->id, 'google', $google_id);
 
 		    	Auth::login($new_user);
-		    	return redirect('home/');
+		    	return redirect()->route('user.dashboard');
 	 		}
  		} 
  		else {
