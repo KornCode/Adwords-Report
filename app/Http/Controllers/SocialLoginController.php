@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Socialize;
-use Auth;
-use Redirect;
-use Hash;
-/////////
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\User;
 use App\UserMeta;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
+use Socialize;
+use Auth;
+use Redirect;
+use Hash;
 
 class SocialLoginController extends Controller
 {
     public function __construct() {
+
 	}
  
-	public function index()
-	{
+	public function index() {
 		return view('home');
 	}
 
@@ -29,6 +31,8 @@ class SocialLoginController extends Controller
 		$user->last_name = $last_name;
 		$user->password = Hash::make($password); // fill password with hash token
 		$user->remember_token = $token;
+		$user->assignRole('user');
+        $user->givePermissionTo('view ads dashboard');
 		$user->save();
 
 		return $user;

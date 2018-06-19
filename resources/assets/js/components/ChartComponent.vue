@@ -39,7 +39,8 @@
 
             </div>
             <div class="box-body">
-                <test-chart :chart-data="datacollection" />
+                <test-chart :chart-data="datacollection" :options="options" :height="400" />
+                <button class="btn btn-success" @click="testButton">Test Button</button>
             </div><!-- /.box-body -->
         </div><!-- /.box -->
     </div>
@@ -48,7 +49,45 @@
 <script>
 
     let data = {
-        datacollection: null
+        datacollection: null,
+        options:{
+            responsive: true,
+            maintainAspectRatio: false,
+            elements: {
+                point: {
+                    radius: 0
+                },
+                line: {
+                    tension: 0
+                }
+            },
+            gridLines: {
+                display: false ,
+                color: "#FFFFFF"
+            },
+            scales: {
+                yAxes: [{
+                    id: 'CLICK_AXIS',
+                    type: 'linear',
+                    position: 'left',
+                    gridLines: {
+                        display: false
+                    },
+                }, {
+                    id: 'COST_AXIS',
+                    type: 'linear',
+                    position: 'right',
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        callback: function(label, index, labels) {
+                            return '฿'+label;
+                        }
+                    },
+                }]
+            }
+        },
     }
 
     export default {
@@ -56,12 +95,10 @@
             isOpen: false;
             return data;
         },
-        option:{
-            responsive: true,
-            maintainAspectRatio: true,
-        },
         methods: {
-
+            testButton() {
+                this.options.elements.point.radius = 5;
+            }
         },
         mounted() {
             let self = this;
@@ -84,42 +121,45 @@
                         // let day = String(value.day);
                         date.push(value.day);
                         clicks.push(parseInt(value.clicks));
-                        impressions.push(parseInt(value.impressions));
-                        avgcpc.push(parseInt(value.avgCPC)/10000);
+                        // impressions.push(parseInt(value.impressions));
+                        // avgcpc.push(parseInt(value.avgCPC)/10000);
                         cost.push(parseInt(value.cost)/1000000);
                     });
                     let click_dataset = {
                         label: 'Clicks',
                         fill: false,
-                        backgroundColor: 'rgba(41, 181, 255, 0.6)',
-                        data: clicks
+                        borderColor: '#0073b7',
+                        borderWidth: 2,
+                        data: clicks,
+                        yAxisID: 'CLICK_AXIS',
                     }
-                    let impression_dataset = {
-                        label: 'Impressions',
-                        fill: false,
-                        backgroundColor: 'rgba(255, 44, 44, 0.6)',
-                        data: impressions
-                    }
-                    let averageCPC_dataset = {
-                        label: 'AverageCPC',
-                        fill: false,
-                        bordercolor: '#DC143C',
-                        backgroundColor: 'rgba(255, 155, 45, 0.6)',
-                        data: avgcpc
-                    }
+                    // let impression_dataset = {
+                    //     label: 'Impressions',
+                    //     fill: false,
+                    //     borderColor: 'rgba(255, 44, 44, 1)',
+                    //     data: impressions
+                    // }
+                    // let averageCPC_dataset = {
+                    //     label: 'AverageCPC',
+                    //     fill: false,
+                    //     bordercolor: '#DC143C',
+                    //     borderColor: 'rgba(255, 155, 45, 1)',
+                    //     data: avgcpc
+                    // }
                     let cost_dataset = {
                         label: 'Cost',
                         fill: false,
-                        backgroundColor: 'rgba(255, 155, 45, 0.6)',
-                        bordercolor: '#DC143C',
-                        data: cost
+                        borderColor: '#00a65a',
+                        borderWidth: 2,
+                        data: cost,
+                        yAxisID: 'COST_AXIS',
                     }
                     self.datacollection = {
                         labels: date,
                         datasets: [
                             click_dataset,
-                            impression_dataset,
-                            averageCPC_dataset,
+                            // impression_dataset,
+                            // averageCPC_dataset,
                             cost_dataset
                         ]
                     }
