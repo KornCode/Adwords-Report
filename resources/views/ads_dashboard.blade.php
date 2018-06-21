@@ -26,8 +26,12 @@
         -->
         <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
 
+        {{-- <link href="{{ asset("/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css")}}" rel="stylesheet" type="text/css" /> --}}
+
         <script src="{{ asset('js/app.js') }}" defer></script>
         {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+
+        <link href="{{ asset("/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css")}}" rel="stylesheet" type="text/css" />
         
     </head>
     <body class="skin-blue">
@@ -74,6 +78,8 @@
     <script src="{{ asset ("/bower_components/bootstrap/dist/js/bootstrap.min.js") }}" type="text/javascript"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset ("/bower_components/admin-lte/dist/js/adminlte.min.js") }}" type="text/javascript"></script>
+
+    <script src="{{ asset ("/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js") }}" type="text/javascript"></script>
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
           Both of these plugins are recommended to enhance the

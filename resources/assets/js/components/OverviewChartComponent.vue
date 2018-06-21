@@ -1,5 +1,5 @@
 <script>
-import { Line, mixins } from 'vue-chartjs'
+import { Line, Bar, mixins } from 'vue-chartjs'
 
 export default {
   	extends: Line,
@@ -9,14 +9,14 @@ export default {
 		options: {
 			handler(newVal, oldVal){
 				var self = this;
-				console.log(newVal, oldVal);
+				// console.log(newVal, oldVal);
 				self.renderChart(self.chartData, newVal);
 			},
 			deep: true
 		}
 	},
   	mounted () {
-  		console.log(this.chartData);
+  		// console.log(this.chartData);
     	// Overwriting base render method with actual data.
     	this.renderChart(this.chartData, this.options);
   	}

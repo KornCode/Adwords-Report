@@ -28,6 +28,10 @@ Create a new Member
 						<label for="first_name" class="control-label">Email</label>
 						<input type="email" name="email" class="form-control" placeholder="Email" />
 					</div>
+					<div class="form-group{{ $errors->has('adwords') ? ' has-error' : '' }}">
+						<label for="adwords" class="control-label">AdWords</label>
+						<input type="text" name="adwords" class="form-control" placeholder="AdWords Key : Optional" />
+					</div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-block btn-success">Submit</button>
 					</div>

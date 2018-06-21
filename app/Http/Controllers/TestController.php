@@ -9,6 +9,10 @@ use Google\AdsApi\AdWords\v201710\cm\BidLandscapeLandscapePoint;
 use App\Http\Controllers\DB;
 use Response;
 
+use DateTime;
+use DatePeriod;
+use DateIntercal;
+
 use Illuminate\Http\Request;
 
 class TestController extends Controller {
@@ -44,12 +48,28 @@ class TestController extends Controller {
         return view('test')->with($data);
     }
 
-    public function showAdwords() {
-        $ads = new GoogleAds();
+    private function modifyDate($stringDate, $config_date) {
+        $date = new DateTime($stringDate);
+        $date->modify('-'.$config_date.'day');
+        $dateYMD = $date->format('Ymd');
 
-        $obj = $ads->report()
+        return $dateYMD;
+    }
+
+    public function showAdwordsSummary(Request $request) {
+
+        $summary = new GoogleAds();
+
+        $config_date = $request->input('config');
+
+        // $from_date = $this->modifyDate(date('Ymd'), 277);
+        $from_date = $this->modifyDate('20171022', $config_date);
+        // $to_date = date('Ymd');
+        $to_date = '20171022';
+
+        $obj = $summary->report()
                 ->from('ACCOUNT_PERFORMANCE_REPORT')
-                ->during('20000101','20200101')
+                ->during($from_date, $to_date)
                 ->select('Date', 'Clicks', 'Impressions', 'AverageCpc', 'Cost')
                 ->getAsObj();
 
@@ -57,6 +77,19 @@ class TestController extends Controller {
 
         return Response::json($items);
     }
+
+    // public function showAdwordsBudget(Request $request) {
+        
+    //     $budget = new GoogleAds();
+
+    //     $obj = $budget->report()
+    //             ->select('BudgetName')
+    //             ->from('BUDGET_PERFORMANCE_REPORT')
+    //             ->saveToFile('/public')
+    //             ->getAsObj();
+
+    //     $items = $obj->result;
+    // }
 }
 
 

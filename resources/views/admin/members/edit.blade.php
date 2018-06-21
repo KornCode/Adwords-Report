@@ -76,6 +76,28 @@ Edit Member #{{ $member->id }}
 				</div>
 			</div>
 		</div>
+
+		<div class="col-sm-4">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Change AdWords Key</h3>
+				</div>
+				<div class="box-body">
+					<div class="form-group">
+						<label for="adwords" class="control-label">New AdWords Key</label>
+						<input type="text" name="new_adwords_key" class="form-control" placeholder="New AdWords Key" value="" />
+					</div>
+					<div class="form-group">
+						<label for="adwords" class="control-label">Confirm New AdWords Key</label>
+						<input type="text" name="new_adwords_key_confirm" class="form-control" placeholder="Confirm New AdWords Key" value="" />
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-block btn-warning">Change AdWords Key</button>
+				</div>
+			</div>
+		</div>
+
 	</div>
 </form>
 		

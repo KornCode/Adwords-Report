@@ -12,24 +12,20 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	// return view('welcome');
+	return redirect()->route('login');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('index');
 
-// Route::get('/home/ads', 'AdWordsController@retrieveAdsData')->name('ads');
-
-Route::get('ads_dashboard', function () {
-    return view('ads_dashboard');
-});
-
 Route::group(['middleware' => ['role:user|admin','permission:view ads dashboard']], function () {
 
-	Route::get('/test', 'TestController@index')->name('ads.dashboard');
-	Route::post('/test', 'TestController@showAdwords')->name('ads.dashboard.post');
-	Route::get('/debug', 'TestController@showAdwords')->name('ads.dashboard.post');
+	Route::get('/overview', 'TestController@index')->name('ads.dashboard');
+	Route::post('/overview', 'TestController@showAdwordsSummary')->name('ads.dashboard.post');
+	Route::get('/debug', 'TestController@showAdwordsSummary')->name('ads.dashboard.post');
+	Route::post('/debug', 'TestController@showAdwordsSummary')->name('ads.dashboard.post');
 });
 
 
@@ -54,8 +50,6 @@ Route::prefix('auth/login/')->group(function() {
 });
 
 Route::prefix('users')->group(function() {
-
-	Route::get('/', 'UserController@index')->name('user.dashboard');
 
 	Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
 	Route::post('/login', 'Auth\LoginController@login');

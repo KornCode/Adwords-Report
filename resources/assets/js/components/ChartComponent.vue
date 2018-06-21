@@ -1,48 +1,23 @@
 <template>
-    <!-- check point -->
+<!-- CHECK POINT -->
     <div>
-        <!-- Box -->
         <div class="box box-primary">
             <div class="box-header with-border">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default">Chart</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Line</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Bar</a></li>
-                    </ul>
-                </div>
-
-                <button type="button" class="btn btn-info" style="width: 100px;">Click</button>
-                <button type="button" class="btn btn-danger" style="width: 100px;">Impression</button>
-                <button type="button" class="btn btn-warning" style="width: 100px;">Avg. CPC</button>
-                <button type="button" class="btn btn-success" style="width: 100px;">Cost</button>
-
+                <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">Summary</h2>
                 <div class="btn-group" style="float: right;">
-                    <button type="button" class="btn btn-default">Time</button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">7 Days</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">2 Weeks</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">1 Month</a></li>
-                    </ul>
+                    <button type="button" class="btn btn-default" @click="changeDate(1)">Today</button>
+                    <button type="button" class="btn btn-default" @click="changeDate(7)">1 Week</button>
+                    <button type="button" class="btn btn-default" @click="changeDate(14)">2 Weeks</button>
+                    <button type="button" class="btn btn-default" @click="changeDate(30)">1 Month</button>
                 </div>
-
             </div>
+        </div>
+
+        <div class="box box-primary">
             <div class="box-body">
                 <test-chart :chart-data="datacollection" :options="options" :height="400" />
-                <button class="btn btn-success" @click="testButton">Test Button</button>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
+            </div>
+        </div>
     </div>
 </template>
 
@@ -55,7 +30,7 @@
             maintainAspectRatio: false,
             elements: {
                 point: {
-                    radius: 0
+                    radius: 2
                 },
                 line: {
                     tension: 0
@@ -82,12 +57,13 @@
                     },
                     ticks: {
                         callback: function(label, index, labels) {
-                            return '฿'+label;
+                            return '฿' + label;
                         }
                     },
                 }]
             }
         },
+        config: 14
     }
 
     export default {
@@ -103,26 +79,18 @@
         mounted() {
             let self = this;
             axios
-                .post('http://localhost:8000/test')
+                .post('http://localhost:8000/test', {config: this.config})
                 .then(response => {
-                    let data_obj = {
-                        date: [],
-                        clicks: [],
-                        impressions: [],
-                        avgcpc: [],
-                        cost: []
-                    }
                     let date = [];
                     let clicks = [];
                     let impressions = [];
                     let avgcpc = [];
                     let cost = [];
                     _.each(response.data, function(value, key) {
-                        // let day = String(value.day);
                         date.push(value.day);
                         clicks.push(parseInt(value.clicks));
                         // impressions.push(parseInt(value.impressions));
-                        // avgcpc.push(parseInt(value.avgCPC)/10000);
+                        // avgcpc.push(parseInt(value.avgCPC)/1000000);
                         cost.push(parseInt(value.cost)/1000000);
                     });
                     let click_dataset = {
@@ -165,6 +133,10 @@
                     }
                 });
         }
+    }
+
+    function duration(length, range) {
+        return length - range;
     }
 
 </script>

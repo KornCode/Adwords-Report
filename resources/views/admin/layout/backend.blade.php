@@ -54,11 +54,19 @@
                         <a href="{{ route('admin.permissions.index') }}"><i class="fa fa-lock"></i> <span>Permissions</span></a>
                     </li>
                     <li class="treeview">
-                        <a href="{{ route('index') }}"><i class="fa fa-sign-out"></i> <span>Back to Web</span></a>
+                        <a href="{{ route('ads.dashboard') }}"><i class="fa fa-dashboard"></i> <span>Ads Dashboard</span></a>
+                    </li>
+                    <li>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();"><i class="fa fa-arrow-circle-o-left"></i> <span>Logout</span></a>
                     </li>
                 </ul><!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->
+            {{-- for logout --}}
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
         </aside>
 
         <!-- Content Wrapper. Contains page content -->

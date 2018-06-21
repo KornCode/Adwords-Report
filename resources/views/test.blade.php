@@ -3,13 +3,14 @@
 @section('content')
     <div class='row'>
         {{-- Chart --}}
-        <div class='col-md-12'> 
-            <chart-component></chart-component>
-        </div>
+        {{-- <chart-component></chart-component> --}}
+        <combined-component></combined-component>
     </div>
 
     <div class="row">
-        <summary-component></summary-component>
+        {{-- <div class='col-md-12'> --}}
+            {{-- <summary-component></summary-component> --}}
+        {{-- </div> --}}
     </div>
 @endsection
 
