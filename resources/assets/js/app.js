@@ -26,8 +26,6 @@ Vue.use(VueAxios, axios);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('chart-component', require('./components/ChartComponent.vue'));
-Vue.component('summary-component', require('./components/SummaryComponent.vue'));
 Vue.component('test-chart', require('./components/OverviewChartComponent.vue'));
 Vue.component('combined-component', require('./components/CombinedTempComponent.vue'));
 
