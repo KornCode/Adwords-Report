@@ -15,7 +15,7 @@ return [
     'test' => [
         'developerToken' => env('DEVELOPER_TOKEN'),
         'clientCustomerId' => env('CLIENT_CUSTOMER_ID'),
-        // 'userAgent' => "EXB",
+        'userAgent' => "EXB",
         'clientId' => env('CLIENT_ID'),
         'clientSecret' => env('CLIENT_SECRET'),
         'refreshToken' => env('REFRESH_TOKEN')
