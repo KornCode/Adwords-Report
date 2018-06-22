@@ -118,7 +118,7 @@
         impressions: '',
         avgcpc: '',
         cost: '',
-        config: 30,
+        config: 30, // default when loaded
         is_loading_summary: false,
         datacollection: null,
         selectOptions: [

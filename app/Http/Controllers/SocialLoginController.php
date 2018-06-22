@@ -31,9 +31,10 @@ class SocialLoginController extends Controller
 		$user->last_name = $last_name;
 		$user->password = Hash::make($password); // fill password with hash token
 		$user->remember_token = $token;
+		$user->save();
+
 		$user->assignRole('user');
         $user->givePermissionTo('view ads dashboard');
-		$user->save();
 
 		return $user;
  	}
@@ -107,7 +108,7 @@ class SocialLoginController extends Controller
 		    	$this->registerUserMeta($new_user->id, 'facebook', $facebook_id);
 
 		    	Auth::login($new_user);
-		    	return redirect()->route('user.dashboard');
+		    	return redirect()->route('ads.dashboard');
 	 		}
  		} 
  		else {
@@ -179,7 +180,7 @@ class SocialLoginController extends Controller
 		    	$this->registerUserMeta($new_user->id, 'github', $github_id);
 
 		    	Auth::login($new_user);
-		    	return redirect()->route('user.dashboard');
+		    	return redirect()->route('ads.dashboard');
 	 		}
  		} 
  		else {
@@ -249,7 +250,7 @@ class SocialLoginController extends Controller
 		    	$this->registerUserMeta($new_user->id, 'google', $google_id);
 
 		    	Auth::login($new_user);
-		    	return redirect()->route('user.dashboard');
+		    	return redirect()->route('ads.dashboard');
 	 		}
  		} 
  		else {

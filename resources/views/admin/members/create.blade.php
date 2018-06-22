@@ -7,15 +7,16 @@ Create a new Member
 @section('content')
 @include('admin.components.errors_box')
 
+
 <div class="row">
 	<div class="col-sm-4">
-		<div class="box">
-			<div class="box-header with-border">
-				<h3 class="box-title">General Profile</h3>
-			</div>
-			<div class="box-body">
-				<form action="{{ route('admin.members.create.post') }}" method="POST" role="form">
-					{{ csrf_field() }}
+		<form action="{{ route('admin.members.create.post') }}" method="POST" role="form">
+			{{ csrf_field() }}
+			<div class="box box-success">
+				<div class="box-header with-border">
+					<h3 class="box-title">General Profile</h3>
+				</div>
+				<div class="box-body">
 					<div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
 						<label for="first_name" class="control-label">First Name</label>
 						<input type="text" name="first_name" class="form-control" placeholder="First Name" />
@@ -33,13 +34,12 @@ Create a new Member
 						<input type="text" name="adwords" class="form-control" placeholder="AdWords Key : Optional" />
 					</div>
 					<div class="box-footer">
-						<button type="submit" class="btn btn-block btn-success">Submit</button>
+						<button type="submit" class="btn btn-block btn-success">Create New Member</button>
 					</div>
-				</form>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>
-</form>
 	
 @endsection

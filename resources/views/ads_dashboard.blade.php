@@ -6,10 +6,10 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>AdminLTE 2 | Dashboard</title>
+        <title>Kodsana Report</title>
 
-            <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- Bootstrap 3.3.2 -->
@@ -26,11 +26,10 @@
         -->
         <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
 
-        {{-- <link href="{{ asset("/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css")}}" rel="stylesheet" type="text/css" /> --}}
-
         <script src="{{ asset('js/app.js') }}" defer></script>
         {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
+        {{-- Bootstrap dropdown select --}}
         <link href="{{ asset("/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css")}}" rel="stylesheet" type="text/css" />
         
     </head>
@@ -48,13 +47,11 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    {{ $page_title or "Overview" }}
+                    {{ $page_title or "Ads Dashboard" }}
                     <small>{{ $page_description or null }}</small>
                 </h1>
-                <!-- You can dynamically generate breadcrumbs here -->
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                    <li class="active">Here</li>
+                    <li><a href="{{ route('ads.dashboard') }}"><i class="fa fa-line-chart"></i> Ads Dashboard </a></li>
                 </ol>
             </section>
 
@@ -79,10 +76,8 @@
     <!-- AdminLTE App -->
     <script src="{{ asset ("/bower_components/admin-lte/dist/js/adminlte.min.js") }}" type="text/javascript"></script>
 
+    {{-- Bootstrap dropdown select --}}
     <script src="{{ asset ("/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js") }}" type="text/javascript"></script>
 
-    <!-- Optionally, you can add Slimscroll and FastClick plugins.
-          Both of these plugins are recommended to enhance the
-          user experience -->
     </body>
 </html>

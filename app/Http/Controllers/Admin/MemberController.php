@@ -44,6 +44,9 @@ class MemberController extends Controller
         $user->remember_token = $token;
         $user->save();
 
+        $user->assignRole('user');
+        $user->givePermissionTo('view ads dashboard');
+
         return $user;
     }
 
@@ -85,6 +88,8 @@ class MemberController extends Controller
 
         $this->registerUserMeta($new_user->id, 'adwords', $adwords);
 
+        
+
         Mail::to($email)->send(new NewUserWelcome($email, $password));
 
         return redirect()->route('admin.members.index');
@@ -122,7 +127,6 @@ class MemberController extends Controller
 		$member->first_name = $request->get('first_name');
 		$member->last_name = $request->get('last_name');
         $member->password = $request->has('new_password_confirm') ? bcrypt($request->get('new_password_confirm')) : $member->password;
-
 
         $adwords_id = $request->has('new_adwords_key_confirm') ? $request->get('new_adwords_key_confirm') : false;
 

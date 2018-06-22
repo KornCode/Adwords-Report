@@ -58,7 +58,7 @@ class RoleController extends Controller
      */ 
      public function showEditRole($role_id){
      	$data['role'] = Role::find($role_id);
-          $data['permissions'] = Permission::all()->groupBy('guard_name');;
+        $data['permissions'] = Permission::all()->groupBy('guard_name');;
      	return view('admin.roles.edit', $data);
      }
 

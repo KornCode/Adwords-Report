@@ -9,7 +9,7 @@ Members Management
 		<div class="box-header with-border">
 			<h3 class="box-title">Members</h3>
 			<div class="box-tools pull-right">
-				<a href="{{ route('admin.members.create') }}" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> New Member</a>
+				<a href="{{ route('admin.members.create') }}" style="width: 150px;" class="btn btn-info btn-sm"><i class="fa fa-user-plus"></i> New Member</a>
 			</div>
 		</div>
 		<div class="box-body">
@@ -44,7 +44,7 @@ Members Management
 
 							</td>
 							<td>
-								<a href="{{ route('admin.members.edit', ['id' => $member->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+								<a href="{{ route('admin.members.edit', ['id' => $member->id]) }}" style="width: 60px;" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
 							</td>
 						</tr>
 						@endforeach

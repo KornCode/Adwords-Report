@@ -22,10 +22,9 @@ Route::get('/home', 'HomeController@index')->name('index');
 
 Route::group(['middleware' => ['role:user|admin','permission:view ads dashboard']], function () {
 
-	Route::get('/overview', 'TestController@index')->name('ads.dashboard');
-	Route::post('/overview', 'TestController@showAdwordsSummary')->name('ads.dashboard.post');
-	Route::get('/debug', 'TestController@showAdwordsSummary')->name('ads.dashboard.post');
-	Route::post('/debug', 'TestController@showAdwordsSummary')->name('ads.dashboard.post');
+	Route::get('/overview', 'AdsController@showAdwordsSummary')->name('ads.dashboard');
+	Route::post('/overview', 'AdsController@postAdwordsSummary')->name('ads.dashboard.post');
+	Route::get('/debug', 'AdsController@postAdwordsSummary')->name('ads.dashboard');
 });
 
 

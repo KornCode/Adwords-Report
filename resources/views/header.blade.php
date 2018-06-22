@@ -2,7 +2,11 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo"><b>AdWords</b>Report</a>
+    @if (Auth::user()->hasRole('admin'))
+        <a href="{{ route('admin.dashboard') }}" class="logo"><b>AdWords</b>Report</a>
+    @else
+        <a href="{{ route('ads.dashboard') }}" class="logo"><b>AdWords</b>Report</a>
+    @endif
 
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">

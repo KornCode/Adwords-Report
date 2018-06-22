@@ -6,10 +6,10 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Admin | Dashboard</title>
+        <title>Admin</title>
 
-            <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- Bootstrap 3.3.2 -->
@@ -54,7 +54,10 @@
                         <a href="{{ route('admin.permissions.index') }}"><i class="fa fa-lock"></i> <span>Permissions</span></a>
                     </li>
                     <li class="treeview">
-                        <a href="{{ route('ads.dashboard') }}"><i class="fa fa-dashboard"></i> <span>Ads Dashboard</span></a>
+                            <a href="{{ route('admin.dashboard') }}"><i class="fa fa-user"></i> <span>Dashboard</span></a>
+                    </li>
+                    <li class="treeview">
+                        <a href="{{ route('ads.dashboard') }}"><i class="fa fa-line-chart"></i> <span>Ads Dashboard</span></a>
                     </li>
                     <li>
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -74,13 +77,35 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    {{ $page_title or "Page Title" }}
+                    {{ $page_title or "Admin Dashboard" }}
                     <small>{{ $page_description or null }}</small>
                 </h1>
-                <!-- You can dynamically generate breadcrumbs here -->
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                    <li class="active">Here</li>
+                @if (URL::current() == 'http://localhost:8000/admin/members')
+                    <li><a href="{{ route('admin.members.index') }}"><i class="fa fa-users"></i>  Member Dashboard </a></li>
+                @elseif (URL::current() == 'http://localhost:8000/admin/members/create')
+                    <li><a href="{{ route('admin.members.index') }}"><i class="fa fa-users"></i>  Member Dashboard </a></li>
+                    <li><a href="{{ URL::current() }}">Create</a></li>
+                @elseif (strpos(URL::current(), 'http://localhost:8000/admin/members/edit') !== false)
+                    <li><a href="{{ route('admin.members.index') }}"><i class="fa fa-users"></i>  Member Dashboard </a></li>
+                    <li><a href="{{ URL::current() }}">Edit</a></li>
+                @elseif (URL::current() == 'http://localhost:8000/admin/roles')
+                    <li><a href="{{ route('admin.roles.index') }}"><i class="fa fa-link"></i>  Roles Dashboard </a></li>
+                @elseif (URL::current() == 'http://localhost:8000/admin/roles/create')
+                    <li><a href="{{ route('admin.roles.index') }}"><i class="fa fa-link"></i>  Roles Dashboard </a></li>
+                    <li><a href="{{ URL::current() }}">Create</a></li>
+                @elseif (strpos(URL::current(), 'http://localhost:8000/admin/roles/edit') !== false)
+                    <li><a href="{{ route('admin.roles.index') }}"><i class="fa fa-link"></i>  Roles Dashboard </a></li>
+                    <li><a href="{{ URL::current() }}"><i class="fa fa-line-chart"></i>  Edit </a></li>
+                @elseif (URL::current() == 'http://localhost:8000/admin/permissions')
+                    <li><a href="{{ route('admin.permissions.index') }}"><i class="fa fa-lock"></i>  Permissions Dashboard </a></li>
+                @elseif (URL::current() == 'http://localhost:8000/admin/permissions/create')
+                    <li><a href="{{ route('admin.permissions.index') }}"><i class="fa fa-lock"></i>  Permissions Dashboard </a></li>
+                    <li><a href="{{ URL::current() }}">Create</a></li>
+                @elseif (strpos(URL::current(), 'http://localhost:8000/admin/permissions/edit') !== false)
+                    <li><a href="{{ route('admin.permissions.index') }}"><i class="fa fa-lock"></i>  Permissions Dashboard </a></li>
+                    <li><a href="{{ URL::current() }}"><i class="fa fa-line-chart"></i>  Edit </a></li>
+                @endif
                 </ol>
             </section>
 
@@ -105,8 +130,8 @@
     <!-- AdminLTE App -->
     <script src="{{ asset ("/bower_components/admin-lte/dist/js/adminlte.min.js") }}" type="text/javascript"></script>
 
-    <!-- Optionally, you can add Slimscroll and FastClick plugins.
-          Both of these plugins are recommended to enhance the
-          user experience -->
+    {{-- jQuery Match Height Plugin --}}
+    <script src="jquery.matchHeight.js" type="text/javascript"></script>
+
     </body>
 </html>

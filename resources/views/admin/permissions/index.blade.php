@@ -9,7 +9,7 @@ Permissions Management
 		<div class="box-header with-border">
 			<h3 class="box-title">Permissions</h3>
 			<div class="box-tools pull-right">
-				<a href="{{ route('admin.permissions.create') }}" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> New Permission</a>
+				<a href="{{ route('admin.permissions.create') }}" style="width: 150px;" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> New Permission</a>
 			</div>
 		</div>
 		<div class="box-body">
