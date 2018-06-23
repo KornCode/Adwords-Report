@@ -3,19 +3,21 @@
 @section('title')
 Edit Role #{{ $role->id }}
 @endsection
-
+{{-- check point --}}
 @section('content')
 
 @include('admin.components.errors_box')
+
 <div class="row">
-	<div class="col-sm-4">
-		<form action="{{ route('admin.roles.edit.post') }}" method="POST" role="form">
-			<div class="box">
+	<form action="{{ route('admin.roles.edit.post') }}" method="POST" role="form">
+		{{ csrf_field() }}
+		<div class="col-sm-4">
+			<div class="box box-info">
 				<div class="box-header with-border">
 					<h3 class="box-title">Editing Role #{{ $role->id }} - {{ $role->guard_name }} - {{ $role->name }}</h3>
 				</div>
 				<div class="box-body">
-					{{ csrf_field() }}
+					
 					<input type="hidden" name="role_id" value="{{ $role->id }}" />
 					<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 						<label for="name" class="control-label">Name</label>
@@ -27,30 +29,38 @@ Edit Role #{{ $role->id }}
 					</div>
 				</div>
 				<div class="box-footer">
-					<button type="submit" class="btn btn-success btn-block">Submit</button>
+					<button type="submit" class="btn btn-info btn-block">Submit</button>
 				</div>
 			</div>
-			<div class="box">
+		</div>
+		<div class="col-sm-4">
+			<div class="box box-info">
 				<div class="box-header with-border">
 					<h3 class="box-title">Permissions</h3>
 				</div> 
 				<div class="box-body">
 					@foreach($permissions as $guard => $guard_permissions)
-						<p><strong>{{ $guard }}</strong></p>
+						<p><strong>Guard - {{ $guard }}</strong></p>
 						<div class="form-group">
 						@foreach($guard_permissions as $permission)
 							<label class="checkbox-inline">
 								<input type="checkbox" name="permissions[]" id="permission-{{ $permission->id }}" value="{{ $permission->id }}" {{ $role->permissions->contains($permission->id) ? 'checked' : '' }}> {{ $permission->name }}
 							</label>
+							<br />
 						@endforeach
 						</div>
 					@endforeach
 				</div>
 				<div class="box-footer">
-					<button type="submit" class="btn btn-success btn-block">Submit</button>
+					<button type="submit" class="btn btn-info btn-block">Submit</button>
 				</div>
 			</div>
-		</form>
+		</div>
+	</form>
+</div>
+
+<div class="row">
+	<div class="col-sm-4">
 		<form action="{{ route('admin.roles.delete.post') }}" method="POST" role="form">
 			{{ csrf_field() }}
 			<input type="hidden" name="role_id" value="{{ $role->id }}" />
@@ -75,4 +85,6 @@ Edit Role #{{ $role->id }}
 		</form>
 	</div>
 </div>
+
 @endsection
+
