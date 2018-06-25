@@ -24,7 +24,8 @@ Route::group(['middleware' => ['role:user|admin','permission:view ads dashboard'
 
 	Route::get('/overview', 'AdsController@showAdwordsSummary')->name('ads.dashboard');
 	Route::post('/overview', 'AdsController@postAdwordsSummary')->name('ads.dashboard.post');
-	// Route::get('/debug', 'AdsController@postAdwordsSummary')->name('ads.dashboard');
+	// Route::post('/overview', 'AdsController@postAdwordsKey')->name('ads.dashboard.post');
+	// Route::get('/debug', 'AdsController@postAdwordsSummary');
 });
 
 

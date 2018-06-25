@@ -4,20 +4,27 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">
-                        <div v-if="config == 1">Summary Today</div>
-                        <div v-else-if="config == 2">Summary Yesterday</div>
-                        <div v-else-if="config == 3">Summary Last 3 Days</div>
-                        <div v-else-if="config == 7">Summary Last 7 Days</div>
-                        <div v-else-if="config == 14">Summary Last 14 Days</div>
-                        <div v-else-if="config == 30">Summary Last 30 Days</div>
-                        <div v-else-if="config == 90">Summary Last 3 Months</div>
-                        <div v-else-if="config == 180">Summary Last 6 Months</div>
-                        <div v-else-if="config == 1365">Summary Last 1 Year</div>
-                        <div v-else-if="config == 3650">Summary All Time</div>
+                        <div v-if="config_date == 1">Summary - Today</div>
+                        <div v-else-if="config_date == 2">Summary - Yesterday</div>
+                        <div v-else-if="config_date == 3">Summary - Last 3 Days</div>
+                        <div v-else-if="config_date == 7">Summary - Last 7 Days</div>
+                        <div v-else-if="config_date == 14">Summary - Last 14 Days</div>
+                        <div v-else-if="config_date == 30">Summary - Last 30 Days</div>
+                        <div v-else-if="config_date == 90">Summary - Last 3 Months</div>
+                        <div v-else-if="config_date == 180">Summary - Last 6 Months</div>
+                        <div v-else-if="config_date == 1365">Summary - Last 1 Year</div>
+                        <div v-else-if="config_date == 3650">Summary - All Time</div>
                     </h2>
                     <div class="btn-group" style="float: right;">
-                        <select v-model="config" class="selectpicker show-tick" data-width="200px">
-                            <option v-for="selectOption in selectOptions" v-bind:value="selectOption.value">
+                        <select v-model="config_date" class="selectpicker show-tick" data-width="200px">
+                            <option v-for="selectOption in selectOptionsDate" v-bind:value="selectOption.value">
+                                {{ selectOption.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="btn-group" style="float: right; padding-right: 10px;">
+                        <select v-model="config_key" class="selectpicker show-tick" data-width="200px">
+                            <option v-for="selectOption in selectOptionsKey" v-bind:value="selectOption.value">
                                 {{ selectOption.text }}
                             </option>
                         </select>
@@ -27,7 +34,7 @@
 
             <div class="box box-default">
                 <div class="box-body">
-                    <div v-if="this.config === 1">
+                    <div v-if="this.config_date === 1">
                         <div style="font-size: 20px;">
                             Chart do not show for selected date.
                         </div>
@@ -118,10 +125,11 @@
         impressions: '',
         avgcpc: '',
         cost: '',
-        config: 30, // default when loaded
+        config_date: 90, // default when loaded
+        config_key: '', // default when loaded
         is_loading_summary: false,
         datacollection: null,
-        selectOptions: [
+        selectOptionsDate: [
             { text: 'Today', value: 1 },
             { text: 'Yesterday', value: 2 },
             { text: 'Last 3 days', value: 3 },
@@ -132,6 +140,9 @@
             { text: 'Last 6 months', value: 180 },
             { text: 'Last 1 year', value: 365 },
             { text: 'All time', value: 3650 }
+        ],
+        selectOptionsKey: [
+            
         ],
         options:{
             responsive: true,
@@ -183,11 +194,18 @@
             // changeDate: function() {
             //     this.config = this.selectOptions.value;
             // },
+            // getKey: function() {
+            //     axios
+            //         .post('http://localhost:8000/overview')
+            //         .then(response => {
+            //             console.log(response.data[1]);
+            //         });
+            // },
             getData: function() {
                 let self = this;
                 self.is_loading_summary = true;
                 axios
-                    .post('http://localhost:8000/overview', {config: this.config})
+                    .post('http://localhost:8000/overview', {config: this.config_date})
                     .then(response => {
 
                         let date = [];
@@ -196,13 +214,25 @@
                         let avgcpc = [];
                         let cost = [];
 
-                        _.each(response.data, function(value, key) {
+                        _.each(response.data[0], function(value, key) {
                             date.push(value.day);
                             clicks.push(parseInt(value.clicks));
                             impressions.push(parseInt(value.impressions));
                             avgcpc.push(parseInt(value.avgCPC)/1000000);
                             cost.push(parseInt(value.cost)/1000000);
                         });
+
+                        
+                        // ...
+                        console.log(response.data[1]);
+                        response.data[1].forEach(function(val) {
+                            let obj = {text: '', value: ''};
+                            obj.text = val;
+                            obj.value = val;
+                            data.selectOptionsKey.push(obj);
+                        })
+                        console.log(data.selectOptionsKey);
+                        // ...
 
                         /*
                         |-------------------------------------------
@@ -283,13 +313,18 @@
             }
         },
         watch: {
-            config: function (newVal, oldVal) {
+            config_date: function (newVal, oldVal) {
+                if (newVal === oldVal) return;
+                this.getData();
+            },
+            config_key: function (newVal, oldVal) {
                 if (newVal === oldVal) return;
                 this.getData();
             },
         },
         mounted() {
             this.getData();
+            // this.getKey();
         }
     }
 

@@ -2,7 +2,11 @@
 
 @section('content')
     <div class='row'>
-        <combined-component></combined-component>
+        @if (Auth::user()->hasRole('admin'))
+            <admin-overview-component></admin-overview-component>
+        @else
+            <overview-component></overview-component>
+        @endif
     </div>
 @endsection
 

@@ -37,31 +37,50 @@ class AdsController extends Controller {
 
         $summary = new GoogleAds();
 
-        // $adwords_client_id_temp = UserMeta::where('user_id', '=', Auth::user()->id)->get(['meta_value']);
         $adwords_client_id_temp = DB::select('select meta_value from umeta where user_id = ?', [Auth::user()->id]);
         $adwords_client_id = $adwords_client_id_temp[0]->meta_value;
 
-        $summary->session([
-            'clientCustomerId' => $adwords_client_id
-        ]);
+        if ($adwords_client_id !== null) {
 
-        $config_date = $request->input('config');
+            $summary->session([
+                'clientCustomerId' => $adwords_client_id
+            ]);
+    
+            $config_date = $request->input('config');
+    
+            $from_date = $this->modifyDate(date('Ymd'), $config_date);
+            $to_date = date('Ymd');
+    
+            $obj = $summary->report()
+                    ->from('ACCOUNT_PERFORMANCE_REPORT')
+                    ->during($from_date, $to_date)
+                    ->select('Date', 'Clicks', 'Impressions', 'AverageCpc', 'Cost')
+                    ->getAsObj();
+    
+    
+            $items1 = $obj->result;
+            $items2 = $this->postAdwordsKey();
 
-        $from_date = $this->modifyDate(date('Ymd'), $config_date);
-        // $from_date = $this->modifyDate('20171022', 277);
-        $to_date = date('Ymd');
-        // $to_date = '20171022';
+            $items = array();
+            array_push($items, $items1, $items2);
+    
+            return Response::json($items);
+        }
+        else {
 
-        $obj = $summary->report()
-                ->from('ACCOUNT_PERFORMANCE_REPORT')
-                ->during($from_date, $to_date)
-                ->select('Date', 'Clicks', 'Impressions', 'AverageCpc', 'Cost')
-                ->getAsObj();
+            return view('overview')->with('is_empty', "true");
+        }
+    }
 
+    public function postAdwordsKey() {
+        $adwordsKey_temp = UserMeta::select('meta_value')->where('meta_key', '=', 'adwords')->where('meta_value', '!=', null)->get();
 
-        $items = $obj->result;
+        $adwordsKey = array();
+        foreach ($adwordsKey_temp as $key) {
+            array_push($adwordsKey, $key->meta_value);
+        }
 
-        return Response::json($items);
+        return $adwordsKey;
     }
 }
 
