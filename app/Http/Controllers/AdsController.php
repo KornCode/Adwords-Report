@@ -36,35 +36,35 @@ class AdsController extends Controller {
     public function postAdwordsSummary(Request $request) {
 
         $summary = new GoogleAds();
-        // dd(env('CLIENT_CUSTOMER_ID'));
 
-        // $adwords_client_id = UserMeta::where('user_id', '=', Auth::user()->id)
-        // dd($adwords_client_id);
+        $summary->session([
+            'clientCustomerId' => '880-440-7050',
+        ]);
 
-        // $summary->session([
-            // 'clientCustomerId' => '880-440-7050',
-            // 'clientId' => '502572626924-ekjmmdfjauhbt8d83m0fojtujitupgl3.apps.googleusercontent.com',
-            // 'clientSecret' => '7J46SVLrliqjn7ihv7PfDgp6',
-            // 'refreshToken' => '4/AAA1DCfxnZAUpBdFulbfMY3pmXj_JAFSCdzzhdpINAgL4-NFEn8MoU8'
-        // ]);
-
-
-        $config_date = $request->input('config');
+        $config_date = $request->filled('config') ? $request->input('config') : 30;
 
         $from_date = $this->modifyDate(date('Ymd'), $config_date);
-        // $from_date = $this->modifyDate('20171022', $config_date);
+        
         $to_date = date('Ymd');
-        // $to_date = '20171022';
 
         $obj = $summary->report()
                 ->from('ACCOUNT_PERFORMANCE_REPORT')
                 ->during($from_date, $to_date)
                 ->select('Date', 'Clicks', 'Impressions', 'AverageCpc', 'Cost')
-                ->getAsObj();
+                ->getAsObj();            
 
         $items = $obj->result;
 
-        return Response::json($items);
+        $return_data = null;
+        foreach($items as $value){
+            $return_data[] = $value;
+        }
+
+        $sorted = array_values(array_sort($return_data, function ($value) {
+            return strtotime($value->day);
+        }));
+
+        return $sorted;
     }
 }
 
