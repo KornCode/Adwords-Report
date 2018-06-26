@@ -11,6 +11,10 @@
 |
 */
 
+if (env('APP_ENV') === 'production') {
+    URL::forceSchema('https');
+}
+
 Route::get('/', function () {
 	// return view('welcome');
 	return redirect()->route('login');
@@ -24,7 +28,7 @@ Route::group(['middleware' => []], function () {
 
 	Route::get('/overview', 'AdsController@showAdwordsSummary')->name('ads.dashboard');
 	Route::post('/overview', 'AdsController@postAdwordsSummary')->name('ads.dashboard.post');
-	Route::get('/debug', 'AdsController@postAdwordsSummary')->name('ads.dashboard');
+	// Route::get('/debug', 'AdsController@postAdwordsSummary')->name('ads.dashboard');
 });
 
 

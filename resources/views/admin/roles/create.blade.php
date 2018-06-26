@@ -1,17 +1,18 @@
 @extends('admin.layout.backend')
-{{-- ll --}}
+
 @section('title')
 Create a new Role
 @endsection
 
 @section('content')
+
 @include('admin.components.errors_box')
 
 <div class="row">
 	<div class="col-sm-4">
 		<form action="{{ route('admin.roles.create.post') }}" method="POST" role="form">
 			{{ csrf_field() }}
-			<div class="box box-success">
+			<div class="box box-info">
 				<div class="box-header with-border">
 					<h3 class="box-title">Create a new Role</h3>
 				</div>
@@ -26,7 +27,7 @@ Create a new Role
 					</div>
 				</div>
 				<div class="box-footer">
-					<button type="submit" class="btn btn-success btn-block">Create New Role</button>
+					<button type="submit" class="btn btn-info btn-block">Create New Role</button>
 				</div>
 			</div>
 		</form>	

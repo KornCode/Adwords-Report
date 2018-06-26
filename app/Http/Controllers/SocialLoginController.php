@@ -33,9 +33,6 @@ class SocialLoginController extends Controller
 		$user->remember_token = $token;
 		$user->save();
 
-		$user->assignRole('user');
-        $user->givePermissionTo('view ads dashboard');
-
 		return $user;
  	}
 
@@ -61,7 +58,6 @@ class SocialLoginController extends Controller
  		if (Input::has('code')) {
  			
  			$user = $provider->stateless()->user();
- 			//dd($user);
  			$name = explode(" ", $user->name);
  			$first_name = $name[0];
  			$last_name = $name[1];
@@ -80,11 +76,9 @@ class SocialLoginController extends Controller
 	 				// Login
 	 				Auth::login($local_user);
 					if ($local_user->hasRole('admin')) {
-						return redirect()->route('admin.dashboard') ;
-					} elseif ($local_user->hasRole('user')) {
-						return redirect()->route('ads.dashboard') ;
+						return redirect()->route('admin.dashboard');
 					} else {
-						return redirect()->route('index');
+						return redirect()->route('ads.dashboard');
 					}
 	 			}
 	 			// Add user meta to new meta table
@@ -92,11 +86,9 @@ class SocialLoginController extends Controller
 		    		$this->registerUserMeta($local_user->id, 'facebook', $facebook_id);
 					Auth::login($local_user);
 					if ($local_user->hasRole('admin')) {
-						return redirect()->route('admin.dashboard') ;
-					} elseif ($local_user->hasRole('user')) {
-						return redirect()->route('ads.dashboard') ;
+						return redirect()->route('admin.dashboard');
 					} else {
-						return redirect()->route('index');
+						return redirect()->route('ads.dashboard');
 					}
 	 			}
 	 		}
@@ -152,11 +144,9 @@ class SocialLoginController extends Controller
 	 				// Login
 	 				Auth::login($local_user);
 					if ($local_user->hasRole('admin')) {
-						return redirect()->route('admin.dashboard') ;
-					} elseif ($local_user->hasRole('user')) {
-						return redirect()->route('ads.dashboard') ;
+						return redirect()->route('admin.dashboard');
 					} else {
-						return redirect()->route('index');
+						return redirect()->route('ads.dashboard');
 					}
 	 			}
 	 			// Add user meta to new meta table
@@ -164,11 +154,9 @@ class SocialLoginController extends Controller
 		    		$this->registerUserMeta($local_user->id, 'github', $github_id);
 					Auth::login($local_user);
 			    	if ($local_user->hasRole('admin')) {
-						return redirect()->route('admin.dashboard') ;
-					} elseif ($local_user->hasRole('user')) {
-						return redirect()->route('ads.dashboard') ;
+						return redirect()->route('admin.dashboard');
 					} else {
-						return redirect()->route('index');
+						return redirect()->route('ads.dashboard');
 					}
 	 			}
 	 		}
@@ -221,12 +209,10 @@ class SocialLoginController extends Controller
 	 			if (UserMeta::where('user_id', '=', $local_user->id)->where('meta_value', '=', $google_id)->exists()) {
 	 				// Login
 	 				Auth::login($local_user);
-					if ($local_user->hasRole('admin')) {
-						return redirect()->route('admin.dashboard') ;
-					} elseif ($local_user->hasRole('user')) {
-						return redirect()->route('ads.dashboard') ;
+					 if ($local_user->hasRole('admin')) {
+						return redirect()->route('admin.dashboard');
 					} else {
-						return redirect()->route('index');
+						return redirect()->route('ads.dashboard');
 					}
 	 			}
 	 			// Add user meta to new meta table
@@ -234,11 +220,9 @@ class SocialLoginController extends Controller
 		    		$this->registerUserMeta($local_user->id, 'google', $google_id);
 		    		Auth::login($local_user);
 			    	if ($local_user->hasRole('admin')) {
-						return redirect()->route('admin.dashboard') ;
-					} elseif ($local_user->hasRole('user')) {
-						return redirect()->route('ads.dashboard') ;
+						return redirect()->route('admin.dashboard');
 					} else {
-						return redirect()->route('index');
+						return redirect()->route('ads.dashboard');
 					}
 	 			}
 	 		}

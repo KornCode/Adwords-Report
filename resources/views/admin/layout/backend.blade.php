@@ -130,8 +130,5 @@
     <!-- AdminLTE App -->
     <script src="{{ asset ("/bower_components/admin-lte/dist/js/adminlte.min.js") }}" type="text/javascript"></script>
 
-    {{-- jQuery Match Height Plugin --}}
-    <script src="jquery.matchHeight.js" type="text/javascript"></script>
-
     </body>
 </html>
