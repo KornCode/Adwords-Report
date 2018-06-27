@@ -25,7 +25,10 @@
               apply the skin class to the body tag so the changes take effect.
         -->
         <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
-
+        
+        <script type="text/javascript">
+            var api_url = "{{ env('API_URL') }}";
+        </script>
         <script src="{{ asset('js/app.js') }}" defer></script>
         {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
         

@@ -56082,7 +56082,6 @@ var app = new Vue({
 /* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
 window._ = __webpack_require__(45);
 window.Popper = __webpack_require__(18).default;
 
@@ -56107,6 +56106,8 @@ try {
 window.axios = __webpack_require__(48);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.axios.defaults.baseURL = api_url;
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -96737,15 +96738,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 var _data = {
-    clicks: '',
-    impressions: '',
-    avgcpc: '',
-    cost: '',
+    clicks: "",
+    impressions: "",
+    avgcpc: "",
+    cost: "",
     config_date: 90, // default when loaded
-    config_key: '', // default when loaded
+    config_key: "", // default when loaded
     is_loading_summary: false,
     datacollection: null,
-    selectOptionsDate: [{ text: 'Today', value: 1 }, { text: 'Yesterday', value: 2 }, { text: 'Last 3 days', value: 3 }, { text: 'Last 7 days', value: 7 }, { text: 'Last 14 days', value: 14 }, { text: 'Last 30 days', value: 30 }, { text: 'Last 3 months', value: 90 }, { text: 'Last 6 months', value: 180 }, { text: 'Last 1 year', value: 365 }, { text: 'All time', value: 3650 }],
+    selectOptionsDate: [{ text: "Today", value: 1 }, { text: "Yesterday", value: 2 }, { text: "Last 3 days", value: 3 }, { text: "Last 7 days", value: 7 }, { text: "Last 14 days", value: 14 }, { text: "Last 30 days", value: 30 }, { text: "Last 3 months", value: 90 }, { text: "Last 6 months", value: 180 }, { text: "Last 1 year", value: 365 }, { text: "All time", value: 3650 }],
     selectOptionsKey: [],
     options: {
         responsive: true,
@@ -96764,22 +96765,22 @@ var _data = {
         },
         scales: {
             yAxes: [{
-                id: 'CLICK_AXIS',
-                type: 'linear',
-                position: 'left',
+                id: "CLICK_AXIS",
+                type: "linear",
+                position: "left",
                 gridLines: {
                     display: false
                 }
             }, {
-                id: 'COST_AXIS',
-                type: 'linear',
-                position: 'right',
+                id: "COST_AXIS",
+                type: "linear",
+                position: "right",
                 gridLines: {
                     display: false
                 },
                 ticks: {
                     callback: function callback(label, index, labels) {
-                        return '฿' + label;
+                        return "฿" + label;
                     }
                 }
             }]
@@ -96796,8 +96797,10 @@ var _data = {
         getData: function getData() {
             var self = this;
             self.is_loading_summary = true;
-            axios.post('http://localhost:8000/overview', { config_date: this.config_date, config_key: this.config_key }).then(function (response) {
-
+            axios.post("/overview", {
+                config_date: this.config_date,
+                config_key: this.config_key
+            }).then(function (response) {
                 var date = [];
                 var clicks = [];
                 var impressions = [];
@@ -96813,65 +96816,69 @@ var _data = {
                 });
 
                 /*
-                |-------------------------------------------
-                | Ads Key Mananagement
-                |-------------------------------------------
-                */
+                    |-------------------------------------------
+                    | Ads Key Mananagement
+                    |-------------------------------------------
+                    */
                 self.selectOptionsKey = [];
                 _.each(response.data[1], function (val) {
-                    var obj = { text: '', value: '' };
+                    var obj = { text: "", value: "" };
                     obj.text = val;
                     obj.value = val;
-                    self.selectOptionsKey.push({ text: obj.text, value: obj.value });
+                    self.selectOptionsKey.push({
+                        text: obj.text,
+                        value: obj.value
+                    });
                 });
 
                 /*
-                |-------------------------------------------
-                | Chart Mananagement
-                |-------------------------------------------
-                */
+                    |-------------------------------------------
+                    | Chart Mananagement
+                    |-------------------------------------------
+                    */
                 var click_dataset = {
-                    label: 'Clicks',
+                    label: "Clicks",
                     fill: false,
-                    borderColor: '#0073b7',
+                    borderColor: "#0073b7",
                     borderWidth: 2,
                     data: clicks,
-                    yAxisID: 'CLICK_AXIS'
+                    yAxisID: "CLICK_AXIS"
                 };
                 var impression_dataset = {
-                    label: 'Impressions',
+                    label: "Impressions",
                     fill: false,
                     hidden: true,
-                    borderColor: 'rgba(255, 44, 44, 1)',
+                    borderColor: "rgba(255, 44, 44, 1)",
                     borderWidth: 2,
                     data: impressions
                 };
                 var averageCPC_dataset = {
-                    label: 'AverageCPC',
+                    label: "AverageCPC",
                     fill: false,
                     hidden: true,
-                    borderColor: 'rgba(255, 155, 45, 1)',
+                    borderColor: "rgba(255, 155, 45, 1)",
                     borderWidth: 2,
                     data: avgcpc
                 };
                 var cost_dataset = {
-                    label: 'Cost',
+                    label: "Cost",
                     fill: false,
-                    borderColor: '#00a65a',
+                    borderColor: "#00a65a",
                     borderWidth: 2,
                     data: cost,
-                    yAxisID: 'COST_AXIS'
+                    yAxisID: "COST_AXIS"
                 };
                 self.datacollection = {
                     labels: date,
                     datasets: [click_dataset, impression_dataset, averageCPC_dataset, cost_dataset]
+                };
 
-                    /*
+                /*
                     |-------------------------------------------
                     | Box Mananagement
                     |-------------------------------------------
                     */
-                };self.clicks = clicks.reduce(function (sum, click) {
+                self.clicks = clicks.reduce(function (sum, click) {
                     return sum + click;
                 }, 0);
                 self.clicks = insertComma(self.clicks);
@@ -96895,7 +96902,7 @@ var _data = {
 
                 self.is_loading_summary = false;
             }).catch(function (error) {
-                alert('Error loading data. \nSelected key or registered key is not found.');
+                alert("Error loading data. \nSelected key or registered key is not found.");
             });
         }
     },
