@@ -48,6 +48,8 @@ class AdsController extends Controller {
 
         $summary = new GoogleAds();
 
+        $config_key = NULL;
+
         /*
 		|---------------------------------------
 		| Key Mananagement
@@ -58,7 +60,9 @@ class AdsController extends Controller {
         }
         else {
             $config_key_temp = UserMeta::where('user_id', '=', Auth::user()->id)->where('meta_key', '=', 'adwords')->first();
-            $config_key = $config_key_temp->meta_value;
+            if ($config_key_temp) {
+                $config_key = $config_key_temp->meta_value;
+            }
         }
         
         $summary->session([
