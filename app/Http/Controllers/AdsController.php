@@ -84,6 +84,7 @@ class AdsController extends Controller {
 
         $return_data = null;
         foreach($items as $value){
+            $value->day = date('d/m/Y', strtotime($value->day));
             $return_data[] = $value;
         }
 

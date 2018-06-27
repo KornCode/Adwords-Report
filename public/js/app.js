@@ -96235,27 +96235,27 @@ var _data = {
                     | Box Mananagement
                     |-------------------------------------------
                     */
-                };_data.clicks = clicks.reduce(function (sum, click) {
+                };self.clicks = clicks.reduce(function (sum, click) {
                     return sum + click;
                 }, 0);
-                _data.clicks = insertComma(_data.clicks);
+                self.clicks = insertComma(self.clicks);
 
-                _data.impressions = impressions.reduce(function (sum, impression) {
+                self.impressions = impressions.reduce(function (sum, impression) {
                     return sum + impression;
                 }, 0);
-                _data.impressions = insertComma(_data.impressions);
+                self.impressions = insertComma(self.impressions);
 
-                _data.avgcpc = avgcpc.reduce(function (sum, avgcpc) {
+                self.avgcpc = avgcpc.reduce(function (sum, avgcpc) {
                     return sum + avgcpc;
                 }, 0) / avgcpc.length;
-                _data.avgcpc = _data.avgcpc.toFixed(2);
-                _data.avgcpc = insertComma(_data.avgcpc);
+                self.avgcpc = self.avgcpc.toFixed(2);
+                self.avgcpc = insertComma(self.avgcpc);
 
-                _data.cost = cost.reduce(function (sum, cost) {
+                self.cost = cost.reduce(function (sum, cost) {
                     return sum + cost;
                 }, 0);
-                _data.cost = _data.cost.toFixed(2);
-                _data.cost = insertComma(_data.cost);
+                self.cost = self.cost.toFixed(2);
+                self.cost = insertComma(self.cost);
 
                 self.is_loading_summary = false;
             }).catch(function (error) {
@@ -96298,25 +96298,25 @@ var render = function() {
             },
             [
               _vm.config_date == 1
-                ? _c("div", [_vm._v("Summary Today")])
+                ? _c("div", [_vm._v("Summary - Today")])
                 : _vm.config_date == 2
-                  ? _c("div", [_vm._v("Summary Yesterday")])
+                  ? _c("div", [_vm._v("Summary - Yesterday")])
                   : _vm.config_date == 3
-                    ? _c("div", [_vm._v("Summary Last 3 Days")])
+                    ? _c("div", [_vm._v("Summary - Last 3 Days")])
                     : _vm.config_date == 7
-                      ? _c("div", [_vm._v("Summary Last 7 Days")])
+                      ? _c("div", [_vm._v("Summary - Last 7 Days")])
                       : _vm.config_date == 14
-                        ? _c("div", [_vm._v("Summary Last 14 Days")])
+                        ? _c("div", [_vm._v("Summary - Last 14 Days")])
                         : _vm.config_date == 30
-                          ? _c("div", [_vm._v("Summary Last 30 Days")])
+                          ? _c("div", [_vm._v("Summary - Last 30 Days")])
                           : _vm.config_date == 90
-                            ? _c("div", [_vm._v("Summary Last 3 Months")])
+                            ? _c("div", [_vm._v("Summary - Last 3 Months")])
                             : _vm.config_date == 180
-                              ? _c("div", [_vm._v("Summary Last 6 Months")])
+                              ? _c("div", [_vm._v("Summary - Last 6 Months")])
                               : _vm.config_date == 1365
-                                ? _c("div", [_vm._v("Summary Last 1 Year")])
+                                ? _c("div", [_vm._v("Summary - Last 1 Year")])
                                 : _vm.config_date == 3650
-                                  ? _c("div", [_vm._v("Summary All Time")])
+                                  ? _c("div", [_vm._v("Summary - All Time")])
                                   : _vm._e()
             ]
           ),
@@ -96793,9 +96793,6 @@ var _data = {
         return _data;
     },
     methods: {
-        // changeDate: function() {
-        //     this.config = this.selectOptions.value;
-        // },
         getData: function getData() {
             var self = this;
             self.is_loading_summary = true;
@@ -96821,7 +96818,7 @@ var _data = {
                 |-------------------------------------------
                 */
                 self.selectOptionsKey = [];
-                response.data[1].forEach(function (val) {
+                _.each(response.data[1], function (val) {
                     var obj = { text: '', value: '' };
                     obj.text = val;
                     obj.value = val;
@@ -96874,27 +96871,27 @@ var _data = {
                     | Box Mananagement
                     |-------------------------------------------
                     */
-                };_data.clicks = clicks.reduce(function (sum, click) {
+                };self.clicks = clicks.reduce(function (sum, click) {
                     return sum + click;
                 }, 0);
-                _data.clicks = insertComma(_data.clicks);
+                self.clicks = insertComma(self.clicks);
 
-                _data.impressions = impressions.reduce(function (sum, impression) {
+                self.impressions = impressions.reduce(function (sum, impression) {
                     return sum + impression;
                 }, 0);
-                _data.impressions = insertComma(_data.impressions);
+                self.impressions = insertComma(self.impressions);
 
-                _data.avgcpc = avgcpc.reduce(function (sum, avgcpc) {
+                self.avgcpc = avgcpc.reduce(function (sum, avgcpc) {
                     return sum + avgcpc;
                 }, 0) / avgcpc.length;
-                _data.avgcpc = _data.avgcpc.toFixed(2);
-                _data.avgcpc = insertComma(_data.avgcpc);
+                self.avgcpc = self.avgcpc.toFixed(2);
+                self.avgcpc = insertComma(self.avgcpc);
 
-                _data.cost = cost.reduce(function (sum, cost) {
+                self.cost = cost.reduce(function (sum, cost) {
                     return sum + cost;
                 }, 0);
-                _data.cost = _data.cost.toFixed(2);
-                _data.cost = insertComma(_data.cost);
+                self.cost = self.cost.toFixed(2);
+                self.cost = insertComma(self.cost);
 
                 self.is_loading_summary = false;
             }).catch(function (error) {
@@ -96941,25 +96938,25 @@ var render = function() {
             },
             [
               _vm.config_date == 1
-                ? _c("div", [_vm._v("Summary Today")])
+                ? _c("div", [_vm._v("Summary - Today")])
                 : _vm.config_date == 2
-                  ? _c("div", [_vm._v("Summary Yesterday")])
+                  ? _c("div", [_vm._v("Summary - Yesterday")])
                   : _vm.config_date == 3
-                    ? _c("div", [_vm._v("Summary Last 3 Days")])
+                    ? _c("div", [_vm._v("Summary - Last 3 Days")])
                     : _vm.config_date == 7
-                      ? _c("div", [_vm._v("Summary Last 7 Days")])
+                      ? _c("div", [_vm._v("Summary - Last 7 Days")])
                       : _vm.config_date == 14
-                        ? _c("div", [_vm._v("Summary Last 14 Days")])
+                        ? _c("div", [_vm._v("Summary - Last 14 Days")])
                         : _vm.config_date == 30
-                          ? _c("div", [_vm._v("Summary Last 30 Days")])
+                          ? _c("div", [_vm._v("Summary - Last 30 Days")])
                           : _vm.config_date == 90
-                            ? _c("div", [_vm._v("Summary Last 3 Months")])
+                            ? _c("div", [_vm._v("Summary - Last 3 Months")])
                             : _vm.config_date == 180
-                              ? _c("div", [_vm._v("Summary Last 6 Months")])
+                              ? _c("div", [_vm._v("Summary - Last 6 Months")])
                               : _vm.config_date == 1365
-                                ? _c("div", [_vm._v("Summary Last 1 Year")])
+                                ? _c("div", [_vm._v("Summary - Last 1 Year")])
                                 : _vm.config_date == 3650
-                                  ? _c("div", [_vm._v("Summary All Time")])
+                                  ? _c("div", [_vm._v("Summary - All Time")])
                                   : _vm._e()
             ]
           ),

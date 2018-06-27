@@ -4,16 +4,16 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">
-                        <div v-if="config_date == 1">Summary Today</div>
-                        <div v-else-if="config_date == 2">Summary Yesterday</div>
-                        <div v-else-if="config_date == 3">Summary Last 3 Days</div>
-                        <div v-else-if="config_date == 7">Summary Last 7 Days</div>
-                        <div v-else-if="config_date == 14">Summary Last 14 Days</div>
-                        <div v-else-if="config_date == 30">Summary Last 30 Days</div>
-                        <div v-else-if="config_date == 90">Summary Last 3 Months</div>
-                        <div v-else-if="config_date == 180">Summary Last 6 Months</div>
-                        <div v-else-if="config_date == 1365">Summary Last 1 Year</div>
-                        <div v-else-if="config_date == 3650">Summary All Time</div>
+                        <div v-if="config_date == 1">Summary - Today</div>
+                        <div v-else-if="config_date == 2">Summary - Yesterday</div>
+                        <div v-else-if="config_date == 3">Summary - Last 3 Days</div>
+                        <div v-else-if="config_date == 7">Summary - Last 7 Days</div>
+                        <div v-else-if="config_date == 14">Summary - Last 14 Days</div>
+                        <div v-else-if="config_date == 30">Summary - Last 30 Days</div>
+                        <div v-else-if="config_date == 90">Summary - Last 3 Months</div>
+                        <div v-else-if="config_date == 180">Summary - Last 6 Months</div>
+                        <div v-else-if="config_date == 1365">Summary - Last 1 Year</div>
+                        <div v-else-if="config_date == 3650">Summary - All Time</div>
                     </h2>
                     <div class="btn-group" style="float: right;">
                         <select v-model="config_date" class="selectpicker show-tick" data-width="200px">
@@ -255,27 +255,27 @@
                         | Box Mananagement
                         |-------------------------------------------
                         */
-                        data.clicks = clicks.reduce((sum, click) => {
+                        self.clicks = clicks.reduce((sum, click) => {
                             return sum + click
                         }, 0);
-                        data.clicks = insertComma(data.clicks);
+                        self.clicks = insertComma(self.clicks);
 
-                        data.impressions = impressions.reduce((sum, impression) => {
+                        self.impressions = impressions.reduce((sum, impression) => {
                             return sum + impression
                         }, 0);
-                        data.impressions = insertComma(data.impressions);
+                        self.impressions = insertComma(self.impressions);
 
-                        data.avgcpc = avgcpc.reduce((sum, avgcpc) => {
+                        self.avgcpc = avgcpc.reduce((sum, avgcpc) => {
                             return sum + avgcpc
                         }, 0) / avgcpc.length;
-                        data.avgcpc = data.avgcpc.toFixed(2);
-                        data.avgcpc = insertComma(data.avgcpc);
+                        self.avgcpc = self.avgcpc.toFixed(2);
+                        self.avgcpc = insertComma(self.avgcpc);
 
-                        data.cost = cost.reduce((sum, cost) => {
+                        self.cost = cost.reduce((sum, cost) => {
                             return sum + cost
                         }, 0);
-                        data.cost = data.cost.toFixed(2);
-                        data.cost = insertComma(data.cost);
+                        self.cost = self.cost.toFixed(2);
+                        self.cost = insertComma(self.cost);
                         
                         self.is_loading_summary = false;
                     })
