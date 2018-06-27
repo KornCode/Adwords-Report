@@ -4,16 +4,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">
-                        <div v-if="config_date == 1">Summary - Today</div>
-                        <div v-else-if="config_date == 2">Summary - Yesterday</div>
-                        <div v-else-if="config_date == 3">Summary - Last 3 Days</div>
-                        <div v-else-if="config_date == 7">Summary - Last 7 Days</div>
-                        <div v-else-if="config_date == 14">Summary - Last 14 Days</div>
-                        <div v-else-if="config_date == 30">Summary - Last 30 Days</div>
-                        <div v-else-if="config_date == 90">Summary - Last 3 Months</div>
-                        <div v-else-if="config_date == 180">Summary - Last 6 Months</div>
-                        <div v-else-if="config_date == 1365">Summary - Last 1 Year</div>
-                        <div v-else-if="config_date == 3650">Summary - All Time</div>
+                        รายงาน
                     </h2>
                     <div class="btn-group" style="float: right;">
                         <select v-model="config_date" class="selectpicker show-tick" data-width="200px">
@@ -25,14 +16,12 @@
                 </div>
             </div>
 
-            <div class="box box-default">
+            <div class="box box-default" v-if="this.config_date != 'today' && this.config_date != 'yesterday'">
                 <div class="box-body">
-                    <div v-if="this.config_date === 1">
-                        <div style="font-size: 20px;">
-                            Chart do not show for selected date.
-                        </div>
+                    <div v-if="is_loading_summary" class="text-center" style="padding: 4rem 0">
+                        <i class="fa fa-refresh fa-spin fa-3x"></i>
                     </div>
-                    <div v-else>
+                    <div v-if="!is_loading_summary">
                         <test-chart :chart-data="datacollection" :options="options" :height="420" />
                     </div>
                 </div>
@@ -118,20 +107,19 @@ let data = {
     impressions: "",
     avgcpc: "",
     cost: "",
-    config_date: 30, // default when loaded
+    config_date: "first day of this month", // default when loaded
     is_loading_summary: false,
     datacollection: null,
     selectOptions: [
-        { text: "Today", value: 1 },
-        { text: "Yesterday", value: 2 },
-        { text: "Last 3 days", value: 3 },
-        { text: "Last 7 days", value: 7 },
-        { text: "Last 14 days", value: 14 },
-        { text: "Last 30 days", value: 30 },
-        { text: "Last 3 months", value: 90 },
-        { text: "Last 6 months", value: 180 },
-        { text: "Last 1 year", value: 365 },
-        { text: "All time", value: 3650 }
+        { text: "วันนี้", value: "today" },
+        { text: "เมื่อวาน", value: "yesterday" },
+        { text: "7 วันล่าสุด", value: "-7 days" },
+        { text: "14 วันล่าสุด", value: "-14 days" },
+        { text: "เดือนนี้", value: "first day of this month" },
+        { text: "เดือนก่อนหน้า", value: "first day of last month" },
+        { text: "6 เดือนล่าสุด", value: "-6 months" },
+        { text: "1 ปีล่าสุด", value: "-12 months" },
+        { text: "ทั้งหมด", value: "-120 months" }
     ],
     options: {
         responsive: true,
@@ -186,7 +174,7 @@ export default {
             let self = this;
             self.is_loading_summary = true;
             axios
-                .post("/overview", { config: this.config_date })
+                .post("/overview", { config_date: this.config_date })
                 .then(response => {
                     let date = [];
                     let clicks = [];
