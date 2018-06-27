@@ -41,19 +41,14 @@ Members Management
 								@endforeach
 							</td>
 							<td>
-								{{ $member->getAdwordsId() }}
+								@if ($member->getAdwordsId())
+									{{ $member->getAdwordsId() }}
+								@else
+									-
+								@endif
 							</td>
 							<td>
 								<a href="{{ route('admin.members.edit', ['id' => $member->id]) }}" style="width: 60px;" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-							</td>
-						</tr>
-						@endforeach
-						@foreach($ads_keys as $ads_key)
-						<tr>
-							<td>
-								{{-- @foreach($ads_key->key as $key) --}}
-								<span class="label label-success" style="font-size: 14px;">{{ $ads_key->meta_value }}</span>
-								{{-- @endforeach --}}
 							</td>
 						</tr>
 						@endforeach
