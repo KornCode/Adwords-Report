@@ -1,5 +1,5 @@
 @extends('admin.layout.backend')
-{{-- n --}}
+
 @section('title')
 Edit Permission #{{ $permission->id }}
 @endsection
@@ -9,15 +9,15 @@ Edit Permission #{{ $permission->id }}
 @include('admin.components.errors_box')
 
 <div class="row">
-	<form action="{{ route('admin.permissions.edit.post') }}" method="POST" role="form">
-		{{ csrf_field() }}
-		<div class="col-sm-4">
+	<div class="col-sm-4">
+		<form action="{{ route('admin.permissions.edit.post') }}" method="POST" role="form">
+			{{ csrf_field() }}
+			<input type="hidden" name="permission_id" value="{{ $permission->id }}">
 			<div class="box box-warning">
 				<div class="box-header with-border">
 					<h3 class="box-title">Editing Permission #{{ $permission->id }} - {{ $permission->guard_name }} - {{ $permission->name }}</h3>
 				</div>
 				<div class="box-body">
-					<input type="hidden" name="permission_id" value="{{ $permission->id }}">
 					<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 						<label for="name" class="control-label">Name</label>
 						<input type="text" name="name" class="form-control" placeholder="Role name" value="{{ $permission->name }}" />
@@ -26,13 +26,13 @@ Edit Permission #{{ $permission->id }}
 						<label for="name" class="control-label">Guard Name</label>
 						<input type="text" name="guard_name" class="form-control" placeholder="Guard name" value="{{ $permission->guard_name }}" />
 					</div>
-					<div class="box-footer">
-						<button type="submit" class="btn btn-warning btn-block">Submit</button>
-					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-warning btn-block">Submit</button>
 				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
 </div>
 
 <div class="row">
@@ -60,6 +60,6 @@ Edit Permission #{{ $permission->id }}
 		</form>
 	</div>
 </div>
-	
+
 @endsection
 

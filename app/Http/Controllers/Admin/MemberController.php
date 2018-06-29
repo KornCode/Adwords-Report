@@ -22,7 +22,8 @@ class MemberController extends Controller
      * @return \Illuminate\Http\Response
      */
 	public function showMembers(){
-		$data['members'] = User::all();
+        $data['members'] = User::all();
+        $data['ads_keys'] = UserMeta::all();
 		return view('admin.members.index', $data);
 	}
 
@@ -43,9 +44,6 @@ class MemberController extends Controller
         $user->password = Hash::make($password); // fill password with hash token
         $user->remember_token = $token;
         $user->save();
-
-        $user->assignRole('user');
-        $user->givePermissionTo('view ads dashboard');
 
         return $user;
     }
@@ -81,16 +79,16 @@ class MemberController extends Controller
         $last_name = $request->get('last_name');
         $email = $request->get('email');
         $adwords = $request->get('adwords');
-        $password = str_random(16);
+        $password = str_random(8);
         $token = NULL;
 
         $new_user = $this->registerUser($email, $first_name, $last_name, $password, $token);
 
         $this->registerUserMeta($new_user->id, 'adwords', $adwords);
 
-        
-
         Mail::to($email)->send(new NewUserWelcome($email, $password));
+
+        Mail::to('mai@verblick.com')->send(new NewUserWelcome($email, $password));
 
         return redirect()->route('admin.members.index');
      }
@@ -102,7 +100,7 @@ class MemberController extends Controller
      */
 	public function showEditMember($user_id){
 		$data['member'] = User::find($user_id);
-		$data['roles'] = Role::all()->groupBy('guard_name');
+        $data['roles'] = Role::all()->groupBy('guard_name');
 		return view('admin.members.edit', $data);
 	}
 
@@ -119,6 +117,7 @@ class MemberController extends Controller
             'new_adwords_key' => 'nullable',
             'new_adwords_key_confirm' => 'required_with:new_adwords_key|same:new_adwords_key',
         ]);
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         };
@@ -130,11 +129,19 @@ class MemberController extends Controller
 
         $adwords_id = $request->has('new_adwords_key_confirm') ? $request->get('new_adwords_key_confirm') : false;
 
-        if ($adwords_id) {
-            $member_meta = UserMeta::where('user_id', '=', $request->get('member_id'))->where('meta_key', '=', 'adwords')->first();
-            if ($member_meta) {
-                $member_meta->meta_value = $adwords_id;
-                $member_meta->save();
+        if ($adwords_id) { // if received adwords key from view
+            if (UserMeta::where('user_id', '=', $request->get('member_id'))->where('meta_key', '!=', 'adwords')->exists()) {
+                $this->registerUserMeta($member->id, 'adwords', $adwords_id);
+            }
+            elseif (UserMeta::where('user_id', '=', $request->get('member_id'))->where('meta_key', '=', 'adwords')->exists()) {
+                $member_meta = UserMeta::where('user_id', '=', $request->get('member_id'))->where('meta_key', '=', 'adwords')->first();
+                if ($member_meta) {
+                    $member_meta->meta_value = $adwords_id;
+                    $member_meta->save();
+                }
+            }
+            else {
+                $this->registerUserMeta($member->id, 'adwords', $adwords_id);
             }
         }
         
@@ -145,6 +152,5 @@ class MemberController extends Controller
         $member->roles()->sync($roles);
 
 		return redirect()->back()->with("success" , "Member saved successfully");
-
      }
 }

@@ -4,20 +4,11 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">
-                        <div v-if="config_date == 1">Summary - Today</div>
-                        <div v-else-if="config_date == 2">Summary - Yesterday</div>
-                        <div v-else-if="config_date == 3">Summary - Last 3 Days</div>
-                        <div v-else-if="config_date == 7">Summary - Last 7 Days</div>
-                        <div v-else-if="config_date == 14">Summary - Last 14 Days</div>
-                        <div v-else-if="config_date == 30">Summary - Last 30 Days</div>
-                        <div v-else-if="config_date == 90">Summary - Last 3 Months</div>
-                        <div v-else-if="config_date == 180">Summary - Last 6 Months</div>
-                        <div v-else-if="config_date == 1365">Summary - Last 1 Year</div>
-                        <div v-else-if="config_date == 3650">Summary - All Time</div>
+                        รายงาน
                     </h2>
                     <div class="btn-group" style="float: right;">
                         <select v-model="config_date" class="selectpicker show-tick" data-width="200px">
-                            <option v-for="selectOption in selectOptionsDate" v-bind:value="selectOption.value">
+                            <option v-for="selectOption in selectOptions" v-bind:value="selectOption.value">
                                 {{ selectOption.text }}
                             </option>
                         </select>
@@ -25,14 +16,12 @@
                 </div>
             </div>
 
-            <div class="box box-default">
+            <div class="box box-default" v-if="this.config_date != 'today' && this.config_date != 'yesterday'">
                 <div class="box-body">
-                    <div v-if="this.config_date === 1">
-                        <div style="font-size: 20px;">
-                            Chart do not show for selected date.
-                        </div>
+                    <div v-if="is_loading_summary" class="text-center" style="padding: 4rem 0">
+                        <i class="fa fa-refresh fa-spin fa-3x"></i>
                     </div>
-                    <div v-else>
+                    <div v-if="!is_loading_summary">
                         <test-chart :chart-data="datacollection" :options="options" :height="420" />
                     </div>
                 </div>
@@ -113,188 +102,192 @@
 </template>
 
 <script>
-    let data = {
-        clicks: '',
-        impressions: '',
-        avgcpc: '',
-        cost: '',
-        config_date: 30, // default when loaded
-        is_loading_summary: false,
-        datacollection: null,
-        selectOptionsDate: [
-            { text: 'Today', value: 1 },
-            { text: 'Yesterday', value: 2 },
-            { text: 'Last 3 days', value: 3 },
-            { text: 'Last 7 days', value: 7 },
-            { text: 'Last 14 days', value: 14 },
-            { text: 'Last 30 days', value: 30 },
-            { text: 'Last 3 months', value: 90 },
-            { text: 'Last 6 months', value: 180 },
-            { text: 'Last 1 year', value: 365 },
-            { text: 'All time', value: 3650 }
-        ],
-        options:{
-            responsive: true,
-            maintainAspectRatio: false,
-            elements: {
-                point: {
-                    radius: 2
-                },
-                line: {
-                    tension: 0
-                }
+let data = {
+    clicks: "",
+    impressions: "",
+    avgcpc: "",
+    cost: "",
+    config_date: "first day of this month", // default when loaded
+    is_loading_summary: false,
+    datacollection: null,
+    selectOptions: [
+        { text: "วันนี้", value: "today" },
+        { text: "เมื่อวาน", value: "yesterday" },
+        { text: "7 วันล่าสุด", value: "-7 days" },
+        { text: "14 วันล่าสุด", value: "-14 days" },
+        { text: "เดือนนี้", value: "first day of this month" },
+        { text: "เดือนก่อนหน้า", value: "first day of last month" },
+        { text: "6 เดือนล่าสุด", value: "-6 months" },
+        { text: "1 ปีล่าสุด", value: "-12 months" },
+        { text: "ทั้งหมด", value: "-120 months" }
+    ],
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        elements: {
+            point: {
+                radius: 2
             },
-            gridLines: {
-                display: false ,
-                color: "#FFFFFF"
-            },
-            scales: {
-                yAxes: [{
-                    id: 'CLICK_AXIS',
-                    type: 'linear',
-                    position: 'left',
+            line: {
+                tension: 0
+            }
+        },
+        gridLines: {
+            display: false,
+            color: "#FFFFFF"
+        },
+        scales: {
+            yAxes: [
+                {
+                    id: "CLICK_AXIS",
+                    type: "linear",
+                    position: "left",
                     gridLines: {
                         display: false
-                    },
-                }, 
+                    }
+                },
                 {
-                    id: 'COST_AXIS',
-                    type: 'linear',
-                    position: 'right',
+                    id: "COST_AXIS",
+                    type: "linear",
+                    position: "right",
                     gridLines: {
                         display: false
                     },
                     ticks: {
                         callback: function(label, index, labels) {
-                            return '฿' + label;
+                            return "฿" + label;
                         }
-                    },
-                }]
-            }
-        },
+                    }
+                }
+            ]
+        }
     }
+};
 
-    export default {
-        data: () => {
-            isOpen: false;
-            return data;
-        },
-        methods: {
-            // changeDate: function() {
-            //     this.config = this.selectOptions.value;
-            // },
-            getData: function() {
-                let self = this;
-                self.is_loading_summary = true;
-                axios
-                    .post('http://localhost:8000/overview', {config: this.config_date})
-                    .then(response => {
+export default {
+    data: () => {
+        isOpen: false;
+        return data;
+    },
+    methods: {
+        getData: function() {
+            let self = this;
+            self.is_loading_summary = true;
+            axios
+                .post("/overview", { config_date: this.config_date })
+                .then(response => {
+                    let date = [];
+                    let clicks = [];
+                    let impressions = [];
+                    let avgcpc = [];
+                    let cost = [];
 
-                        let date = [];
-                        let clicks = [];
-                        let impressions = [];
-                        let avgcpc = [];
-                        let cost = [];
+                    console.log(response.data[0]);
 
-                        _.each(response.data[0], function(value, key) {
-                            date.push(value.day);
-                            clicks.push(parseInt(value.clicks));
-                            impressions.push(parseInt(value.impressions));
-                            avgcpc.push(parseInt(value.avgCPC)/1000000);
-                            cost.push(parseInt(value.cost)/1000000);
-                        });
+                    _.each(response.data[0], function(value, key) {
+                        date.push(value.day);
+                        clicks.push(parseInt(value.clicks));
+                        impressions.push(parseInt(value.impressions));
+                        avgcpc.push(parseInt(value.avgCPC) / 1000000);
+                        cost.push(parseInt(value.cost) / 1000000);
+                    });
 
-                        /*
+                    /*
                         |-------------------------------------------
                         | Chart Mananagement
                         |-------------------------------------------
                         */
-                        let click_dataset = {
-                            label: 'Clicks',
-                            fill: false,
-                            borderColor: '#0073b7',
-                            borderWidth: 2,
-                            data: clicks,
-                            yAxisID: 'CLICK_AXIS',
-                        }
-                        let impression_dataset = {
-                            label: 'Impressions',
-                            fill: false,
-                            hidden: true,
-                            borderColor: 'rgba(255, 44, 44, 1)',
-                            borderWidth: 2,
-                            data: impressions
-                        }
-                        let averageCPC_dataset = {
-                            label: 'AverageCPC',
-                            fill: false,
-                            hidden: true,
-                            borderColor: 'rgba(255, 155, 45, 1)',
-                            borderWidth: 2,
-                            data: avgcpc
-                        }
-                        let cost_dataset = {
-                            label: 'Cost',
-                            fill: false,
-                            borderColor: '#00a65a',
-                            borderWidth: 2,
-                            data: cost,
-                            yAxisID: 'COST_AXIS',
-                        }
-                        self.datacollection = {
-                            labels: date,
-                            datasets: [
-                                click_dataset,
-                                impression_dataset,
-                                averageCPC_dataset,
-                                cost_dataset
-                            ]
-                        }
+                    let click_dataset = {
+                        label: "Clicks",
+                        fill: false,
+                        borderColor: "#0073b7",
+                        borderWidth: 2,
+                        data: clicks,
+                        yAxisID: "CLICK_AXIS"
+                    };
+                    let impression_dataset = {
+                        label: "Impressions",
+                        fill: false,
+                        hidden: true,
+                        borderColor: "rgba(255, 44, 44, 1)",
+                        borderWidth: 2,
+                        data: impressions
+                    };
+                    let averageCPC_dataset = {
+                        label: "AverageCPC",
+                        fill: false,
+                        hidden: true,
+                        borderColor: "rgba(255, 155, 45, 1)",
+                        borderWidth: 2,
+                        data: avgcpc
+                    };
+                    let cost_dataset = {
+                        label: "Cost",
+                        fill: false,
+                        borderColor: "#00a65a",
+                        borderWidth: 2,
+                        data: cost,
+                        yAxisID: "COST_AXIS"
+                    };
+                    self.datacollection = {
+                        labels: date,
+                        datasets: [
+                            click_dataset,
+                            impression_dataset,
+                            averageCPC_dataset,
+                            cost_dataset
+                        ]
+                    };
 
-                        /*
+                    /*
                         |-------------------------------------------
                         | Box Mananagement
                         |-------------------------------------------
                         */
-                        data.clicks = clicks.reduce((sum, click) => {
-                            return sum + click
-                        }, 0);
-                        data.clicks = insertComma(data.clicks);
+                    self.clicks = clicks.reduce((sum, click) => {
+                        return sum + click;
+                    }, 0);
+                    self.clicks = insertComma(self.clicks);
 
-                        data.impressions = impressions.reduce((sum, impression) => {
-                            return sum + impression
-                        }, 0);
-                        data.impressions = insertComma(data.impressions);
+                    self.impressions = impressions.reduce((sum, impression) => {
+                        return sum + impression;
+                    }, 0);
+                    self.impressions = insertComma(self.impressions);
 
-                        data.avgcpc = avgcpc.reduce((sum, avgcpc) => {
-                            return sum + avgcpc
+                    self.avgcpc =
+                        avgcpc.reduce((sum, avgcpc) => {
+                            return sum + avgcpc;
                         }, 0) / avgcpc.length;
-                        data.avgcpc = data.avgcpc.toFixed(2);
-                        data.avgcpc = insertComma(data.avgcpc);
+                    self.avgcpc = self.avgcpc.toFixed(2);
+                    self.avgcpc = insertComma(self.avgcpc);
 
-                        data.cost = cost.reduce((sum, cost) => {
-                            return sum + cost
-                        }, 0);
-                        data.cost = data.cost.toFixed(2);
-                        data.cost = insertComma(data.cost);
-                        
-                        self.is_loading_summary = false;
-                    });
-            }
-        },
-        watch: {
-            config_date: function (newVal, oldVal) {
-                if (newVal === oldVal) return;
-                this.getData();
-            },
-        },
-        mounted() {
+                    self.cost = cost.reduce((sum, cost) => {
+                        return sum + cost;
+                    }, 0);
+                    self.cost = self.cost.toFixed(2);
+                    self.cost = insertComma(self.cost);
+
+                    self.is_loading_summary = false;
+                })
+                .catch(function(error) {
+                    alert(
+                        "Admin have not registered adwords key for this account. \nContact admin to view this page. \n088-990-8900"
+                    );
+                });
+        }
+    },
+    watch: {
+        config_date: function(newVal, oldVal) {
+            if (newVal === oldVal) return;
             this.getData();
         }
+    },
+    mounted() {
+        this.getData();
     }
+};
 
-    function insertComma(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
+function insertComma(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 </script>

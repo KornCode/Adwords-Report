@@ -21,6 +21,7 @@ Members Management
 							<th>Name</th>
 							<th>Email</th>
 							<th>Roles</th>
+							<th>Ads Key</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -31,17 +32,20 @@ Members Management
 							<td>{{ $member->first_name.' '.$member->last_name }}</td>
 							<td>{{ $member->email }}</td>
 							<td>
-
 								@foreach($member->roles as $role)
-									@if ($role->name == 'user')
+									@if ($role->name == 'admin')
 										<span class="label label-success" style="font-size: 14px;">{{ $role->name }}</span>
-									@elseif ($role->name == 'admin')
-										<span class="label label-primary" style="font-size: 14px;">{{ $role->name }}</span>
 									@else
-										<span class="label label-warning" style="font-size: 14px;">{{ $role->name }}</span>
+										<span class="label label-primary" style="font-size: 14px;"> user </span>
 									@endif
 								@endforeach
-
+							</td>
+							<td>
+								@if ($member->getAdwordsId())
+									{{ $member->getAdwordsId() }}
+								@else
+									-
+								@endif
 							</td>
 							<td>
 								<a href="{{ route('admin.members.edit', ['id' => $member->id]) }}" style="width: 60px;" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>

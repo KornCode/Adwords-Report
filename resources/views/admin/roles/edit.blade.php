@@ -3,7 +3,7 @@
 @section('title')
 Edit Role #{{ $role->id }}
 @endsection
-{{-- check point --}}
+
 @section('content')
 
 @include('admin.components.errors_box')
@@ -17,7 +17,6 @@ Edit Role #{{ $role->id }}
 					<h3 class="box-title">Editing Role #{{ $role->id }} - {{ $role->guard_name }} - {{ $role->name }}</h3>
 				</div>
 				<div class="box-body">
-					
 					<input type="hidden" name="role_id" value="{{ $role->id }}" />
 					<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 						<label for="name" class="control-label">Name</label>
@@ -83,8 +82,6 @@ Edit Role #{{ $role->id }}
 				</div>
 			</div>
 		</form>
-	</div>
+	</div>	
 </div>
-
 @endsection
-

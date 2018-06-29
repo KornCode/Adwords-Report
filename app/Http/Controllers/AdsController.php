@@ -1,78 +1,24 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Edujugon\GoogleAds\GoogleAds;
 use Google\AdsApi\AdWords\v201710\cm\CampaignService;
 use Google\AdsApi\AdWords\v201710\cm\BidLandscapeLandscapePoint;
 use DB;
 use Response;
-
-use DateTime;
-use DatePeriod;
-use DateIntercal;
-
-use Auth;
 use App\User;
 use App\UserMeta;
-
+use Auth;
+use DateTime;
+use Edujugon\GoogleAds\GoogleAds;
 use Illuminate\Http\Request;
 
-class AdsController extends Controller {
+class AdsController extends Controller
+{
 
-    public function showAdwordsSummary() {
-        return view('overview');
-    }
-
-    private function modifyDate($stringDate, $config_date) {
-        $date = new DateTime($stringDate);
-        $date->modify('-'.$config_date.'day');
-        $dateYMD = $date->format('Ymd');
-
-        return $dateYMD;
-    }
-
-    public function postAdwordsSummary(Request $request) {
-
-        $summary = new GoogleAds();
-
-        $adwords_client_id_temp = DB::select('select meta_value from umeta where user_id = ?', [Auth::user()->id]);
-        $adwords_client_id = $adwords_client_id_temp[0]->meta_value;
-
-        if ($adwords_client_id !== null) {
-
-            $summary->session([
-                'clientCustomerId' => $adwords_client_id
-            ]);
-    
-            $config_date = $request->input('config');
-    
-            $from_date = $this->modifyDate(date('Ymd'), $config_date);
-            $to_date = date('Ymd');
-    
-            $obj = $summary->report()
-                    ->from('ACCOUNT_PERFORMANCE_REPORT')
-                    ->during($from_date, $to_date)
-                    ->select('Date', 'Clicks', 'Impressions', 'AverageCpc', 'Cost')
-                    ->getAsObj();
-    
-    
-            $items1 = $obj->result;
-            $items2 = $this->postAdwordsKey();
-
-            $items = array();
-            array_push($items, $items1, $items2);
-    
-            return Response::json($items);
-        }
-        else {
-
-            return view('overview')->with('is_empty', "true");
-        }
-    }
-
-    public function postAdwordsKey() {
+    public function postAdwordsKey()
+    {
         $adwordsKey_temp = UserMeta::select('meta_value')->where('meta_key', '=', 'adwords')->where('meta_value', '!=', null)->get();
 
         $adwordsKey = array();
@@ -82,7 +28,85 @@ class AdsController extends Controller {
 
         return $adwordsKey;
     }
+
+    public function showAdwordsSummary()
+    {
+        return view('overview');
+    }
+
+    public function postAdwordsSummary(Request $request)
+    {
+
+        $summary = new GoogleAds();
+
+        $config_key = null;
+
+        /*
+        |---------------------------------------
+        | Key Mananagement
+        |---------------------------------------
+         */
+        if ($request->filled('config_key')) {
+            $config_key = $request->input('config_key');
+        } else {
+            $config_key_temp = UserMeta::where('user_id', '=', Auth::user()->id)->where('meta_key', '=', 'adwords')->first();
+            if ($config_key_temp) {
+                $config_key = $config_key_temp->meta_value;
+            }
+        }
+
+        $summary->session([
+            'clientCustomerId' => $config_key,
+        ]);
+
+        /*
+        |---------------------------------------
+        | Date Mananagement
+        |---------------------------------------
+         */
+        $config_date = $request->filled('config_date') ? $request->input('config_date') : 'first day of this month';
+
+        // $from_date = $this->modifyDate(date('Ymd'), $config_date);
+        // $to_date = date('Ymd');
+
+        switch ($config_date) {
+            case 'today':
+                $from_date = date('Ymd');
+                $to_date = date('Ymd');
+                break;
+            case 'yesterday':
+                $from_date = date('Ymd', strtotime('yesterday'));
+                $to_date = date('Ymd', strtotime('yesterday'));
+                break;
+            default:
+                $from_date = date('Ymd', strtotime($config_date));
+                $to_date = date('Ymd');
+                break;
+        }
+
+        $obj = $summary->report()
+            ->from('ACCOUNT_PERFORMANCE_REPORT')
+            ->during($from_date, $to_date)
+            ->select('Date', 'Clicks', 'Impressions', 'AverageCpc', 'Cost')
+            ->getAsObj();
+
+        $items = $obj->result;
+
+        $return_data = null;
+        foreach ($items as $value) {
+            $value->day = date('Y/m/d', strtotime($value->day));
+            $return_data[] = $value;
+        }
+
+        $sorted = array_values(array_sort($return_data, function ($value) {
+            return strtotime($value->day);
+        }));
+
+        $ads_key = $this->postAdwordsKey();
+
+        $items = array();
+        array_push($items, $sorted, $ads_key);
+
+        return $items;
+    }
 }
-
-
-

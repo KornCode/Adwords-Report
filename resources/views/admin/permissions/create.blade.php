@@ -1,5 +1,5 @@
 @extends('admin.layout.backend')
-{{-- c --}}
+
 @section('title')
 Create a new Permission
 @endsection
@@ -25,12 +25,12 @@ Create a new Permission
 						<label for="name" class="control-label">Guard Name</label>
 						<input type="text" name="guard_name" class="form-control" placeholder="Guard name" value="{{ old('guard_name') }}" />
 					</div>
-					<div class="box-footer">
-						<button type="submit" class="btn btn-warning btn-block">Submit</button>
-					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-warning btn-block">Submit</button>
 				</div>
 			</div>
-		</form>
+		</form>	
 	</div>
 </div>
 @endsection

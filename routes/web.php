@@ -11,6 +11,10 @@
 |
 */
 
+if (env('APP_ENV') === 'production') {
+    URL::forceScheme('https');
+}
+
 Route::get('/', function () {
 	// return view('welcome');
 	return redirect()->route('login');
@@ -20,12 +24,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('index');
 
-Route::group(['middleware' => ['role:user|admin','permission:view ads dashboard']], function () {
+Route::group(['middleware' => []], function () {
 
 	Route::get('/overview', 'AdsController@showAdwordsSummary')->name('ads.dashboard');
 	Route::post('/overview', 'AdsController@postAdwordsSummary')->name('ads.dashboard.post');
-	// Route::post('/overview', 'AdsController@postAdwordsKey')->name('ads.dashboard.post');
-	// Route::get('/debug', 'AdsController@postAdwordsSummary');
+	// Route::get('/debug', 'AdsController@postAdwordsSummary')->name('ads.dashboard');
 });
 
 
@@ -70,7 +73,7 @@ Route::prefix('users')->group(function() {
 */
 route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
 
-	Route::group(['middleware' => ['role:admin','permission:view member dashboard|view ads dashboard']], function () {
+	Route::group(['middleware' => ['role:admin,admin_access']], function () {
 
 	    Route::get('/', 'AdminController@showDashboard')->name('admin.dashboard');
 

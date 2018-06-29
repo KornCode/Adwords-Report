@@ -7,7 +7,7 @@ Please change your password after logged in.<br>
 **Email:**  {{ $loginEmail }}<br>
 **Password:**  {{ $loginPassword }}<br>
 
-@component('mail::button', ['url' => 'localhost:8000/users/login'])
+@component('mail::button', ['url' => env('APP_URL').'/users/login'])
 Go to Login
 @endcomponent
 

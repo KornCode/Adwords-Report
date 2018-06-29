@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPasswordNotification;
 use Spatie\Permission\Traits\HasRoles;
+use App\UserMeta;
 
 class User extends Authenticatable
 {
@@ -32,7 +33,14 @@ class User extends Authenticatable
     ];
 
     public function metas(){
-        return $this->hasMany('App\UseMeta', 'user_id', 'id');
+        return $this->hasMany('App\UserMeta', 'user_id', 'id');
+    }
+
+    public function getAdwordsId() {
+        $meta = $this->metas->where('meta_key', 'adwords')->first();
+        if ($meta) {
+            return $meta->meta_value;
+        }
     }
 
     public function sendPasswordResetNotification($token) {

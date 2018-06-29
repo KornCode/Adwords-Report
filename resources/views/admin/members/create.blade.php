@@ -5,8 +5,8 @@ Create a new Member
 @endsection
 
 @section('content')
-@include('admin.components.errors_box')
 
+@include('admin.components.errors_box')
 
 <div class="row">
 	<div class="col-sm-4">
@@ -33,9 +33,9 @@ Create a new Member
 						<label for="adwords" class="control-label">AdWords</label>
 						<input type="text" name="adwords" class="form-control" placeholder="123-456-7890 : Optional" />
 					</div>
-					<div class="box-footer">
-						<button type="submit" class="btn btn-block btn-success">Create New Member</button>
-					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-block btn-success">Create New Member</button>
 				</div>
 			</div>
 		</form>
