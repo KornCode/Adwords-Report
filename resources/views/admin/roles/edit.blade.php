@@ -39,12 +39,13 @@ Edit Role #{{ $role->id }}
 				</div> 
 				<div class="box-body">
 					@foreach($permissions as $guard => $guard_permissions)
-						<p><strong>{{ $guard }}</strong></p>
+						<p><strong>Guard - {{ $guard }}</strong></p>
 						<div class="form-group">
 						@foreach($guard_permissions as $permission)
 							<label class="checkbox-inline">
 								<input type="checkbox" name="permissions[]" id="permission-{{ $permission->id }}" value="{{ $permission->id }}" {{ $role->permissions->contains($permission->id) ? 'checked' : '' }}> {{ $permission->name }}
 							</label>
+							<br />
 						@endforeach
 						</div>
 					@endforeach
@@ -84,7 +85,3 @@ Edit Role #{{ $role->id }}
 	</div>	
 </div>
 @endsection
-
-
-
-

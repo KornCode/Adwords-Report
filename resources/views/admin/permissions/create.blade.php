@@ -33,5 +33,4 @@ Create a new Permission
 		</form>	
 	</div>
 </div>
-	
 @endsection

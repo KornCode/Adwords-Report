@@ -31,7 +31,7 @@ Create a new Member
 					</div>
 					<div class="form-group{{ $errors->has('adwords') ? ' has-error' : '' }}">
 						<label for="adwords" class="control-label">AdWords</label>
-						<input type="text" name="adwords" class="form-control" placeholder="AdWords Key : Optional" />
+						<input type="text" name="adwords" class="form-control" placeholder="123-456-7890 : Optional" />
 					</div>
 				</div>
 				<div class="box-footer">

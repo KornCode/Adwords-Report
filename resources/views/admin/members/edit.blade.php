@@ -45,11 +45,11 @@ Edit Member #{{ $member->id }}
 				<div class="box-body">
 					<div class="form-group">
 						<label for="adwords" class="control-label">New AdWords Key</label>
-						<input type="text" name="new_adwords_key" class="form-control" placeholder="New AdWords Key" value="" />
+						<input type="text" name="new_adwords_key" class="form-control" placeholder="123-456-7890" value="" />
 					</div>
 					<div class="form-group">
 						<label for="adwords" class="control-label">Confirm New AdWords Key</label>
-						<input type="text" name="new_adwords_key_confirm" class="form-control" placeholder="Confirm New AdWords Key" value="" />
+						<input type="text" name="new_adwords_key_confirm" class="form-control" placeholder="123-456-7890" value="" />
 					</div>
 				</div>
 				<div class="box-footer">

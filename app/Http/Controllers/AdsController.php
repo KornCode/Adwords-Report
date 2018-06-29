@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Google\AdsApi\AdWords\v201710\cm\CampaignService;
+use Google\AdsApi\AdWords\v201710\cm\BidLandscapeLandscapePoint;
+use DB;
+use Response;
 use App\User;
 use App\UserMeta;
 use Auth;
