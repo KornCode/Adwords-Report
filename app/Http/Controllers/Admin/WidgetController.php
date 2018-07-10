@@ -35,6 +35,21 @@ class WidgetController extends Controller
         return $component;
     }
 
+    private function unique_multidim_array($array, $key) { 
+        $temp_array = array(); 
+        $i = 0; 
+        $key_array = array(); 
+        
+        foreach($array as $val) { 
+            if (!in_array($val[$key], $key_array)) { 
+                $key_array[$i] = $val[$key]; 
+                $temp_array[$i] = $val; 
+            } 
+            $i++; 
+        } 
+        return $temp_array; 
+    } 
+
     // HTML Minifier
     private function minify_html($input) {
         if(trim($input) === "") return $input;
@@ -108,10 +123,12 @@ class WidgetController extends Controller
             $embed_with_ids_temp = array(
                 'widget_id' => $widget_comp->widget_id,
                 'html_code' => "<script>var s = document.createElement('script');s.src = 'http://localhost:8000/embed.js';s.async = true;window.kodsana_options = {widget_id: ".$widget_comp->widget_id."};document.body.appendChild(s);</script><div id='load_widget'>Loading...</div>",
-                'domain' => Widget::find($widget_comp->widget_id)->select('domain')->first()->domain
+                'name' => Widget::find($widget_comp->widget_id)->select('name')->first()->name
             );
             array_push($data['embed_with_ids'], $embed_with_ids_temp);
         }
+
+        $data['embed_with_ids'] = $this->unique_multidim_array($data['embed_with_ids'], 'widget_id');
 
         return view('admin.widgets.index', $data);
     }   

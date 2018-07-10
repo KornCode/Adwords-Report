@@ -31,7 +31,7 @@ Widgets Management
 					{{-- check point --}}
 					@foreach ($embed_with_ids as $embed_with_id)
 						<div class="box-header with-border">
-							<h3 class="box-title">Widget #{{ $embed_with_id['widget_id'] }} - {{ $embed_with_id['domain'] }}</h3>
+							<h3 class="box-title">Widget #{{ $embed_with_id['widget_id'] }} - {{ $embed_with_id['name'] }}</h3>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
