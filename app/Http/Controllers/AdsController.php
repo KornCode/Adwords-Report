@@ -1,5 +1,5 @@
 <?php
-
+// check point 2
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -13,6 +13,7 @@ use Auth;
 use DateTime;
 use Edujugon\GoogleAds\GoogleAds;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class AdsController extends Controller
 {
@@ -29,14 +30,12 @@ class AdsController extends Controller
         return $adwordsKey;
     }
 
-    public function showAdwordsSummary()
+    public function showAdwords()
     {
         return view('overview');
     }
 
-    public function postAdwordsSummary(Request $request)
-    {
-
+    private function summaryAdwords($request) {
         $summary = new GoogleAds();
 
         $config_key = null;
@@ -65,9 +64,6 @@ class AdsController extends Controller
         |---------------------------------------
          */
         $config_date = $request->filled('config_date') ? $request->input('config_date') : 'first day of this month';
-
-        // $from_date = $this->modifyDate(date('Ymd'), $config_date);
-        // $to_date = date('Ymd');
 
         switch ($config_date) {
             case 'today':
@@ -106,6 +102,21 @@ class AdsController extends Controller
 
         $items = array();
         array_push($items, $sorted, $ads_key);
+
+        return $items;
+    }
+
+    public function postAdwords(Request $request)
+    {
+        /*
+        | Summary Mananagement
+         */
+        $summary = $this->summaryAdwords($request);
+
+        $auth = (Auth::user()->hasRole('admin')) ? "admin" : "user";
+
+        $items = array();
+        array_push($items, $summary[0], $summary[1], $auth);
 
         return $items;
     }

@@ -22,16 +22,20 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::any('/get_components', 'EmbedController@testFunction')->middleware('cors');
+
 Route::get('/home', 'HomeController@index')->name('index');
 
 Route::group(['middleware' => []], function () {
 
-	Route::get('/overview', 'AdsController@showAdwordsSummary')->name('ads.dashboard');
-	Route::post('/overview', 'AdsController@postAdwordsSummary')->name('ads.dashboard.post');
-	// Route::get('/debug', 'AdsController@postAdwordsSummary')->name('ads.dashboard');
+	Route::get('/overview', 'AdsController@showAdwords')->name('ads.dashboard');
+	Route::post('/overview', 'AdsController@postAdwords')->name('ads.dashboard.post');
+	// Route::get('/debug', 'AdsController@postAdwords')->name('ads.dashboard');
+
+	// Embed
+	// Route::get('/embed', 'EmbedController@sendEmbedCode')->name('embed');
+	// Route::post('/embed', 'EmbedController@postSendEmbedCode')->name('embed.embed');
 });
-
-
 
 Route::prefix('auth/login/')->group(function() {
 
@@ -135,6 +139,47 @@ route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
 
 			// Delete Permissions
 			Route::post('/delete', 'PermissionController@postDeletePermission')->name('admin.permissions.delete.post');
+		});
+
+		/*
+		|--------------------------------------------------------------------------
+		| Widgets Management
+		|--------------------------------------------------------------------------
+		*/
+		Route::prefix('widgets')->group(function() {
+			// Show Widget
+			Route::get('/', 'WidgetController@showWidgets')->name('admin.widgets.index');
+
+			// Create Widget
+			Route::get('/create_widget', 'WidgetController@showCreateWidget')->name('admin.widgets.create');
+			Route::post('/create_widget', 'WidgetController@postCreateWidget')->name('admin.widgets.create.post');
+
+			// Create Component
+			route::get('/create_comp', 'WidgetController@showCreateComponent')->name('admin.components.create');
+			route::post('/create_comp', 'WidgetController@postCreateComponent')->name('admin.components.create.post');
+
+			// Create Widget Component
+			Route::get('/create_wc', 'WidgetController@showCreateWidgetComponent')->name('admin.widget.component.create');
+			Route::post('/create_wc', 'WidgetController@postCreateWidgetComponent')->name('admin.widget.component.create.post');
+
+			// Edit Widget
+			Route::get('/edit_widget/{widget_id}', 'WidgetController@showEditWidget')->name('admin.widgets.edit');
+			route::post('/edit_widget', 'WidgetController@postEditWidget')->name('admin.widgets.edit.post');
+
+			// Edit Component
+			Route::get('/edit_comp/{component_id}', 'WidgetController@showEditComponent')->name('admin.components.edit');
+			route::post('/edit_comp', 'WidgetController@postEditComponent')->name('admin.components.edit.post');
+
+			// Edit Widget Component
+			Route::get('/edit_wc/{wid_comp_id}', 'WidgetController@showEditWidgetComponent')->name('admin.widget.component.edit');
+			route::post('/edit_wc', 'WidgetController@postEditWidgetComponent')->name('admin.widget.component.edit.post');
+
+			// Delete Widget
+			Route::post('/delete_widget', 'WidgetController@postDeleteWidget')->name('admin.widgets.delete.post');
+			// Delete Component
+			Route::post('/delete_comp', 'WidgetController@postDeleteComponent')->name('admin.components.delete.post');
+			// Delete Widget Component
+			Route::post('/delete_wc', 'WidgetController@postDeleteWidgetComponent')->name('admin.widget.component.delete.post');
 		});
 	});
 });

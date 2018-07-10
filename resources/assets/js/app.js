@@ -28,7 +28,6 @@ Vue.use(VueAxios, axios);
 
 Vue.component('test-chart', require('./components/OverviewChartComponent.vue'));
 Vue.component('overview-component', require('./components/OverviewComponent.vue'));
-Vue.component('admin-overview-component', require('./components/AdminOverviewComponent.vue'));
 
 const app = new Vue({
     el: '#app',

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class PermissionController extends Controller
 {
     /**
-     * Show Roles
+     * Show Permissions
      *
      * @return \Illuminate\Http\Response
      */
@@ -21,7 +21,7 @@ class PermissionController extends Controller
      }    
 
      /**
-     * Show Create Role Form
+     * Show Create Permissions Form
      *
      * @return \Illuminate\Http\Response
      */
@@ -51,7 +51,7 @@ class PermissionController extends Controller
      }
 
      /**
-     * Show edit role form
+     * Show edit permissions form
      *
      * @return \Illuminate\Http\Response
      */ 
@@ -62,7 +62,7 @@ class PermissionController extends Controller
 
 
      /**
-     * Save edited role to database
+     * Save edited permissions to database
      *
      * @return \Illuminate\Http\Response
      */ 

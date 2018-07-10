@@ -62,7 +62,6 @@ class RoleController extends Controller
      	return view('admin.roles.edit', $data);
      }
 
-
      /**
      * Save edited role to database
      *
@@ -70,11 +69,11 @@ class RoleController extends Controller
      */ 
      public function postEditRole(Request $request){
 
-          $validator = Validator::make($request->all(), [
-               'role_id' => 'required',
-               'name' => 'required|max:255',
-               'guard_name' => 'required',
-          ]);
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required',
+            'name' => 'required|max:255',
+            'guard_name' => 'required',
+        ]);
 		if ($validator->fails()) {
 		    return back()->withErrors($validator)->withInput();
 		};
@@ -83,12 +82,11 @@ class RoleController extends Controller
 		$role->guard_name = $request->get('guard_name');
 		$role->save();
 
-          $permissions = $request->has('permissions') ? $request->get('permissions') : [];
+        $permissions = $request->has('permissions') ? $request->get('permissions') : [];
 
-          $role->permissions()->sync($permissions);
+        $role->permissions()->sync($permissions);
 
 		return redirect()->route('admin.roles.index');
-
      }
 
      /**

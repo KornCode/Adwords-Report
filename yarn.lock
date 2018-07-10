@@ -112,9 +112,9 @@ ajv@^6.1.0:
     json-schema-traverse "^0.3.0"
     uri-js "^4.2.1"
 
-ajv@^6.5.1:
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.1.tgz#88ebc1263c7133937d108b80c5572e64e1d9322d"
+ajv@^6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.2.tgz#678495f9b82f7cca6be248dd92f59bff5e1f4360"
   dependencies:
     fast-deep-equal "^2.0.1"
     fast-json-stable-stringify "^2.0.0"
@@ -1030,6 +1030,16 @@ boom@2.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
+
+bootstrap-colorpicker@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-2.5.2.tgz#33bfb2043485f12dcb3df0f60ad171762cc3c0e4"
+  dependencies:
+    jquery ">=1.10"
+
+bootstrap-colorselector@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorselector/-/bootstrap-colorselector-0.1.0.tgz#0a6e2821a4ecefe55f3ff9b5f6eb9c1f48f7eca5"
 
 bootstrap-vue@^2.0.0-rc.11:
   version "2.0.0-rc.11"
@@ -4467,7 +4477,7 @@ jquery-ui@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
 
-jquery@>=1.7, jquery@^3.2, jquery@^3.3.1:
+jquery@>=1.10, jquery@>=1.7, jquery@^3.2, jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -8043,9 +8053,9 @@ vue-axios@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-2.1.1.tgz#6167f2db93065d9bcfc90e65d063ccf34f8b1d63"
 
-vue-chartjs@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-3.3.1.tgz#fb08dc244da316e385910401daf16874f52ac1fc"
+vue-chartjs@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-3.3.2.tgz#1bdbf859d0f5df6cac75d8510e51aee5865638ab"
 
 vue-chartkick@^0.3.3:
   version "0.3.3"
@@ -8053,6 +8063,10 @@ vue-chartkick@^0.3.3:
   dependencies:
     chartkick "^2.3.6"
     deep-equal "^1.0.1"
+
+vue-dropdowns@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-dropdowns/-/vue-dropdowns-1.0.6.tgz#cc6d086c8e7570768bda1fc598f9e27dd0145d0a"
 
 vue-functional-data-merge@^2.0.5:
   version "2.0.6"
@@ -8114,9 +8128,9 @@ vue@^2.5.7:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
-vuetify@^1.0.19:
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.19.tgz#fb6d123dd1c217795fc2333e912c0ecbed2ed69e"
+vuetify@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.1.tgz#8d8f64306a45aaf862487addae8decf082dac0a3"
 
 ware@^1.2.0:
   version "1.3.0"

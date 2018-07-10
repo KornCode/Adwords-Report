@@ -1,17 +1,40 @@
 <template>
+<!-- check point -->
+<!-- check point -->
     <div>
         <div class='col-md-12'>
-            <div class="box box-primary">
+            <div class="box box-info">
                 <div class="box-header with-border">
-                    <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">
-                        รายงาน
-                    </h2>
-                    <div class="btn-group" style="float: right;">
-                        <select v-model="config_date" class="selectpicker show-tick" data-width="200px">
-                            <option v-for="selectOption in selectOptions" v-bind:value="selectOption.value">
-                                {{ selectOption.text }}
-                            </option>
-                        </select>
+                    <div v-if="config_auth == 'admin'">
+                        <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">
+                            รายงาน
+                        </h2>
+                        <div class="btn-group" style="float: right;">
+                            <select v-model="config_date" class="selectpicker show-tick" data-width="200px">
+                                <option v-for="selectOption in selectOptionsDate" v-bind:value="selectOption.value">
+                                    {{ selectOption.text }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="btn-group" style="float: right; padding-right: 20px;">
+                            <select v-model="config_key" class="form-control" data-width="200px">
+                                <option v-for="selectOption in selectOptionsKey" v-bind:value="selectOption.value">
+                                    {{ selectOption.text }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <h2 class="box-title" style="font-size: 25px; margin-top: 5px;">
+                            รายงาน
+                        </h2>
+                        <div class="btn-group" style="float: right;">
+                            <select v-model="config_date" class="selectpicker show-tick" data-width="200px">
+                                <option v-for="selectOption in selectOptionsDate" v-bind:value="selectOption.value">
+                                    {{ selectOption.text }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,10 +130,12 @@ let data = {
     impressions: "",
     avgcpc: "",
     cost: "",
+    config_auth: "user",
     config_date: "first day of this month", // default when loaded
+    config_key: "",
     is_loading_summary: false,
     datacollection: null,
-    selectOptions: [
+    selectOptionsDate: [
         { text: "วันนี้", value: "today" },
         { text: "เมื่อวาน", value: "yesterday" },
         { text: "7 วันล่าสุด", value: "-7 days" },
@@ -121,6 +146,7 @@ let data = {
         { text: "1 ปีล่าสุด", value: "-12 months" },
         { text: "ทั้งหมด", value: "-120 months" }
     ],
+    selectOptionsKey: [],
     options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -174,8 +200,19 @@ export default {
             let self = this;
             self.is_loading_summary = true;
             axios
-                .post("/overview", { config_date: this.config_date })
+                .post("/overview", { 
+                    config_date: this.config_date,
+                    config_key: this.config_key
+                })
                 .then(response => {
+
+                    /*
+                    |-------------------------------------------
+                    | Auth Mananagement
+                    |-------------------------------------------
+                    */
+                    self.config_auth = response.data[2];
+
                     let date = [];
                     let clicks = [];
                     let impressions = [];
@@ -190,6 +227,22 @@ export default {
                         impressions.push(parseInt(value.impressions));
                         avgcpc.push(parseInt(value.avgCPC) / 1000000);
                         cost.push(parseInt(value.cost) / 1000000);
+                    });
+
+                    /*
+                    |-------------------------------------------
+                    | Ads Key Mananagement
+                    |-------------------------------------------
+                    */
+                    self.selectOptionsKey = [];
+                    _.each(response.data[1], function(val) {
+                        let obj = { text: "", value: "" };
+                        obj.text = val;
+                        obj.value = val;
+                        self.selectOptionsKey.push({
+                            text: obj.text,
+                            value: obj.value
+                        });
                     });
 
                     /*
@@ -278,6 +331,14 @@ export default {
     },
     watch: {
         config_date: function(newVal, oldVal) {
+            if (newVal === oldVal) return;
+            this.getData();
+        },
+        config_key: function(newVal, oldVal) {
+            if (newVal === oldVal) return;
+            this.getData();
+        },
+        config_auth: function(newVal, oldVal) {
             if (newVal === oldVal) return;
             this.getData();
         }
