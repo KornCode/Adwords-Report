@@ -9,8 +9,8 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
-
     require('bootstrap');
+    window.colorpicker = require('bootstrap-colorpicker');
 } catch (e) {}
 
 /**

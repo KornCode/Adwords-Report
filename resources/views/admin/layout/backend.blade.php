@@ -19,25 +19,25 @@
         <!-- Ionicons -->
         <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
         <!-- Theme style -->
-        <link href="{{ asset("/bower_components/admin-lte/dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/bower_components/admin-lte/dist/css/AdminLTE.min.css") }}" rel="stylesheet" type="text/css" />
         <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
               page. However, you can choose any other skin. Make sure you
               apply the skin class to the body tag so the changes take effect.
         -->
-        <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css") }}" rel="stylesheet" type="text/css" />
 
         {{-- Bootstrap dropdown select --}}
-        <link href="{{ asset("/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css")}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset("/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css") }}" rel="stylesheet" type="text/css" />
 
-        {{-- Bootstrap color picker --}}
-        <link href="{{ asset("/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css")}}" rel="stylesheet" type="text/css" />
+        {{-- color picker --}}
+        {{-- <link rel="stylesheet" href="{{ asset("/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css")}}"> --}}
         
         <script type="text/javascript">
             var api_url = "{{ env('API_URL') }}";
         </script>
         
         <script src="{{ asset('js/app.js') }}" defer></script>
-        {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         
     </head>
     <body class="skin-blue">
@@ -58,7 +58,7 @@
                         <a href="{{ route('admin.members.index') }}"><i class="fa fa-users"></i> <span>Members</span></a>
                     </li>
                     <li class="treeview">
-                        <a href="{{ route('admin.roles.index') }} "><i class="fa fa-link"></i> <span>Roles</span></a>
+                        <a href="{{ route('admin.roles.index') }}"><i class="fa fa-link"></i> <span>Roles</span></a>
                     </li>
                     <li class="treeview">
                         <a href="{{ route('admin.permissions.index') }}"><i class="fa fa-lock"></i> <span>Permissions</span></a>
@@ -166,6 +166,11 @@
     {{-- Bootstrap dropdown select --}}
     <script src="{{ asset ("/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js") }}" type="text/javascript"></script>
     {{-- Bootstrap color picker --}}
-    {{-- <script src="{{ asset ("/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js") }}" type="text/javascript"></script> --}}
+    {{-- <script src="{{ asset ("/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js") }}" type="text/javascript"></script> --}}
+    <script>
+        $(document).ready(function(){
+            $('.bs-colorpicker').colorpicker();
+        });
+    </script>
     </body>
 </html>

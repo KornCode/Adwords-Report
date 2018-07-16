@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::any('/get_components', 'EmbedController@testFunction')->middleware('cors');
+Route::any('/get_components', 'EmbedController@embedResponse')->middleware('cors');
 
 Route::get('/home', 'HomeController@index')->name('index');
 
@@ -31,10 +31,6 @@ Route::group(['middleware' => []], function () {
 	Route::get('/overview', 'AdsController@showAdwords')->name('ads.dashboard');
 	Route::post('/overview', 'AdsController@postAdwords')->name('ads.dashboard.post');
 	// Route::get('/debug', 'AdsController@postAdwords')->name('ads.dashboard');
-
-	// Embed
-	// Route::get('/embed', 'EmbedController@sendEmbedCode')->name('embed');
-	// Route::post('/embed', 'EmbedController@postSendEmbedCode')->name('embed.embed');
 });
 
 Route::prefix('auth/login/')->group(function() {

@@ -18,6 +18,7 @@ class CreateWidgetTable extends Migration
             $table->longText('name');
             $table->bigInteger('user_id');
             $table->longText('domain');
+            $table->char('align');
             $table->timestamps();
         });
     }

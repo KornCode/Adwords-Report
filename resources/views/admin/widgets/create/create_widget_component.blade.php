@@ -18,17 +18,6 @@ Create a new Widget
 				</div>
 				<div class="box-body">
 					<div class="form-group">
-						<label>Component</label>
-						<br>
-						<select name="wc_comp_id" class="selectpicker" data-live-search="true" data-width="100%">
-							<option disabled selected value> -- select an option -- </option>
-							@foreach ($wc_comp_data as $comp) 
-								<option value={{ $comp->id }}>{{ $comp->id }} - {{ $comp->name }}</option>
-							@endforeach
-						</select>
-					</div>
-
-					<div class="form-group">
 						<label>Widget</label>
 						<br>
 						<select name="wc_widget_id" class="selectpicker" data-live-search="true" data-width="100%">
@@ -40,18 +29,29 @@ Create a new Widget
 					</div>
 
 					<div class="form-group">
+						<label>Component</label>
+						<br>
+						<select name="wc_comp_id" class="selectpicker" data-live-search="true" data-width="100%">
+							<option disabled selected value> -- select an option -- </option>
+							@foreach ($wc_comp_data as $comp) 
+								<option value={{ $comp->id }}>{{ $comp->id }} - {{ $comp->name }}</option>
+							@endforeach
+						</select>
+					</div>
+
+					<div class="form-group">
 						<label for="wc_options" class="control-label">URL or Tel</label>
 						<input type="text" name="contact" class="form-control" placeholder="www.example.com or 0123456789" />
 					</div>
 
 					<div class="form-group">
 						<label for="wc_options" class="control-label">Icon</label>
-						<input type="text" name="name_icon" class="form-control" placeholder="fa" />
+						<input type="text" name="icon" class="form-control" placeholder="fa" />
 					</div>
 
 					<div class="form-group">
 						<label for="wc_options" class="control-label">Background Color</label>
-						<div class="input-group my-colorpicker2 colorpicker-element">
+						<div class="input-group bs-colorpicker colorpicker-element">
                   			<input name="backgroundColor" type="text" class="form-control">
                   			<div class="input-group-addon">
                     			<i></i>

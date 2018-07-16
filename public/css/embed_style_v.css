@@ -1,4 +1,4 @@
-body {
+/* body {
     background-color: #F2F2F2;
     margin: 0;
     max-height: 100vh;
@@ -28,7 +28,7 @@ h1 {
 
 p {
     font: 300 18px Roboto;
-}
+} */
 
 .container {
     margin: 1em;
@@ -39,7 +39,7 @@ p {
 .container:hover .buttons:not(:last-of-type) {
     width: 40px;
     height: 40px;
-    margin: 15px auto 0;
+    margin: 20px auto 0;
     opacity: 1;
 }
 .container:hover .rotate {
@@ -47,6 +47,7 @@ p {
     transform: rotate(0deg);
 }
 
+/* button */
 .buttons {
     display: block;
     width: 35px;
@@ -55,7 +56,7 @@ p {
     text-decoration: none;
     position: relative;
     border-radius: 50%;
-    box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.18), 0px 4px 12px -7px rgba(0, 0, 0, 0.15);
+    /* box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.18), 0px 4px 12px -7px rgba(0, 0, 0, 0.15); */
     opacity: 0;
     transition: .2s;
 }
@@ -74,33 +75,35 @@ p {
 .buttons:nth-last-of-type(6) {
     transition-delay: 100ms;
 }
+
+/* main button size */
 .buttons:nth-last-of-type(1) {
-    width: 56px;
-    height: 56px;
+    width: 54px;
+    height: 54px;
     opacity: 1;
 }
-.buttons:nth-last-of-type(2) {
-    /* background-image: url(""); */
-    /* background-size: contain; */
+/* .buttons:nth-last-of-type(2) {
+    background-image: url("");
+    background-size: contain;
 }
 .buttons:nth-last-of-type(3) {
-    /* background-image: url(""); */
-    /* background-size: contain; */
+    background-image: url("");
+    background-size: contain;
 }
 .buttons:nth-last-of-type(4) {
-    /* background-image: url(""); */
-    /* background-size: contain; */
+    background-image: url("");
+    background-size: contain;
 }
 .buttons:nth-last-of-type(5) {
-    /* background-image: url(""); */
-    /* background-size: contain; */
+    background-image: url("");
+    background-size: contain;
 }
 .buttons:nth-last-of-type(6) {
-    /* background-image: url(""); */
-    /* background-size: contain; */
-}
+    background-image: url("");
+    background-size: contain;
+} */
 .buttons:hover {
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+    /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28); */
 }
 
 span {

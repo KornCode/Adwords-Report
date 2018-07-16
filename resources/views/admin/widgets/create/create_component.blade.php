@@ -20,7 +20,7 @@ Create a new Component
 					<div class="form-group">
 						<label>Name and Icon</label>
 						<br>
-						<select name="name_icon" class="selectpicker" data-live-search="true" data-width="100%">
+						<select name="icon" class="selectpicker" data-live-search="true" data-width="100%">
 							<option disabled selected value> -- select an option -- </option>
 							<option data-icon="fa fa-facebook" value="facebook">Facebook</option>
 							<option data-icon="fa fa-google-plus" value="google">Google</option>
@@ -29,12 +29,11 @@ Create a new Component
 							<option data-icon="fa fa-envelope" value="email">Email</option>
 						</select>
 					</div>
-
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
 								<label>Background Color</label>
-								<div class="input-group my-colorpicker2 colorpicker-element">
+								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="backgroundColor" type="text" class="form-control">
 									<div class="input-group-addon">
 										<i></i>
@@ -44,7 +43,7 @@ Create a new Component
 							</div>
 							<div class="form-group">
 								<label>Background Hover Color</label>
-								<div class="input-group my-colorpicker2 colorpicker-element">
+								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="backgroundHoverColor" type="text" class="form-control">
 									<div class="input-group-addon">
 										<i></i>
@@ -54,7 +53,7 @@ Create a new Component
 							</div>
 							<div class="form-group">
 								<label>Text Color</label>
-								<div class="input-group my-colorpicker2 colorpicker-element">
+								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="textColor" type="text" class="form-control">
 									<div class="input-group-addon">
 										<i></i>
@@ -64,7 +63,7 @@ Create a new Component
 							</div>
 							<div class="form-group">
 								<label>Text Hover Color</label>
-								<div class="input-group my-colorpicker2 colorpicker-element">
+								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="textHoverColor" type="text" class="form-control">
 									<div class="input-group-addon">
 										<i></i>
@@ -74,7 +73,7 @@ Create a new Component
 							</div>
 							<div class="form-group">
 								<label>Text Background Color</label>
-								<div class="input-group my-colorpicker2 colorpicker-element">
+								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="textBackgroundColor" type="text" class="form-control">
 									<div class="input-group-addon">
 										<i></i>
@@ -84,7 +83,7 @@ Create a new Component
 							</div>
 							<div class="form-group">
 								<label>Text Background Hover Color</label>
-								<div class="input-group my-colorpicker2 colorpicker-element">
+								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="textBackgroundHoverColor" type="text" class="form-control">
 									<div class="input-group-addon">
 										<i></i>

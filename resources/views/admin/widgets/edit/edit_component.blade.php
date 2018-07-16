@@ -21,7 +21,7 @@ Edit Component #{{ $component->id }}
                     <div class="form-group">
                         <label>Name and Icon</label>
                         <br>
-                        <select name="name_icon" class="selectpicker" data-live-search="true" data-width="100%">
+                        <select name="icon" class="selectpicker" data-live-search="true" data-width="100%">
                             <option value={{ $component->name }}> {{ $component->name }} </option>
                             <option data-icon="fa fa-facebook" value="facebook">Facebook</option>
                             <option data-icon="fa fa-google-plus" value="google">Google</option>
@@ -35,8 +35,11 @@ Edit Component #{{ $component->id }}
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Background Color</label>
-                                <div class="input-group my-colorpicker2 colorpicker-element">
-                                    <input name="backgroundColor" type="text" class="form-control" value={{ $component->options['backgroundColor'] }}>
+                                <div class="input-group bs-colorpicker colorpicker-element">
+                                    @php
+                                        $backgroundColor = ($component->options['backgroundColor'] == null) ? null : $component->options['backgroundColor'];
+                                    @endphp
+                                    <input name="backgroundColor" type="text" class="form-control" value="{{ $backgroundColor }}">
                                     <div class="input-group-addon">
                                         <i></i>
                                     </div>
@@ -45,8 +48,11 @@ Edit Component #{{ $component->id }}
                             </div>
                             <div class="form-group">
                                 <label>Background Hover Color</label>
-                                <div class="input-group my-colorpicker2 colorpicker-element">
-                                    <input name="backgroundHoverColor" type="text" class="form-control" value={{ $component->options['backgroundHoverColor'] }}>
+                                <div class="input-group bs-colorpicker colorpicker-element">
+                                    @php
+                                        $backgroundHoverColor = (array_key_exists('backgroundHoverColor', $component->options)) ? $component->options['backgroundHoverColor'] : null;
+                                    @endphp
+                                    <input name="backgroundHoverColor" type="text" class="form-control" value="{{ $backgroundHoverColor }}">
                                     <div class="input-group-addon">
                                         <i></i>
                                     </div>
@@ -55,8 +61,11 @@ Edit Component #{{ $component->id }}
                             </div>
                             <div class="form-group">
                                 <label>Text Color</label>
-                                <div class="input-group my-colorpicker2 colorpicker-element">
-                                    <input name="textColor" type="text" class="form-control" value={{ $component->options['textColor'] }}>
+                                <div class="input-group bs-colorpicker colorpicker-element">
+                                    @php
+                                        $textColor = (array_key_exists('textColor', $component->options)) ? $component->options['textColor'] : null;
+                                    @endphp
+                                    <input name="textColor" type="text" class="form-control" value="{{ $textColor }}">
                                     <div class="input-group-addon">
                                         <i></i>
                                     </div>
@@ -65,8 +74,11 @@ Edit Component #{{ $component->id }}
                             </div>
                             <div class="form-group">
                                 <label>Text Hover Color</label>
-                                <div class="input-group my-colorpicker2 colorpicker-element">
-                                    <input name="textHoverColor" type="text" class="form-control" value={{ $component->options['textHoverColor'] }}>
+                                <div class="input-group bs-colorpicker colorpicker-element">
+                                    @php
+                                        $textHoverColor = (array_key_exists('textHoverColor', $component->options)) ? $component->options['textHoverColor'] : null;
+                                    @endphp
+                                    <input name="textHoverColor" type="text" class="form-control" value="{{ $textHoverColor }}">
                                     <div class="input-group-addon">
                                         <i></i>
                                     </div>
@@ -75,8 +87,11 @@ Edit Component #{{ $component->id }}
                             </div>
                             <div class="form-group">
                                 <label>Text Background Color</label>
-                                <div class="input-group my-colorpicker2 colorpicker-element">
-                                    <input name="textBackgroundColor" type="text" class="form-control" value={{ $component->options['textBackgroundColor'] }}>
+                                <div class="input-group bs-colorpicker colorpicker-element">
+                                    @php
+                                        $textBackgroundColor = (array_key_exists('textBackgroundColor', $component->options)) ? $component->options['textBackgroundColor'] : null;
+                                    @endphp
+                                    <input name="textBackgroundColor" type="text" class="form-control" value="{{ $textBackgroundColor }}">
                                     <div class="input-group-addon">
                                         <i></i>
                                     </div>
@@ -85,8 +100,11 @@ Edit Component #{{ $component->id }}
                             </div>
                             <div class="form-group">
                                 <label>Text Background Hover Color</label>
-                                <div class="input-group my-colorpicker2 colorpicker-element">
-                                    <input name="textBackgroundHoverColor" type="text" class="form-control" value={{ $component->options['textBackgroundHoverColor'] }}>
+                                <div class="input-group bs-colorpicker colorpicker-element">
+                                    @php
+                                        $textBackgroundHoverColor = (array_key_exists('textBackgroundHoverColor', $component->options)) ? $component->options['textBackgroundHoverColor'] : null;
+                                    @endphp
+                                    <input name="textBackgroundHoverColor" type="text" class="form-control" value="{{ $textBackgroundHoverColor }}">
                                     <div class="input-group-addon">
                                         <i></i>
                                     </div>

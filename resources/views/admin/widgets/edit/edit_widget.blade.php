@@ -34,6 +34,31 @@ Edit Widget #{{ $widget->id }}
                         </select>
                     </div>
 
+                    <!-- checkbox -->
+					<div class="form-group">
+                        <label>Alignment</label>
+                        <br>
+                        @if ($widget->align == "mobile")
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="alignment" value="mobile" checked>
+                                <label class="custom-control-label" for="defaultGroupExample1"> Mobile</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="alignment" value="desktop">
+                                <label class="custom-control-label" for="defaultGroupExample2"> Desktop</label>
+                            </div>
+                        @elseif ($widget->align == "desktop")
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="alignment" value="mobile">
+                                <label class="custom-control-label" for="defaultGroupExample1"> Mobile</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="alignment" value="desktop" checked>
+                                <label class="custom-control-label" for="defaultGroupExample2"> Desktop</label>
+                            </div>
+                        @endif
+                    </div>
+
                     <div class="form-group{{ $errors->has('domain') ? ' has-error' : '' }}">
                         <label for="domain" class="control-label">Domain</label>
                         <input type="text" name="domain" class="form-control" placeholder="laravel.com" value="{{ $widget->domain }}" />

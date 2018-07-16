@@ -42,18 +42,18 @@ Edit Widget Component #{{ $wc_data->id }}
 
                     <div class="form-group">
 						<label for="wc_options" class="control-label">URL or Tel</label>
-						<input type="text" name="contact" class="form-control" value={{ $wc_data->options['contact'] }} />
+						<input type="text" name="contact" class="form-control" value="{{ $wc_data->options['contact'] }}" />
 					</div>
 
                     <div class="form-group">
                         <label for="wc_options" class="control-label">Icon</label>
-                        <input type="text" name="name_icon" class="form-control" value={{ $wc_data->options['icon'] }} />
+                        <input type="text" name="icon" class="form-control" value="{{ $wc_data->options['icon'] }}" />
                     </div>
 
                     <div class="form-group">
                         <label>Background Color</label>
-                        <div class="input-group my-colorpicker2 colorpicker-element">
-                            <input name="backgroundColor" type="text" class="form-control" value={{ $wc_data->options['backgroundColor'] }} >
+                        <div class="input-group bs-colorpicker colorpicker-element">
+                            <input name="backgroundColor" type="text" class="form-control" value="{{ $wc_data->options['backgroundColor'] }}" />
         
                             <div class="input-group-addon">
                             <i></i>

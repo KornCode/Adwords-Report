@@ -27,15 +27,14 @@ Widgets Management
 				<li class="pull-left header"><i class="fa fa-th"></i> Widgets Tabs</li>
 			</ul>
 			<div class="tab-content">
-				<div class="tab-pane" id="embed">
-					{{-- check point --}}
-					@foreach ($embed_with_ids as $embed_with_id)
+				<div class="tab-pane" id="embed" style="width: 50%">
+					@foreach ($embed as $embed_each)
 						<div class="box-header with-border">
-							<h3 class="box-title">Widget #{{ $embed_with_id['widget_id'] }} - {{ $embed_with_id['name'] }}</h3>
+							<h3 class="box-title">Widget #{{ $embed_each['widget_id'] }} - {{ $embed_each['name'] }}</h3>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
-								<textarea class="form-control" id="exampleFormControlTextarea1" rows="6">{{ $embed_with_id['html_code'] }}</textarea>
+								<textarea class="form-control" id="exampleFormControlTextarea1" rows="6">{{ $embed_each['html_code'] }}</textarea>
 							</div>
 						</div>
 					@endforeach
@@ -50,6 +49,7 @@ Widgets Management
 									<th>Name</th>
 									<th>Member ID</th>
 									<th>Domain</th>
+									<th>Align</th>
 									<th>Actions</th>
 								</tr>
 							</thead>
@@ -60,6 +60,7 @@ Widgets Management
 									<td>{{ $widget->name }}</td>
 									<td>{{ $widget->user_id }}</td>
 									<td>{{ $widget->domain }}</td>
+									<td>{{ $widget->align }}</td>
 									<td>
 										<a href="{{ route('admin.widgets.edit', ['id' => $widget->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
 									</td>
@@ -115,19 +116,19 @@ Widgets Management
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($wid_comps as $wid_comp)
+								@foreach($widget_component as $wc_each)
 								<tr>
-									<td>{{ $wid_comp->id }}</td>
-									<td>{{ $wid_comp->widget_id }}</td>
-									<td>{{ $wid_comp->component_id }}</td>
+									<td>{{ $wc_each->id }}</td>
+									<td>{{ $wc_each->widget_id }}</td>
+									<td>{{ $wc_each->component_id }}</td>
 									<td>
-										@foreach($wid_comp->options as $key => $option)
+										@foreach($wc_each->options as $key => $option)
 											<b>{{ $key.' - ' }}</b>{{ $option }}
 											<br />
 										@endforeach
 									</td>
 									<td>
-										<a href="{{ route('admin.widget.component.edit', ['id' => $wid_comp->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+										<a href="{{ route('admin.widget.component.edit', ['id' => $wc_each->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Edit</a>
 									</td>
 								</tr>
 								@endforeach

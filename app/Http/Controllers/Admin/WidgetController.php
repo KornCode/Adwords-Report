@@ -7,8 +7,6 @@ use App\User;
 use App\UserMeta;
 use Validator;
 
-// check
-
 use Illuminate\Http\Request;
 use App\Widget;
 use App\Component;
@@ -16,11 +14,12 @@ use App\WidgetComponent;
 
 class WidgetController extends Controller
 {
-    private function registerWidget($name, $user_id, $domain) {
+    private function registerWidget($name, $user_id, $domain, $align) {
         $widget = new Widget;
         $widget->name = $name;
         $widget->user_id = $user_id;
         $widget->domain = $domain;
+        $widget->align = $align;
         $widget->save();
 
         return $widget;
@@ -113,22 +112,21 @@ class WidgetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showWidgets() {
-        // check point
         $data['widgets'] = Widget::all();
         $data['components'] = Component::all();
-        $data['wid_comps'] = WidgetComponent::all();
+        $data['widget_component'] = WidgetComponent::all();
 
-        $data['embed_with_ids'] = array();
-        foreach ($data['wid_comps'] as $widget_comp) {
-            $embed_with_ids_temp = array(
-                'widget_id' => $widget_comp->widget_id,
-                'html_code' => "<script>var s = document.createElement('script');s.src = 'http://localhost:8000/embed.js';s.async = true;window.kodsana_options = {widget_id: ".$widget_comp->widget_id."};document.body.appendChild(s);</script><div id='load_widget'>Loading...</div>",
-                'name' => Widget::find($widget_comp->widget_id)->select('name')->first()->name
+        $data['embed'] = array();
+        foreach ($data['widget_component'] as $wc_each) {
+            $embed_temp = array(
+                'widget_id' => $wc_each->widget_id,
+                'html_code' => "<script>var s = document.createElement('script');s.src = 'http://localhost:8000/embed.js';s.async = true;window.kodsana_options = {widget_id: ".$wc_each->widget_id."};document.body.appendChild(s);</script><div id='load_widget'>Loading...</div>",
+                'name' => Widget::find($wc_each->widget_id)->name
             );
-            array_push($data['embed_with_ids'], $embed_with_ids_temp);
+            array_push($data['embed'], $embed_temp);
         }
 
-        $data['embed_with_ids'] = $this->unique_multidim_array($data['embed_with_ids'], 'widget_id');
+        $data['embed'] = $this->unique_multidim_array($data['embed'], 'widget_id');
 
         return view('admin.widgets.index', $data);
     }   
@@ -145,9 +143,9 @@ class WidgetController extends Controller
 
     public function postCreateWidget(Request $request) {
         $validator = Validator::make($request->all(), [
-            'widget_name' => 'required',
+            'widget_name' => 'required|max:255',
             'user_id' => 'required',
-            'domain' => 'required'
+            'domain' => 'required|max:255'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -156,7 +154,9 @@ class WidgetController extends Controller
         $name = $request->get('widget_name');
         $user_id = $request->get('user_id');
         $domain = $request->get('domain');
-        $this->registerWidget($name, $user_id, $domain);
+        $align = $request->get('alignment');
+        
+        $this->registerWidget($name, $user_id, $domain, $align);
 
         return redirect()->route('admin.widgets.index');
     }
@@ -171,9 +171,9 @@ class WidgetController extends Controller
     public function postEditWidget(Request $request) {
         $validator = Validator::make($request->all(), [
             'widget_id' => 'required',
-            'widget_name' => 'required',
+            'widget_name' => 'required|max:255',
             'user_id' => 'required',
-            'domain' => 'required'
+            'domain' => 'required|max:255'
         ]);
 		if ($validator->fails()) {
 		    return back()->withErrors($validator)->withInput();
@@ -190,13 +190,26 @@ class WidgetController extends Controller
 
     public function postDeleteWidget(Request $request) {
         $widget = Widget::find($request->get('widget_id'));
+        $name = $widget->name;
+        
         $validator = Validator::make($request->all(), [
              'delete_id' => 'required|in:'.$widget->id,
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
+
+        $count = Widget::where('name', '=', $name)->groupBy('name')->count();
+
+        if ($count === 1) {
+            $wid_comp = WidgetComponent::where('widget_id', '=', $request->get('widget_id'))->get();
+            foreach ($wid_comp as $wid_comp_each) {
+                $wid_comp_each->delete();
+            }
+        }
+
         $widget->delete();
+        
         return redirect()->route('admin.widgets.index');
     }
     
@@ -211,20 +224,17 @@ class WidgetController extends Controller
 
     public function postCreateComponent(Request $request) {
         $validator = Validator::make($request->all(), [
-            'name_icon' => 'required'
+            'icon' => 'required'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         };
 
-        $options = array('icon' => $request->get('name_icon'), 
-                        'backgroundColor' => $request->get('backgroundColor'), 
-                        'backgroundHoverColor' => $request->get('backgroundHoverColor'), 
-                        'textColor' => $request->get('textColor'), 
-                        'textHoverColor' => $request->get('textHoverColor'),
-                        'textBackgroundColor' => $request->get('textBackgroundColor'),    
-                        'textBackgroundHoverColor' => $request->get('textBackgroundHoverColor'));
-        $this->registerComponent($request->get('name_icon'), $options);
+        $options = $request->all();
+        $options = array_filter($options); // remove null value
+        $options = array_slice($options, 1); // remove _token
+
+        $this->registerComponent($request->get('icon'), $options);
 
         return redirect()->route('admin.widgets.index');
     }
@@ -237,20 +247,18 @@ class WidgetController extends Controller
     public function postEditComponent(Request $request) {
         $validator = Validator::make($request->all(), [
             'component_id' => 'required',
-            'name_icon' => 'required'
+            'icon' => 'required'
         ]);
 		if ($validator->fails()) {
 		    return back()->withErrors($validator)->withInput();
 		};
 		$component = Component::find($request->get('component_id'));
-        $component->name = $request->get('name_icon');
-        $options = array('icon' => $request->get('name_icon'), 
-                        'backgroundColor' => $request->get('backgroundColor'), 
-                        'backgroundHoverColor' => $request->get('backgroundHoverColor'), 
-                        'textColor' => $request->get('textColor'), 
-                        'textHoverColor' => $request->get('textHoverColor'),
-                        'textBackgroundColor' => $request->get('textBackgroundColor'),    
-                        'textBackgroundHoverColor' => $request->get('textBackgroundHoverColor'));
+        $component->name = $request->get('icon');
+
+        $options = $request->all();
+        $options = array_filter($options); // remove null value
+        $options = array_slice($options, 1); // remove _token
+
         $component->options = serialize($options);
 		$component->save();
 
@@ -282,15 +290,15 @@ class WidgetController extends Controller
 
     public function postCreateWidgetComponent(Request $request) {
         $validator = Validator::make($request->all(), [
-            'name_icon' => 'required'
+            'icon' => 'required'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         };
 
-        $options = array('contact' => $request->get('contact'),
-                        'icon' => $request->get('name_icon'), 
-                        'backgroundColor' => $request->get('backgroundColor'));
+        $options = $request->all();
+        $options = array_filter($options); // remove null value
+        $options = array_slice($options, 4); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
 
         $widget_id = $request->get('wc_widget_id');
         $widget = Widget::find($widget_id);
@@ -330,9 +338,9 @@ class WidgetController extends Controller
         $wid_comp->widget_id = $request->get('wc_widget_id');
         $wid_comp->component_id = $request->get('wc_comp_id');
 
-        $options = array('contact' => $request->get('contact'),
-                        'icon' => $request->get('name_icon'), 
-                        'backgroundColor' => $request->get('backgroundColor'));
+        $options = $request->all();
+        $options = array_filter($options); // remove null value
+        $options = array_slice($options, 4); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
 
         $wid_comp->options = serialize($options);
 
