@@ -37,7 +37,7 @@ Edit Component #{{ $component->id }}
                                 <label>Background Color</label>
                                 <div class="input-group bs-colorpicker colorpicker-element">
                                     @php
-                                        $backgroundColor = ($component->options['backgroundColor'] == null) ? null : $component->options['backgroundColor'];
+                                        $backgroundColor = (array_key_exists('backgroundColor', $component->options)) ? $component->options['backgroundColor'] : null;
                                     @endphp
                                     <input name="backgroundColor" type="text" class="form-control" value="{{ $backgroundColor }}">
                                     <div class="input-group-addon">

@@ -53,7 +53,10 @@ Edit Widget Component #{{ $wc_data->id }}
                     <div class="form-group">
                         <label>Background Color</label>
                         <div class="input-group bs-colorpicker colorpicker-element">
-                            <input name="backgroundColor" type="text" class="form-control" value="{{ $wc_data->options['backgroundColor'] }}" />
+                            @php
+                                $backgroundColor = (array_key_exists('backgroundColor', $wc_data->options)) ? $wc_data->options['backgroundColor'] : null;
+                            @endphp
+                            <input name="backgroundColor" type="text" class="form-control" value="{{ $backgroundColor }}" />
         
                             <div class="input-group-addon">
                             <i></i>
