@@ -10,10 +10,10 @@ Widgets Management
 			<!-- Custom Tabs (Pulled to the right) -->
 			<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs pull-right">
-				<li><a href="#embed" data-toggle="tab">Embed Code</a></li>
-				<li><a href="#widget_comp" data-toggle="tab">Widget Component</a></li>
-				<li><a href="#component" data-toggle="tab">Components</a></li>
-				<li class="active"><a href="#widget" data-toggle="tab">Widgets</a></li>
+				<li class=""><a href="#embed" data-toggle="tab" aria-expanded="false">Embed Code</a></li>
+				<li class=""><a href="#widget_comp" data-toggle="tab" aria-expanded="false">Widget Component</a></li>
+				<li class=""><a href="#component" data-toggle="tab" aria-expanded="false">Components</a></li>
+				<li class=""><a href="#widget" data-toggle="tab" aria-expanded="false">Widgets</a></li>
 				<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					Create <span class="caret"></span>
@@ -34,7 +34,11 @@ Widgets Management
 						</div>
 						<div class="box-body">
 							<div class="form-group">
-								<textarea class="form-control" id="exampleFormControlTextarea1" rows="6">{{ $embed_each['html_code'] }}</textarea>
+								<figure>
+									<pre>
+										<code>{{ $embed_each['html_code'] }}</code>
+									</pre>
+								</figure>
 							</div>
 						</div>
 					@endforeach

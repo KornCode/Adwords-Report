@@ -102,8 +102,6 @@ Edit Member #{{ $member->id }}
 				</div>
 			</div>
 		</div>
-
-		
 	</div>
 		
 </form>

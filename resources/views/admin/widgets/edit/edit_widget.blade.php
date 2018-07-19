@@ -39,22 +39,22 @@ Edit Widget #{{ $widget->id }}
                         <label>Alignment</label>
                         <br>
                         @if ($widget->align == "mobile")
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="alignment" value="mobile" checked>
-                                <label class="custom-control-label" for="defaultGroupExample1"> Mobile</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="alignment" value="desktop">
-                                <label class="custom-control-label" for="defaultGroupExample2"> Desktop</label>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-block btn-default btn-flat">
+                                    <input type="radio" name="alignment" value="desktop" autocomplete="off"> Desktop
+                                </label>
+                                <label class="btn btn-block btn-default btn-flat active">
+                                    <input type="radio" name="alignment" value="mobile" autocomplete="off" checked> Mobile
+                                </label>
                             </div>
                         @elseif ($widget->align == "desktop")
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="alignment" value="mobile">
-                                <label class="custom-control-label" for="defaultGroupExample1"> Mobile</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="alignment" value="desktop" checked>
-                                <label class="custom-control-label" for="defaultGroupExample2"> Desktop</label>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-block btn-default btn-flat active">
+                                    <input type="radio" name="alignment" value="desktop" autocomplete="off" checked> Desktop
+                                </label>
+                                <label class="btn btn-block btn-default btn-flat">
+                                    <input type="radio" name="alignment" value="mobile" autocomplete="off"> Mobile
+                                </label>
                             </div>
                         @endif
                     </div>

@@ -95,6 +95,7 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */ 
      public function postDeleteRole(Request $request){
+
           $role = Role::find($request->get('role_id'));
           $validator = Validator::make($request->all(), [
                'delete_name' => 'required|in:'.$role->name,

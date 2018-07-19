@@ -7,13 +7,13 @@
 
 require('./bootstrap');
 
+require('admin-lte/dist/js/adminlte');
+require('bootstrap-select/js/bootstrap-select');
+
 window.Vue = require('vue');
 window._ = require('lodash');
 
-
 import BootstrapVue from 'bootstrap-vue'
-// import VueCharts from 'vue-chartjs'
-// import { Line, Bar } from 'vue-chartjs'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 

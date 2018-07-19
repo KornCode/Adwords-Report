@@ -12,28 +12,13 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        <!-- Bootstrap 3.3.2 -->
-        <link href="{{ asset("/bower_components/bootstrap/dist/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
-        <!-- Font Awesome Icons -->
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <!-- Ionicons -->
-        <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-        <!-- Theme style -->
-        <link href="{{ asset("/bower_components/admin-lte/dist/css/AdminLTE.min.css")}}" rel="stylesheet" type="text/css" />
-        <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-              page. However, you can choose any other skin. Make sure you
-              apply the skin class to the body tag so the changes take effect.
-        -->
-        <link href="{{ asset("/bower_components/admin-lte/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
         
         <script type="text/javascript">
             var api_url = "{{ env('API_URL') }}";
         </script>
-        <script src="{{ asset('js/app.js') }}" defer></script>
-        {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-
-        {{-- Bootstrap dropdown select --}}
-        <link href="{{ asset("/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css")}}" rel="stylesheet" type="text/css" />
+        
+        <script src="{{ mix('/js/app.js') }}" defer></script>
+        <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
         
     </head>
     <body class="skin-blue">

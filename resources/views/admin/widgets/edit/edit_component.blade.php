@@ -28,6 +28,7 @@ Edit Component #{{ $component->id }}
                             <option data-icon="fa fa-comment" value="line">Line</option>
                             <option data-icon="fa fa-phone" value="call">Call</option>
                             <option data-icon="fa fa-envelope" value="email">Email</option>
+                            <option data-icon="fa fa-commenting-o" value="messenger">Messenger</option>
                         </select>
                     </div>
 

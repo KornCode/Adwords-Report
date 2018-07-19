@@ -49,63 +49,6 @@ class WidgetController extends Controller
         return $temp_array; 
     } 
 
-    // HTML Minifier
-    private function minify_html($input) {
-        if(trim($input) === "") return $input;
-        // Remove extra white-space(s) between HTML attribute(s)
-        $input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function($matches) {
-            return '<' . $matches[1] . preg_replace('#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s', ' $1$2', $matches[2]) . $matches[3] . '>';
-        }, str_replace("\r", "", $input));
-        // Minify inline CSS declaration(s)
-        if(strpos($input, ' style=') !== false) {
-            $input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
-                return '<' . $matches[1] . ' style=' . $matches[2] . minify_css($matches[3]) . $matches[2];
-            }, $input);
-        }
-        if(strpos($input, '</style>') !== false) {
-        $input = preg_replace_callback('#<style(.*?)>(.*?)</style>#is', function($matches) {
-            return '<style' . $matches[1] .'>'. minify_css($matches[2]) . '</style>';
-        }, $input);
-        }
-        if(strpos($input, '</script>') !== false) {
-        $input = preg_replace_callback('#<script(.*?)>(.*?)</script>#is', function($matches) {
-            return '<script' . $matches[1] .'>'. minify_js($matches[2]) . '</script>';
-        }, $input);
-        }
-        return preg_replace(
-            array(
-                // t = text
-                // o = tag open
-                // c = tag close
-                // Keep important white-space(s) after self-closing HTML tag(s)
-                '#<(img|input)(>| .*?>)#s',
-                // Remove a line break and two or more white-space(s) between tag(s)
-                '#(<!--.*?-->)|(>)(?:\n*|\s{2,})(<)|^\s*|\s*$#s',
-                '#(<!--.*?-->)|(?<!\>)\s+(<\/.*?>)|(<[^\/]*?>)\s+(?!\<)#s', // t+c || o+t
-                '#(<!--.*?-->)|(<[^\/]*?>)\s+(<[^\/]*?>)|(<\/.*?>)\s+(<\/.*?>)#s', // o+o || c+c
-                '#(<!--.*?-->)|(<\/.*?>)\s+(\s)(?!\<)|(?<!\>)\s+(\s)(<[^\/]*?\/?>)|(<[^\/]*?\/?>)\s+(\s)(?!\<)#s', // c+t || t+o || o+t -- separated by long white-space(s)
-                '#(<!--.*?-->)|(<[^\/]*?>)\s+(<\/.*?>)#s', // empty tag
-                '#<(img|input)(>| .*?>)<\/\1>#s', // reset previous fix
-                '#(&nbsp;)&nbsp;(?![<\s])#', // clean up ...
-                '#(?<=\>)(&nbsp;)(?=\<)#', // --ibid
-                // Remove HTML comment(s) except IE comment(s)
-                '#\s*<!--(?!\[if\s).*?-->\s*|(?<!\>)\n+(?=\<[^!])#s'
-            ),
-            array(
-                '<$1$2</$1>',
-                '$1$2$3',
-                '$1$2$3',
-                '$1$2$3$4$5',
-                '$1$2$3$4$5$6$7',
-                '$1$2$3',
-                '<$1$2',
-                '$1 ',
-                '$1',
-                ""
-            ),
-        $input);
-    }
-
     /**
      * Show Widget
      *
@@ -116,16 +59,19 @@ class WidgetController extends Controller
         $data['components'] = Component::all();
         $data['widget_component'] = WidgetComponent::all();
 
+        $js_source = 'http://localhost:8000/js/embed.js';
+        $enable_async = true;
+
         $data['embed'] = array();
         foreach ($data['widget_component'] as $wc_each) {
             $embed_temp = array(
                 'widget_id' => $wc_each->widget_id,
-                'html_code' => "<script>var s = document.createElement('script');s.src = 'http://localhost:8000/embed.js';s.async = true;window.kodsana_options = {widget_id: ".$wc_each->widget_id."};document.body.appendChild(s);</script><div id='load_widget'>Loading...</div>",
+                'html_code' => "<script>\n     var s = document.createElement('script');\n     s.src = '".$js_source."';\n     s.async = ".$enable_async.";\n     window.kodsana_options = {widget_id: ".$wc_each->widget_id."};\n     document.body.appendChild(s);\n</script>\n<div id='load_widget'>Loading...</div>",
                 'name' => Widget::find($wc_each->widget_id)->name
             );
             array_push($data['embed'], $embed_temp);
         }
-
+        
         $data['embed'] = $this->unique_multidim_array($data['embed'], 'widget_id');
 
         return view('admin.widgets.index', $data);
@@ -190,7 +136,6 @@ class WidgetController extends Controller
 
     public function postDeleteWidget(Request $request) {
         $widget = Widget::find($request->get('widget_id'));
-        $name = $widget->name;
         
         $validator = Validator::make($request->all(), [
              'delete_id' => 'required|in:'.$widget->id,
@@ -199,7 +144,7 @@ class WidgetController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $count = Widget::where('name', '=', $name)->groupBy('name')->count();
+        $count = Widget::where('name', '=', $widget->name)->groupBy('name')->count();
 
         if ($count === 1) {
             $wid_comp = WidgetComponent::where('widget_id', '=', $request->get('widget_id'))->get();
@@ -224,7 +169,7 @@ class WidgetController extends Controller
 
     public function postCreateComponent(Request $request) {
         $validator = Validator::make($request->all(), [
-            'icon' => 'required'
+            'icon' => 'required|max:255'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -232,7 +177,10 @@ class WidgetController extends Controller
 
         $options = $request->all();
         $options = array_filter($options); // remove null value
-        $options = array_slice($options, 1); // remove _token
+
+        $options_temp_1 = array_slice($options, 1, 1); // remove _token
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 2)); // handle color options
+        $options = array_merge($options_temp_1, $options_temp_2);
 
         $this->registerComponent($request->get('icon'), $options);
 
@@ -247,17 +195,21 @@ class WidgetController extends Controller
     public function postEditComponent(Request $request) {
         $validator = Validator::make($request->all(), [
             'component_id' => 'required',
-            'icon' => 'required'
+            'icon' => 'required|max:255'
         ]);
 		if ($validator->fails()) {
 		    return back()->withErrors($validator)->withInput();
-		};
+        };
+        
 		$component = Component::find($request->get('component_id'));
         $component->name = $request->get('icon');
 
         $options = $request->all();
         $options = array_filter($options); // remove null value
-        $options = array_slice($options, 1); // remove _token
+
+        $options_temp_1 = array_slice($options, 2, 1); // remove _token
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 3)); // handle color options
+        $options = array_merge($options_temp_1, $options_temp_2);
 
         $component->options = serialize($options);
 		$component->save();
@@ -267,13 +219,16 @@ class WidgetController extends Controller
 
     public function postDeleteComponent(Request $request){
         $component = Component::find($request->get('component_id'));
+
         $validator = Validator::make($request->all(), [
              'delete_id' => 'required|in:'.$component->id,
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
+
         $component->delete();
+
         return redirect()->route('admin.widgets.index');
     }
 
@@ -283,14 +238,16 @@ class WidgetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showCreateWidgetComponent() {
-        $data['wc_comp_data'] = Component::select('id', 'name')->get();
         $data['wc_widget_data'] = Widget::select('id', 'name')->get();
+        $data['wc_comp_data'] = Component::select('id', 'name')->get();
+
         return view('admin.widgets.create.create_widget_component', $data);
     } 
 
     public function postCreateWidgetComponent(Request $request) {
         $validator = Validator::make($request->all(), [
-            'icon' => 'required'
+            'contact' => 'required|max:255',
+            'icon' => 'required|max:255'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -299,6 +256,10 @@ class WidgetController extends Controller
         $options = $request->all();
         $options = array_filter($options); // remove null value
         $options = array_slice($options, 4); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
+        
+        $options_temp_1 = array_slice($options, 0, 2); // icon
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 2)); // backgroundColor
+        $options = array_merge($options_temp_1, $options_temp_2);
 
         $widget_id = $request->get('wc_widget_id');
         $widget = Widget::find($widget_id);
@@ -317,9 +278,10 @@ class WidgetController extends Controller
     }
 
     public function showEditWidgetComponent($wid_comp_id) {
-        $data['wc_comp_data'] = Component::select('id', 'name')->get();
         $data['wc_widget_data'] = Widget::select('id', 'name')->get();
+        $data['wc_comp_data'] = Component::select('id', 'name')->get();
         $data['wc_data'] = WidgetComponent::find($wid_comp_id);
+
      	return view('admin.widgets.edit.edit_widget_component', $data);
     }
 
@@ -327,7 +289,9 @@ class WidgetController extends Controller
         $validator = Validator::make($request->all(), [
             'wid_comp_id' => 'required',
             'wc_widget_id' => 'required',
-            'wc_comp_id' => 'required'
+            'wc_comp_id' => 'required',
+            'contact' => 'required|max:255',
+            'icon' => 'required|max:255'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -342,8 +306,12 @@ class WidgetController extends Controller
         $options = array_filter($options); // remove null value
         $options = array_slice($options, 4); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
 
-        $wid_comp->options = serialize($options);
+        $options_temp_1 = array_slice($options, 0, 2); // icon
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 2)); // backgroundColor
+        $options = array_merge($options_temp_1, $options_temp_2);
 
+        $wid_comp->options = serialize($options);
+        
         $wid_comp->save();
 
 		return redirect()->route('admin.widgets.index');
@@ -351,13 +319,16 @@ class WidgetController extends Controller
 
     public function postDeleteWidgetComponent(Request $request){
         $wid_comp = WidgetComponent::find($request->get('wid_comp_id'));
+
         $validator = Validator::make($request->all(), [
              'delete_id' => 'required|in:'.$wid_comp->id,
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
+
         $wid_comp->delete();
+
         return redirect()->route('admin.widgets.index');
     }
 }

@@ -1,5 +1,5 @@
 @extends('admin.layout.backend')
-{{-- ss --}}
+ 
 @section('title')
 Create a new Component
 @endsection
@@ -27,6 +27,7 @@ Create a new Component
 							<option data-icon="fa fa-comment" value="line">Line</option>
 							<option data-icon="fa fa-phone" value="call">Call</option>
 							<option data-icon="fa fa-envelope" value="email">Email</option>
+							<option data-icon="fa fa-commenting-o" value="messenger">Messenger</option>
 						</select>
 					</div>
 					<div class="row">
