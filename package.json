@@ -27,7 +27,7 @@
         "admin-lte": "^2.4.8",
         "ajv": "^6.5.2",
         "ajv-keywords": "^3.2.0",
-        "bootstrap-colorpicker": "^2.5.2",
+        "bootstrap-colorpicker": "^2.5.3",
         "bootstrap-colorselector": "^0.1.0",
         "bootstrap-sass": "^3.3.7",
         "bootstrap-select": "^1.13.1",
@@ -40,6 +40,6 @@
         "vue-dropdowns": "^1.0.6",
         "vue-google-charts": "0.0.3",
         "vue-resource": "^1.5.1",
-        "vuetify": "^1.1.5"
+        "vuetify": "^1.1.7"
     }
 }

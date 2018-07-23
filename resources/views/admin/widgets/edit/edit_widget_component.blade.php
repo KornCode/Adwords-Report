@@ -41,13 +41,19 @@ Edit Widget Component #{{ $wc_data->id }}
                     </div>
 
                     <div class="form-group">
-						<label for="wc_options" class="control-label">URL or Tel</label>
-						<input type="text" name="contact" class="form-control" value="{{ $wc_data->options['contact'] }}" />
+                        <label for="wc_options" class="control-label">URL or Tel</label>
+                        @php
+                            $contact = (array_key_exists('contact', $wc_data->options)) ? $wc_data->options['contact'] : null;
+                        @endphp
+						<input type="text" name="contact" class="form-control" value="{{ $contact }}" />
 					</div>
 
                     <div class="form-group">
                         <label for="wc_options" class="control-label">Icon</label>
-                        <input type="text" name="icon" class="form-control" value="{{ $wc_data->options['icon'] }}" />
+                        @php
+                            $icon = (array_key_exists('icon', $wc_data->options)) ? $wc_data->options['icon'] : null;
+                        @endphp
+                        <input type="text" name="icon" class="form-control" value="{{ $icon }}" />
                     </div>
 
                     <div class="form-group">

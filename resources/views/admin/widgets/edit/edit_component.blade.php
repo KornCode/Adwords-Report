@@ -6,7 +6,7 @@ Edit Component #{{ $component->id }}
 
 @section('content')
 
-@include('admin.components.errors_box')
+@include('admin.components.errors_box') 
 
 <div class="row">
 	<form action="{{ route('admin.components.edit.post') }}" method="POST" role="form">
@@ -21,19 +21,34 @@ Edit Component #{{ $component->id }}
                     <div class="form-group">
                         <label>Name and Icon</label>
                         <br>
-                        <select name="icon" class="selectpicker" data-live-search="true" data-width="100%">
-                            <option value={{ $component->name }}> {{ $component->name }} </option>
+                        <select name="icon" id="selected_option" class="selectpicker" data-live-search="true" data-width="100%">
                             <option data-icon="fa fa-facebook" value="facebook">Facebook</option>
                             <option data-icon="fa fa-google-plus" value="google">Google</option>
                             <option data-icon="fa fa-comment" value="line">Line</option>
                             <option data-icon="fa fa-phone" value="call">Call</option>
                             <option data-icon="fa fa-envelope" value="email">Email</option>
                             <option data-icon="fa fa-commenting-o" value="messenger">Messenger</option>
+                            {{-- <option value={{ $component->name }}></option> --}}
                         </select>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Icon Size</label>
+                                <br>
+                                <select name="size" class="selectpicker">
+                                    <option data-subtext="px" value="32px">32</option>
+                                    <option data-subtext="px" value="35px">35</option>
+                                    <option data-subtext="px" value="38px">38</option>
+                                    <option data-subtext="px" value="40px">40</option>
+                                    <option data-subtext="px" value="42px">42</option>
+                                    <option data-subtext="px" value="44px">44</option>
+                                    <option data-subtext="px" value="46px">46</option>
+                                    <option data-subtext="px" value="48px">48</option>
+                                </select>		  
+                            </div>
+                            
                             <div class="form-group">
                                 <label>Background Color</label>
                                 <div class="input-group bs-colorpicker colorpicker-element">
@@ -149,4 +164,6 @@ Edit Component #{{ $component->id }}
         </form>
     </div>	
 </div>
+
+
 @endsection

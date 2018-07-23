@@ -1,5 +1,5 @@
 (function (global) {
-
+    // check point
     var options = window.kodsana_options;
 
     var str = Object.keys(options).map(function(key) {
@@ -93,16 +93,22 @@
                     var icon = document.createElement('i');
 
                     // icon type and icon size
-                    icon.setAttribute('class', option[i].options.icon + ' fa-3x');
+                    icon.setAttribute('class', option[i].options.icon);
+                    icon.style.fontSize = option[i].options.size;
 
                     // icon color
                     icon.style.color = option[i].options.backgroundColor;
             
                     buttons[i] = document.createElement('a');
                     buttons[i].setAttribute('class', 'buttons');
+                    buttons[i].setAttribute('id', 'test');
 
                     // icon tooltip hover name
                     buttons[i].setAttribute('tooltip', components[i].name);
+                    console.log(components[i].name);
+                    buttons[i].style.color = option[i].options.textColor;
+                    // buttons[i].style.background = option[i].options.textBackgroundColor;
+                    buttons[i].style.background = '#D5DBDB';
                     buttons[i].href = domain;
                     buttons[i].target = '_blank';
             
@@ -113,6 +119,7 @@
                 button_main = document.createElement('a');
                 button_main.setAttribute('class', 'buttons');
                 button_main.setAttribute('tooltip', 'Compose');
+                button_main.style.color = '#F8F9F9';
             
                 span_button_main = document.createElement('span');
                 sub_span_button_main = document.createElement('span');
@@ -143,7 +150,6 @@
 function isMobileDevice() {
     return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
 };
-
 
 
 

@@ -129,6 +129,7 @@ class WidgetController extends Controller
 		$widget->name = $request->get('widget_name');
         $widget->user_id = $request->get('user_id');
         $widget->domain = $request->get('domain');
+        $widget->align = $request->get('alignment');
 		$widget->save();
 
 		return redirect()->route('admin.widgets.index');
@@ -178,8 +179,8 @@ class WidgetController extends Controller
         $options = $request->all();
         $options = array_filter($options); // remove null value
 
-        $options_temp_1 = array_slice($options, 1, 1); // remove _token
-        $options_temp_2 = array_map('strtoupper', array_slice($options, 2)); // handle color options
+        $options_temp_1 = array_slice($options, 1, 2); // remove _token
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 3)); // handle color options
         $options = array_merge($options_temp_1, $options_temp_2);
 
         $this->registerComponent($request->get('icon'), $options);
@@ -207,8 +208,8 @@ class WidgetController extends Controller
         $options = $request->all();
         $options = array_filter($options); // remove null value
 
-        $options_temp_1 = array_slice($options, 2, 1); // remove _token
-        $options_temp_2 = array_map('strtoupper', array_slice($options, 3)); // handle color options
+        $options_temp_1 = array_slice($options, 2, 2); // remove _token
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 4)); // handle color options
         $options = array_merge($options_temp_1, $options_temp_2);
 
         $component->options = serialize($options);

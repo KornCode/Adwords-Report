@@ -11,7 +11,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    {{-- <script src="{{ mix('/js/app.js') }}" defer></script> --}}
     <link href="{{ mix('/css/register/register.css') }}" rel="stylesheet">
     
 </head>

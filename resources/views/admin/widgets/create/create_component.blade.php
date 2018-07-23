@@ -33,6 +33,21 @@ Create a new Component
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
+								<label>Icon Size</label>
+								<br>
+								<select name="size" class="selectpicker">
+									<option data-subtext="px" value="32px">32</option>
+									<option data-subtext="px" value="35px">35</option>
+									<option data-subtext="px" value="38px">38</option>
+									<option data-subtext="px" value="40px">40</option>
+									<option data-subtext="px" value="42px">42</option>
+									<option data-subtext="px" value="44px">44</option>
+									<option data-subtext="px" value="46px">46</option>
+									<option data-subtext="px" value="48px">48</option>
+								</select>		  
+							</div>
+
+							<div class="form-group">
 								<label>Background Color</label>
 								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="backgroundColor" type="text" class="form-control">
