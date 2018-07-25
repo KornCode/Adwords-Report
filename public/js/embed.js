@@ -25,11 +25,25 @@
             let option = response.components;
             let domain = response.domain;
             let align = response.align;
+            let length = components.length;
 
             font_awe = document.createElement('link');
             font_awe.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css';
             font_awe.rel = 'stylesheet'; 
             font_awe.type = 'text/css';
+
+            var extraSize = 0;
+            var extraMargin = 0;
+            if (isMobileDevice) {
+                if (screen.width >= 768 && screen.height <= 1024) {
+                    extraSize = 35;
+                    extraMargin = 8;
+                } 
+                else if (screen.width >= 1024) {
+                    extraSize = 55;
+                    extraMargin = 20;
+                }
+            }
 
             if (align == "mobile") {
                 // Create Floating Action Buttons container
@@ -41,36 +55,42 @@
 
                 // Widget Init
                 var widget_container;
-                var container, button_nav, buttons = [];
+                var container, nav, button = [];
                 var widget_container = document.getElementById('load_widget');
 
                 container = document.createElement('div');
-                button_nav = document.createElement('div');
-                button_nav.setAttribute('class', 'button_nav');
 
-                for (var i = 0; i < components.length; i++) {
+                nav = document.createElement('div');
+                nav.setAttribute('class', 'nav');
+
+                for (var i = 0; i < length; i++) {
                     var icon = document.createElement('i');
 
-                    // icon type and icon size
-                    icon.setAttribute('class', option[i].options.icon + ' fa-3x');
+                    var iconSize = parseInt(option[i].options.size) + extraSize + 'px';
+                    var backgroundSize = parseInt(option[i].options.size) + 14 + extraSize + 'px';
+ 
+                    // icon size and color
+                    icon.setAttribute('class', option[i].options.icon + ' icon_properties');
+                    icon.style.fontSize = iconSize;
+                    icon.style.color = option[i].options.iconColor;
 
-                    // icon color
-                    icon.style.color = option[i].options.backgroundColor;
+                    // icon background color
+                    button[i] = document.createElement('a');
+                    button[i].setAttribute('class', 'background_properties');
+                    button[i].style.height = backgroundSize ;
+                    button[i].style.width = backgroundSize;
+                    button[i].style.background = option[i].options.backgroundColor;
+                    button[i].style.marginRight = 15 + extraMargin + 'px';
 
-                    buttons[i] = document.createElement('a');
-                    buttons[i].setAttribute('class', 'buttons');
+                    button[i].href = domain;
+                    button[i].target = '_blank';
 
-                    // icon tooltip hover name
-                    // buttons[i].setAttribute('tooltip', components[i].name);
-                    buttons[i].href = domain;
-                    buttons[i].target = '_blank';
-
-                    buttons[i].appendChild(icon);
-                    button_nav.appendChild(buttons[i])
+                    button[i].appendChild(icon);
+                    nav.appendChild(button[i])
                 }
 
                 // Append to parent container
-                container.appendChild(button_nav);
+                container.appendChild(nav);
             }
             else if (align == "desktop") {
                 // Create Floating Action Buttons container
@@ -89,26 +109,28 @@
                 nav = document.createElement('nav');
                 nav.setAttribute('class', 'container');
 
-                for (var i = 0; i < components.length; i++) {
+                for (var i = 0; i < length; i++) {
                     var icon = document.createElement('i');
+                    var iconSize = parseInt(option[i].options.size) + 'px';
+                    var backgroundSize = parseInt(option[i].options.size) + 14 + 'px';
 
-                    // icon type and icon size
-                    icon.setAttribute('class', option[i].options.icon);
-                    icon.style.fontSize = option[i].options.size;
+                    // icon size and color
+                    icon.setAttribute('class', option[i].options.icon + ' icon_properties');
+                    icon.style.fontSize = iconSize;
+                    icon.style.color = option[i].options.iconColor;
 
-                    // icon color
-                    icon.style.color = option[i].options.backgroundColor;
-            
                     buttons[i] = document.createElement('a');
                     buttons[i].setAttribute('class', 'buttons');
-                    buttons[i].setAttribute('id', 'test');
 
-                    // icon tooltip hover name
+                    // icon tooltip name
                     buttons[i].setAttribute('tooltip', components[i].name);
-                    console.log(components[i].name);
-                    buttons[i].style.color = option[i].options.textColor;
-                    // buttons[i].style.background = option[i].options.textBackgroundColor;
-                    buttons[i].style.background = '#D5DBDB';
+                    buttons[i].style.color = option[i].options.tooltipColor;
+
+                    // icon background color
+                    buttons[i].style.background = option[i].options.backgroundColor;
+                    buttons[i].style.width = backgroundSize;
+                    buttons[i].style.height = backgroundSize;
+
                     buttons[i].href = domain;
                     buttons[i].target = '_blank';
             
@@ -134,11 +156,6 @@
 
             container.appendChild(link);
             container.appendChild(font_awe);
-
-            widget_container.style.margin = '1em';
-            widget_container.style.position = 'fixed';
-            widget_container.style.bottom = '0';
-            widget_container.style.right = '0';
 
             widget_container.parentNode.replaceChild(container, widget_container);
         }

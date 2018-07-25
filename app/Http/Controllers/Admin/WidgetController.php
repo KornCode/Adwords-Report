@@ -178,7 +178,6 @@ class WidgetController extends Controller
 
         $options = $request->all();
         $options = array_filter($options); // remove null value
-
         $options_temp_1 = array_slice($options, 1, 2); // remove _token
         $options_temp_2 = array_map('strtoupper', array_slice($options, 3)); // handle color options
         $options = array_merge($options_temp_1, $options_temp_2);
@@ -256,10 +255,9 @@ class WidgetController extends Controller
 
         $options = $request->all();
         $options = array_filter($options); // remove null value
-        $options = array_slice($options, 4); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
-        
-        $options_temp_1 = array_slice($options, 0, 2); // icon
-        $options_temp_2 = array_map('strtoupper', array_slice($options, 2)); // backgroundColor
+        $options = array_slice($options, 3); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
+        $options_temp_1 = array_slice($options, 0, 3); // icon
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 3)); // backgroundColor
         $options = array_merge($options_temp_1, $options_temp_2);
 
         $widget_id = $request->get('wc_widget_id');
@@ -306,9 +304,8 @@ class WidgetController extends Controller
         $options = $request->all();
         $options = array_filter($options); // remove null value
         $options = array_slice($options, 4); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
-
-        $options_temp_1 = array_slice($options, 0, 2); // icon
-        $options_temp_2 = array_map('strtoupper', array_slice($options, 2)); // backgroundColor
+        $options_temp_1 = array_slice($options, 0, 3); // icon
+        $options_temp_2 = array_map('strtoupper', array_slice($options, 3)); // backgroundColor
         $options = array_merge($options_temp_1, $options_temp_2);
 
         $wid_comp->options = serialize($options);

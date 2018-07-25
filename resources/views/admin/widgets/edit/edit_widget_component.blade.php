@@ -57,6 +57,36 @@ Edit Widget Component #{{ $wc_data->id }}
                     </div>
 
                     <div class="form-group">
+                        <label>Icon Size</label>
+                        <br>
+                        <select name="size" class="selectpicker">
+                            <option data-subtext="px" value={{ $wc_data->options['size'] }}>{{ $wc_data->options['size'] }}</option>
+                            <option data-subtext="px" value="32">32</option>
+                            <option data-subtext="px" value="35">35</option>
+                            <option data-subtext="px" value="38">38</option>
+                            <option data-subtext="px" value="40">40</option>
+                            <option data-subtext="px" value="42">42</option>
+                            <option data-subtext="px" value="44">44</option>
+                            <option data-subtext="px" value="46">46</option>
+                            <option data-subtext="px" value="48">48</option>
+                        </select>		  
+                    </div>
+
+                    <div class="form-group">
+                        <label>Icon Color</label>
+                        <div class="input-group bs-colorpicker colorpicker-element">
+                            @php
+                                $iconColor = (array_key_exists('iconColor', $wc_data->options)) ? $wc_data->options['iconColor'] : null;
+                            @endphp
+                            <input name="iconColor" type="text" class="form-control" value="{{ $iconColor }}" />
+        
+                            <div class="input-group-addon">
+                            <i></i>
+                            </div>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <div class="form-group">
                         <label>Background Color</label>
                         <div class="input-group bs-colorpicker colorpicker-element">
                             @php

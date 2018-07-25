@@ -23,7 +23,7 @@
         "vue-axios": "^2.1.2"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.1.1",
+        "@fortawesome/fontawesome-free": "^5.2.0",
         "admin-lte": "^2.4.8",
         "ajv": "^6.5.2",
         "ajv-keywords": "^3.2.0",
@@ -40,6 +40,6 @@
         "vue-dropdowns": "^1.0.6",
         "vue-google-charts": "0.0.3",
         "vue-resource": "^1.5.1",
-        "vuetify": "^1.1.7"
+        "vuetify": "^1.1.8"
     }
 }
