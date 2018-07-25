@@ -123,21 +123,53 @@
 					<thead>
 						<tr>
 							<th>Variables</th>
-							<th>Value</th>
+							<th>Total</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>Total Members</td>
+							<td>Members</td>
 							<td>{{ $member_count }}</td>
 						</tr>
 						<tr>
-							<td>Registered Adwords Keys</td>
+							<td>Members with Adwords</td>
 							<td>{{ $member_with_adwordsKey }}</td>
 						</tr>
 						<tr>
-							<td>Registered Social Keys</td>
+							<td>Members with Social</td>
 							<td>{{ $member_with_socialKey }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="box box-info">
+			<div class="box-header with-border">
+				<h3 class="box-title">Widget Information</h3><i class="fa fa-th" style="float: right;"></i>
+			</div>
+			<div class="box-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Variables</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Widgets</td>
+							<td>{{ $widget_count }}</td>
+						</tr>
+						<tr>
+							<td>Components</td>
+							<td>{{ $component_count }}</td>
+						</tr>
+						<tr>
+							<td>WidgetComponents</td>
+							<td>{{ $wc_count }}</td>
 						</tr>
 					</tbody>
 				</table>

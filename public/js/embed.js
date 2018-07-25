@@ -34,7 +34,8 @@
 
             var extraSize = 0;
             var extraMargin = 0;
-            if (isMobileDevice) {
+            if (isMobileDevice()) {
+                console.log('mobile');
                 if (screen.width >= 768 && screen.height <= 1024) {
                     extraSize = 35;
                     extraMargin = 8;
