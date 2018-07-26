@@ -21,14 +21,14 @@ Edit Component #{{ $component->id }}
                     <div class="form-group">
                         <label>Name and Icon</label>
                         <br>
-                        <select name="icon" id="selected_option" class="selectpicker" data-live-search="true" data-width="100%">
-                            <option value={{ $component->name }}>{{ $component->name }}</option>
-                            <option data-icon="fa fa-facebook" value="facebook">Facebook</option>
-                            <option data-icon="fa fa-google-plus" value="google">Google</option>
-                            <option data-icon="fa fa-comment" value="line">Line</option>
-                            <option data-icon="fa fa-phone" value="call">Call</option>
-                            <option data-icon="fa fa-envelope" value="email">Email</option>
-                            <option data-icon="fa fa-commenting-o" value="messenger">Messenger</option>
+                        <select name="icon" class="selectpicker" data-live-search="true" data-width="100%">
+                        @foreach($icon_options as $key => $value)
+                            @if ($component->name == $value)
+                                <option selected data-icon="{{ $key }}" value="{{ $value }}">{{ $value }}</option>
+                            @else
+                                <option data-icon="{{ $key }}" value="{{ $value }}">{{ $value }}</option>
+                            @endif
+                        @endforeach
                         </select>
                     </div>
 
@@ -36,18 +36,16 @@ Edit Component #{{ $component->id }}
                         <div class="col-sm-12">
                             <div class="form-group">
                             <label>Icon Size</label>
-                                <br>
+                                <br>		
                                 <select name="size" class="selectpicker">
-                                    <option data-subtext="px" value={{ $component->options['size'] }}>{{ $component->options['size'] }}</option>
-                                    <option data-subtext="px" value="32">32</option>
-                                    <option data-subtext="px" value="35">35</option>
-                                    <option data-subtext="px" value="38">38</option>
-                                    <option data-subtext="px" value="40">40</option>
-                                    <option data-subtext="px" value="42">42</option>
-                                    <option data-subtext="px" value="44">44</option>
-                                    <option data-subtext="px" value="46">46</option>
-                                    <option data-subtext="px" value="48">48</option>
-                                </select>		  
+                                    @foreach($size_options as $size)
+                                        @if ($component->options['size'] == $size)
+                                            <option selected value={{ $size }}>{{ $size }} px</option>
+                                        @else
+                                            <option value={{ $size }}>{{ $size }} px</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                             
                             <div class="form-group">
@@ -64,7 +62,7 @@ Edit Component #{{ $component->id }}
                                 <!-- /.input group -->
                             </div>
                             <div class="form-group">
-                                <label>Tooltip Color</label>
+                                <label>Tooltip Text Color</label>
                                 <div class="input-group bs-colorpicker colorpicker-element">
                                     @php
                                         $tooltipColor = (array_key_exists('tooltipColor', $component->options)) ? $component->options['tooltipColor'] : null;

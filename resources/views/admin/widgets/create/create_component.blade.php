@@ -21,13 +21,9 @@ Create a new Component
 						<label>Name and Icon</label>
 						<br>
 						<select name="icon" class="selectpicker" data-live-search="true" data-width="100%">
-							<option disabled selected value> -- select an option -- </option>
-							<option data-icon="fa fa-facebook" value="facebook">Facebook</option>
-							<option data-icon="fa fa-google-plus" value="google">Google</option>
-							<option data-icon="fa fa-comment" value="line">Line</option>
-							<option data-icon="fa fa-phone" value="call">Call</option>
-							<option data-icon="fa fa-envelope" value="email">Email</option>
-							<option data-icon="fa fa-commenting-o" value="messenger">Messenger</option>
+						@foreach($icon_options as $key => $value)
+							<option data-icon="{{ $key }}" value="{{ $value }}">{{ $value }}</option>
+						@endforeach
 						</select>
 					</div>
 					<div class="row">
@@ -36,15 +32,10 @@ Create a new Component
 								<label>Icon Size</label>
 								<br>
 								<select name="size" class="selectpicker">
-									<option data-subtext="px" value="32">32</option>
-									<option data-subtext="px" value="35">35</option>
-									<option data-subtext="px" value="38">38</option>
-									<option selected data-subtext="px" value="40">40</option>
-									<option data-subtext="px" value="42">42</option>
-									<option data-subtext="px" value="44">44</option>
-									<option data-subtext="px" value="46">46</option>
-									<option data-subtext="px" value="48">48</option>
-								</select>		  
+									@foreach($size_options as $size)
+										<option value={{ $size }}>{{ $size }} px</option>
+									@endforeach
+								</select>	  
 							</div>
 
 							<div class="form-group">
@@ -58,7 +49,7 @@ Create a new Component
 								<!-- /.input group -->
 							</div>
 							<div class="form-group">
-								<label>Tooltip Color</label>
+								<label>Tooltip Text Color</label>
 								<div class="input-group bs-colorpicker colorpicker-element">
 									<input name="tooltipColor" type="text" class="form-control">
 									<div class="input-group-addon">

@@ -63,6 +63,23 @@ Edit Widget #{{ $widget->id }}
                         <label for="domain" class="control-label">Domain</label>
                         <input type="text" name="domain" class="form-control" placeholder="laravel.com" value="{{ $widget->domain }}" />
                     </div>
+
+                    <div class="form-group">
+                        <label>Tooltip Background Color
+                            <br>
+                            <h6><em>(Not require for mobile alignment)</em></h6>
+                        </label>
+                        <div class="input-group bs-colorpicker colorpicker-element">
+                            @php
+                                $tooltipBgColor = ($widget->tooltipBgColor != null) ? $widget->tooltipBgColor : null;
+                            @endphp
+                            <input name="tooltipBgColor" type="text" class="form-control" value="{{ $tooltipBgColor }}">
+                            <div class="input-group-addon">
+                                <i></i>
+                            </div>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
                 </div>
 				<div class="box-footer">
 					<button type="submit" class="btn btn-info btn-block">Submit</button>

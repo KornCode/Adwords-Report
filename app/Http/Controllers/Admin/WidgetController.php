@@ -14,12 +14,13 @@ use App\WidgetComponent;
 
 class WidgetController extends Controller
 {
-    private function registerWidget($name, $user_id, $domain, $align) {
+    private function registerWidget($name, $user_id, $domain, $align, $tooltipBgColor) {
         $widget = new Widget;
         $widget->name = $name;
         $widget->user_id = $user_id;
         $widget->domain = $domain;
         $widget->align = $align;
+        $widget->tooltipBgColor = strtoupper($tooltipBgColor);
         $widget->save();
 
         return $widget;
@@ -101,8 +102,9 @@ class WidgetController extends Controller
         $user_id = $request->get('user_id');
         $domain = $request->get('domain');
         $align = $request->get('alignment');
+        $tooltipBgColor = $request->get('tooltipBgColor');
         
-        $this->registerWidget($name, $user_id, $domain, $align);
+        $this->registerWidget($name, $user_id, $domain, $align, $tooltipBgColor);
 
         return redirect()->route('admin.widgets.index');
     }
@@ -130,6 +132,7 @@ class WidgetController extends Controller
         $widget->user_id = $request->get('user_id');
         $widget->domain = $request->get('domain');
         $widget->align = $request->get('alignment');
+        $widget->tooltipBgColor = $request->get('tooltipBgColor');
 		$widget->save();
 
 		return redirect()->route('admin.widgets.index');
@@ -165,7 +168,16 @@ class WidgetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showCreateComponent() {
-        return view('admin.widgets.create.create_component');
+        $data['icon_options'] = array(
+            'fa fa-facebook-f' => 'facebook',
+            'fa fa-comment' => 'line',
+            'fa fa-phone' => 'call',
+            'fa fa-envelope' => 'email',
+            'fa fa-commenting-o' => 'messenger'
+        );
+        $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
+
+        return view('admin.widgets.create.create_component', $data);
     } 
 
     public function postCreateComponent(Request $request) {
@@ -189,6 +201,15 @@ class WidgetController extends Controller
 
     public function showEditComponent($component_id) {
         $data['component'] = Component::find($component_id);
+        $data['icon_options'] = array(
+            'fa fa-facebook-f' => 'facebook',
+            'fa fa-comment' => 'line',
+            'fa fa-phone' => 'call',
+            'fa fa-envelope' => 'email',
+            'fa fa-commenting-o' => 'messenger'
+        );
+        $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
+
      	return view('admin.widgets.edit.edit_component', $data);
     }
 
@@ -240,6 +261,7 @@ class WidgetController extends Controller
     public function showCreateWidgetComponent() {
         $data['wc_widget_data'] = Widget::select('id', 'name')->get();
         $data['wc_comp_data'] = Component::select('id', 'name')->get();
+        $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
 
         return view('admin.widgets.create.create_widget_component', $data);
     } 
@@ -247,7 +269,7 @@ class WidgetController extends Controller
     public function postCreateWidgetComponent(Request $request) {
         $validator = Validator::make($request->all(), [
             'contact' => 'required|max:255',
-            'icon' => 'required|max:255'
+            'icon' => 'required|max:255',
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -280,6 +302,8 @@ class WidgetController extends Controller
         $data['wc_widget_data'] = Widget::select('id', 'name')->get();
         $data['wc_comp_data'] = Component::select('id', 'name')->get();
         $data['wc_data'] = WidgetComponent::find($wid_comp_id);
+
+        $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
 
      	return view('admin.widgets.edit.edit_widget_component', $data);
     }

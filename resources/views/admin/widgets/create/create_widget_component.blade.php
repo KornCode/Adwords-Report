@@ -53,15 +53,10 @@ Create a new Widget
 						<label>Icon Size</label>
 						<br>
 						<select name="size" class="selectpicker">
-							<option data-subtext="px" value="32">32</option>
-							<option data-subtext="px" value="35">35</option>
-							<option data-subtext="px" value="38">38</option>
-							<option selected data-subtext="px" value="40">40</option>
-							<option data-subtext="px" value="42">42</option>
-							<option data-subtext="px" value="44">44</option>
-							<option data-subtext="px" value="46">46</option>
-							<option data-subtext="px" value="48">48</option>
-						</select>		  
+							@foreach($size_options as $size)
+								<option value={{ $size }}>{{ $size }} px</option>
+							@endforeach
+						</select>	  		  
 					</div>
 
 					<div class="form-group">
@@ -70,6 +65,16 @@ Create a new Widget
                   			<input name="iconColor" type="text" class="form-control">
                   			<div class="input-group-addon">
                     			<i></i>
+							</div>
+						</div>
+						<!-- /.input group -->
+					</div>
+					<div class="form-group">
+						<label>Tooltip Text Color</label>
+						<div class="input-group bs-colorpicker colorpicker-element">
+							<input name="tooltipColor" type="text" class="form-control">
+							<div class="input-group-addon">
+								<i></i>
 							</div>
 						</div>
 						<!-- /.input group -->

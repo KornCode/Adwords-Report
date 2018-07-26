@@ -26,6 +26,7 @@
             let domain = response.domain;
             let align = response.align;
             let length = components.length;
+            let tooltipBgColor = response.tooltipBgColor;
 
             font_awe = document.createElement('link');
             font_awe.href = 'https://use.fontawesome.com/releases/v5.1.0/css/all.css';
@@ -94,6 +95,7 @@
                 container.appendChild(nav);
             }
             else if (align == "desktop") {
+                // check point
                 // Create Floating Action Buttons container
                 link = document.createElement('link');
                 link.href = server_url + '/css/embed_style_v.css';
@@ -110,11 +112,31 @@
                 nav = document.createElement('nav');
                 nav.setAttribute('class', 'container');
 
+                let tooltipBefore = document.createElement("style");
+                tooltipBefore.innerHTML = "[tooltip]:before { content: attr(tooltip);" +
+                                                "background-color: " + tooltipBgColor + ";" +
+                                                "padding: 5px 7px;" +
+                                                "margin-right: 10px;" +
+                                                "border-radius: 2px;" +
+                                                "font: 500 12px Roboto;" +
+                                                "white-space: nowrap;" +
+                                                "position: absolute;" +
+                                                "bottom: 20%;" +
+                                                "right: 100%;" +
+                                                "visibility: hidden;" +
+                                                "opacity: 0;" +
+                                                "transition: .3s;" +
+                                            "}";
+                document.head.appendChild(tooltipBefore);
+                let tooltipBeforeHover = document.createElement("style");
+                tooltipBeforeHover.innerHTML = "[tooltip]:hover:before {visibility: visible; opacity: 1;}"
+                document.head.appendChild(tooltipBeforeHover);
+
                 for (var i = 0; i < length; i++) {
                     var icon = document.createElement('i');
                     var iconSize = parseInt(option[i].options.size) + 'px';
                     var backgroundSize = parseInt(option[i].options.size) + 14 + 'px';
-
+                    
                     // icon size and color
                     icon.setAttribute('class', option[i].options.icon + ' icon_properties');
                     icon.style.fontSize = iconSize;

@@ -22,9 +22,12 @@ Edit Widget Component #{{ $wc_data->id }}
                         <label>Widget</label>
                         <br>
                         <select name="wc_widget_id" class="selectpicker" data-live-search="true" data-width="100%">
-                            <option value={{ $wc_data->widget_id }}> {{ $wc_data->widget_id }} </option>
                             @foreach ($wc_widget_data as $widget) 
-                                <option value={{ $widget->id }}>{{ $widget->id }} - {{ $widget->name }}</option>
+                                @if ($widget->id == $wc_data->widget_id)
+                                    <option selected value={{ $widget->id }}>{{ $widget->id }} - {{ $widget->name }}</option>
+                                @else
+                                    <option value={{ $widget->id }}>{{ $widget->id }} - {{ $widget->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -33,9 +36,12 @@ Edit Widget Component #{{ $wc_data->id }}
                         <label>Component</label>
                         <br>
                         <select name="wc_comp_id" class="selectpicker" data-live-search="true" data-width="100%">
-                            <option value={{ $wc_data->component_id }}> {{ $wc_data->component_id }} </option>
                             @foreach ($wc_comp_data as $comp) 
-                                <option value={{ $comp->id }}>{{ $comp->id }} - {{ $comp->name }}</option>
+                                @if ($comp->id == $wc_data->component_id)
+                                    <option selected value={{ $comp->id }}>{{ $comp->id }} - {{ $comp->name }}</option>
+                                @else
+                                    <option value={{ $comp->id }}>{{ $comp->id }} - {{ $comp->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -60,16 +66,14 @@ Edit Widget Component #{{ $wc_data->id }}
                         <label>Icon Size</label>
                         <br>
                         <select name="size" class="selectpicker">
-                            <option data-subtext="px" value={{ $wc_data->options['size'] }}>{{ $wc_data->options['size'] }}</option>
-                            <option data-subtext="px" value="32">32</option>
-                            <option data-subtext="px" value="35">35</option>
-                            <option data-subtext="px" value="38">38</option>
-                            <option data-subtext="px" value="40">40</option>
-                            <option data-subtext="px" value="42">42</option>
-                            <option data-subtext="px" value="44">44</option>
-                            <option data-subtext="px" value="46">46</option>
-                            <option data-subtext="px" value="48">48</option>
-                        </select>		  
+                            @foreach($size_options as $size)
+                                @if ($wc_data->options['size'] == $size)
+                                    <option selected value={{ $size }}>{{ $size }} px</option>
+                                @else
+                                    <option value={{ $size }}>{{ $size }} px</option>
+                                @endif
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -82,6 +86,19 @@ Edit Widget Component #{{ $wc_data->id }}
         
                             <div class="input-group-addon">
                             <i></i>
+                            </div>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <div class="form-group">
+                        <label>Tooltip Text Color</label>
+                        <div class="input-group bs-colorpicker colorpicker-element">
+                            @php
+                                $tooltipColor = (array_key_exists('tooltipColor', $wc_data->options)) ? $wc_data->options['tooltipColor'] : null;
+                            @endphp
+                            <input name="tooltipColor" type="text" class="form-control" value="{{ $tooltipColor }}">
+                            <div class="input-group-addon">
+                                <i></i>
                             </div>
                         </div>
                         <!-- /.input group -->
