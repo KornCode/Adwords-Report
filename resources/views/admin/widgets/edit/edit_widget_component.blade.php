@@ -63,17 +63,11 @@ Edit Widget Component #{{ $wc_data->id }}
                     </div>
 
                     <div class="form-group">
-                        <label>Icon Size</label>
-                        <br>
-                        <select name="size" class="selectpicker">
-                            @foreach($size_options as $size)
-                                @if ($wc_data->options['size'] == $size)
-                                    <option selected value={{ $size }}>{{ $size }} px</option>
-                                @else
-                                    <option value={{ $size }}>{{ $size }} px</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <label class="control-label">Icon Size</label>
+                        @php
+                            $size = ($wc_data->options['size'] != null) ? $wc_data->options['size'] : null;
+                        @endphp
+                        <input type="number" name="size" class="form-control" placeholder={{ $size }} value={{ $size }}/>
                     </div>
 
                     <div class="form-group">

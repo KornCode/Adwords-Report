@@ -29,13 +29,8 @@ Create a new Component
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
-								<label>Icon Size</label>
-								<br>
-								<select name="size" class="selectpicker">
-									@foreach($size_options as $size)
-										<option value={{ $size }}>{{ $size }} px</option>
-									@endforeach
-								</select>	  
+								<label class="control-label">Icon Size</label>
+								<input type="number" name="size" class="form-control" placeholder="integer" />
 							</div>
 
 							<div class="form-group">

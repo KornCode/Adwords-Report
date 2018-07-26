@@ -35,17 +35,11 @@ Edit Component #{{ $component->id }}
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                            <label>Icon Size</label>
-                                <br>		
-                                <select name="size" class="selectpicker">
-                                    @foreach($size_options as $size)
-                                        @if ($component->options['size'] == $size)
-                                            <option selected value={{ $size }}>{{ $size }} px</option>
-                                        @else
-                                            <option value={{ $size }}>{{ $size }} px</option>
-                                        @endif
-                                    @endforeach
-                                </select>
+                                <label class="control-label">Icon Size</label>
+                                @php
+                                    $size = ($component->options['size'] != null) ? $component->options['size'] : null;
+                                @endphp
+                                <input type="number" name="size" class="form-control" placeholder={{ $size }} value={{ $size }}/>
                             </div>
                             
                             <div class="form-group">

@@ -132,7 +132,7 @@ class WidgetController extends Controller
         $widget->user_id = $request->get('user_id');
         $widget->domain = $request->get('domain');
         $widget->align = $request->get('alignment');
-        $widget->tooltipBgColor = $request->get('tooltipBgColor');
+        $widget->tooltipBgColor = strtoupper($request->get('tooltipBgColor'));
 		$widget->save();
 
 		return redirect()->route('admin.widgets.index');
@@ -175,14 +175,15 @@ class WidgetController extends Controller
             'fa fa-envelope' => 'email',
             'fa fa-commenting-o' => 'messenger'
         );
-        $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
+        // $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
 
         return view('admin.widgets.create.create_component', $data);
     } 
 
     public function postCreateComponent(Request $request) {
         $validator = Validator::make($request->all(), [
-            'icon' => 'required|max:255'
+            'icon' => 'required|max:255',
+            'size' => 'numeric|min:8|max:60'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -208,7 +209,6 @@ class WidgetController extends Controller
             'fa fa-envelope' => 'email',
             'fa fa-commenting-o' => 'messenger'
         );
-        $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
 
      	return view('admin.widgets.edit.edit_component', $data);
     }
@@ -216,7 +216,8 @@ class WidgetController extends Controller
     public function postEditComponent(Request $request) {
         $validator = Validator::make($request->all(), [
             'component_id' => 'required',
-            'icon' => 'required|max:255'
+            'icon' => 'required|max:255',
+            'size' => 'numeric|min:8|max:60'
         ]);
 		if ($validator->fails()) {
 		    return back()->withErrors($validator)->withInput();
@@ -261,7 +262,6 @@ class WidgetController extends Controller
     public function showCreateWidgetComponent() {
         $data['wc_widget_data'] = Widget::select('id', 'name')->get();
         $data['wc_comp_data'] = Component::select('id', 'name')->get();
-        $data['size_options'] = array(32, 35, 38, 40, 42, 44, 46, 48, 50);
 
         return view('admin.widgets.create.create_widget_component', $data);
     } 
@@ -270,6 +270,7 @@ class WidgetController extends Controller
         $validator = Validator::make($request->all(), [
             'contact' => 'required|max:255',
             'icon' => 'required|max:255',
+            'size' => 'numeric|min:8|max:60'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -314,7 +315,8 @@ class WidgetController extends Controller
             'wc_widget_id' => 'required',
             'wc_comp_id' => 'required',
             'contact' => 'required|max:255',
-            'icon' => 'required|max:255'
+            'icon' => 'required|max:255',
+            'size' => 'numeric|min:8|max:60'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
