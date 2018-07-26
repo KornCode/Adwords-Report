@@ -68,7 +68,7 @@ class WidgetController extends Controller
         foreach ($data['widget_component'] as $wc_each) {
             $embed_temp = array(
                 'widget_id' => $wc_each->widget_id,
-                'html_code' => "<script>\n     var s = document.createElement('script');\n     s.src = '".$js_source."';\n     s.async = ".$enable_async.";\n     window.kodsana_options = {widget_id: ".$wc_each->widget_id."};\n     document.body.appendChild(s);\n</script>\n<div id='load_widget'>Loading...</div>",
+                'html_code' => "<script>\n     var s = document.createElement('script');\n     s.src = '".$js_source."';\n     s.async = ".$enable_async.";\n     window.kodsana_options = {widget_id: ".$wc_each->widget_id.", server_url: '".url('/')."'};\n     document.body.appendChild(s);\n</script>\n<div id='load_widget'>Loading...</div>",
                 'name' => Widget::find($wc_each->widget_id)->name
             );
             array_push($data['embed'], $embed_temp);

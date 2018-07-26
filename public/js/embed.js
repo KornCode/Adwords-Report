@@ -8,7 +8,7 @@
 
     // Send post request
     let http = new XMLHttpRequest();
-    let server_url = "http://localhost:8000";
+    let server_url = options.server_url;
     let url = server_url + '/get_components';
     let params = str;
     http.open('POST', url, true);
