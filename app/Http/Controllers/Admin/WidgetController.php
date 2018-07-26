@@ -60,12 +60,7 @@ class WidgetController extends Controller
         $data['components'] = Component::all();
         $data['widget_component'] = WidgetComponent::all();
 
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $parsedUrl = parse_url($actual_link);
-        $scheme = $parsedUrl['scheme'];
-        $host = $parsedUrl['host'];
-        $port = $parsedUrl['port'];
-        $js_source = $scheme.'://'.$host.':'.$port.'/js/embed.js';
+        $js_source = url('/').'/js/embed.js';
 
         $enable_async = true;
 
