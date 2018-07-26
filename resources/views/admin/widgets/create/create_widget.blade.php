@@ -34,7 +34,7 @@ Create a new Widget
 					</div>
 
 					<!-- checkbox -->
-					<div class="form-group">
+					<div class="form-group{{ $errors->has('alignment') ? ' has-error' : '' }}">
 						<label>Alignment</label>
 						<br>
 						<div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -52,7 +52,7 @@ Create a new Widget
 						<input type="text" name="domain" class="form-control" placeholder="laravel.com" />
 					</div>
 
-					<div class="form-group">
+					<div class="form-group{{ $errors->has('tooltipBgColor') ? ' has-error' : '' }}">
 						<label>Tooltip Background Color
 							<br>
 							<h6><em>(Not require for mobile alignment)</em></h6>

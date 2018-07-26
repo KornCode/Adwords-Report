@@ -60,7 +60,13 @@ class WidgetController extends Controller
         $data['components'] = Component::all();
         $data['widget_component'] = WidgetComponent::all();
 
-        $js_source = 'http://localhost:8000/js/embed.js';
+        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $parsedUrl = parse_url($actual_link);
+        $scheme = $parsedUrl['scheme'];
+        $host = $parsedUrl['host'];
+        $port = $parsedUrl['port'];
+        $js_source = $scheme.'://'.$host.':'.$port.'/js/embed.js';
+
         $enable_async = true;
 
         $data['embed'] = array();
@@ -106,7 +112,7 @@ class WidgetController extends Controller
         
         $this->registerWidget($name, $user_id, $domain, $align, $tooltipBgColor);
 
-        return redirect()->route('admin.widgets.index');
+        return redirect()->back()->with("success" , "Create widget successfully");
     }
 
     public function showEditWidget($widget_id) {
@@ -135,7 +141,7 @@ class WidgetController extends Controller
         $widget->tooltipBgColor = strtoupper($request->get('tooltipBgColor'));
 		$widget->save();
 
-		return redirect()->route('admin.widgets.index');
+        return redirect()->back()->with("success" , "Widget saved successfully");
     }
 
     public function postDeleteWidget(Request $request) {
@@ -197,7 +203,7 @@ class WidgetController extends Controller
 
         $this->registerComponent($request->get('icon'), $options);
 
-        return redirect()->route('admin.widgets.index');
+        return redirect()->back()->with("success" , "Create component successfully");
     }
 
     public function showEditComponent($component_id) {
@@ -236,7 +242,7 @@ class WidgetController extends Controller
         $component->options = serialize($options);
 		$component->save();
 
-		return redirect()->route('admin.widgets.index');
+		return redirect()->back()->with("success" , "Component saved successfully");
     }
 
     public function postDeleteComponent(Request $request){
@@ -270,7 +276,7 @@ class WidgetController extends Controller
         $validator = Validator::make($request->all(), [
             'contact' => 'required|max:255',
             'icon' => 'required|max:255',
-            'size' => 'numeric|min:8|max:60'
+            'size' => 'numeric|min:8|max:60|nullable'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -281,7 +287,7 @@ class WidgetController extends Controller
         $options = array_slice($options, 3); // remove _token, wid_comp_id, wc_widget_id, wc_comp_id
         $options_temp_1 = array_slice($options, 0, 3); // icon
         $options_temp_2 = array_map('strtoupper', array_slice($options, 3)); // backgroundColor
-        $options = array_merge($options_temp_1, $options_temp_2);
+        $options = array_merge($options_temp_1, $options_temp_2);      
 
         $widget_id = $request->get('wc_widget_id');
         $widget = Widget::find($widget_id);
@@ -296,7 +302,7 @@ class WidgetController extends Controller
         $component_relation->options = serialize($options);
         $component_relation->save();
 
-        return redirect()->route('admin.widgets.index');
+        return redirect()->back()->with("success" , "Create widget_component successfully");
     }
 
     public function showEditWidgetComponent($wid_comp_id) {
@@ -316,7 +322,7 @@ class WidgetController extends Controller
             'wc_comp_id' => 'required',
             'contact' => 'required|max:255',
             'icon' => 'required|max:255',
-            'size' => 'numeric|min:8|max:60'
+            'size' => 'numeric|min:8|max:60|nullable'
         ]);
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -338,7 +344,7 @@ class WidgetController extends Controller
         
         $wid_comp->save();
 
-		return redirect()->route('admin.widgets.index');
+        return redirect()->back()->with("success" , "Widget_Component saved successfully");
     }
 
     public function postDeleteWidgetComponent(Request $request){

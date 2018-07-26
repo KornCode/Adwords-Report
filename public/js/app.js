@@ -56059,6 +56059,14 @@ __webpack_require__(236);
 window.Vue = __webpack_require__(237);
 window._ = __webpack_require__(45);
 
+$(document).ready(function () {
+    $(".widget_tab").click(function () {
+        $(".widget_tab").removeClass("active");
+        // $(".tab").addClass("active"); // instead of this do the below 
+        $(this).addClass("active");
+    });
+});
+
 
 
 
@@ -56076,7 +56084,7 @@ Vue.component('test-chart', __webpack_require__(355));
 Vue.component('overview-component', __webpack_require__(407));
 
 var app = new Vue({
-  el: '#app'
+    el: '#app'
 });
 
 /***/ }),

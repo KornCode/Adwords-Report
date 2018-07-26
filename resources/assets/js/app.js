@@ -13,6 +13,14 @@ require('bootstrap-select/js/bootstrap-select');
 window.Vue = require('vue');
 window._ = require('lodash');
 
+$(document).ready(function() {
+    $(".widget_tab").click(function () {
+        $(".widget_tab").removeClass("active");
+        // $(".tab").addClass("active"); // instead of this do the below 
+        $(this).addClass("active");   
+    });
+});
+
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'

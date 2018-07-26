@@ -10,10 +10,11 @@ Widgets Management
 			<!-- Custom Tabs (Pulled to the right) -->
 			<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs pull-right">
-				<li class=""><a href="#embed" data-toggle="tab" aria-expanded="false">Embed Code</a></li>
-				<li class=""><a href="#widget_comp" data-toggle="tab" aria-expanded="false">Widget Component</a></li>
-				<li class=""><a href="#component" data-toggle="tab" aria-expanded="false">Components</a></li>
-				<li class=""><a href="#widget" data-toggle="tab" aria-expanded="false">Widgets</a></li>
+				<li class="widget_tab"><a href="#embed" data-toggle="tab" aria-expanded="false">Embed Code</a></li>
+				<li class="widget_tab {{ strpos($_SERVER['HTTP_REFERER'], 'edit_wc') ? 'active' : '' }}"><a href="#widget_comp" data-toggle="tab" aria-expanded="false">Widget Component</a></li>
+				<li class="widget_tab {{ strpos($_SERVER['HTTP_REFERER'], 'edit_comp') ? 'active' : '' }}"><a href="#component" data-toggle="tab" aria-expanded="false">Components</a></li>
+				<li class="widget_tab {{ strpos($_SERVER['HTTP_REFERER'], 'edit_widget') ? 'active' : '' }}"><a href="#widget" data-toggle="tab" aria-expanded="false">Widgets</a></li>
+				
 				<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					Create <span class="caret"></span>

@@ -65,9 +65,9 @@ Edit Widget Component #{{ $wc_data->id }}
                     <div class="form-group">
                         <label class="control-label">Icon Size</label>
                         @php
-                            $size = ($wc_data->options['size'] != null) ? $wc_data->options['size'] : null;
+                            $size = (isset($wc_data->options['size'])) ? $wc_data->options['size'] : null;
                         @endphp
-                        <input type="number" name="size" class="form-control" placeholder={{ $size }} value={{ $size }}/>
+                        <input type="number" name="size" class="form-control" placeholder="{{ $size }}" value={{ $size }} />
                     </div>
 
                     <div class="form-group">
